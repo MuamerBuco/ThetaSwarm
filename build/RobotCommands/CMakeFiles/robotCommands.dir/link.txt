@@ -1,0 +1,2 @@
+/usr/bin/ar qc librobotCommands.a  CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o
+/usr/bin/ranlib librobotCommands.a

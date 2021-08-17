@@ -1,5 +1,5 @@
 #include "kinematics.h"
-#include "../CommonFunctions/common.h"
+#include "../../CommonFunctions/common.h"
 #include <eigen-3.3.9/Eigen/Dense>
 #include <stdio.h>
 #include <iostream>

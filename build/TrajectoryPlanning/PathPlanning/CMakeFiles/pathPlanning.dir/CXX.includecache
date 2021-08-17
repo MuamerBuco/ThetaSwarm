@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eon/OpenSwarm/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+atomic
+-
+cassert
+-
+cstddef
+-
+memory
+-
+new
+-
+stdexcept
+-
+type_traits
+-
+
+/home/eon/OpenSwarm/TrajectoryPlanning/PathPlanning/navigation.cpp
+navigation.h
+/home/eon/OpenSwarm/TrajectoryPlanning/PathPlanning/navigation.h
+../../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+/home/eon/OpenSwarm/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+string
+-
+iostream
+-
+vector
+-
+
+/home/eon/OpenSwarm/TrajectoryPlanning/PathPlanning/navigation.h
+eigen-3.3.9/Eigen/Dense
+-
+vector
+-
+

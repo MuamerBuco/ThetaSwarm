@@ -1,4 +1,4 @@
-# Install script for directory: /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/Client
+# Install script for directory: /home/eon/OpenSwarm/Client
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

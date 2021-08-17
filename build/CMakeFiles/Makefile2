@@ -44,46 +44,40 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient
+CMAKE_SOURCE_DIR = /home/eon/OpenSwarm
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build
+CMAKE_BINARY_DIR = /home/eon/OpenSwarm/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/udp_client.dir/all
+all: CMakeFiles/openSwarm.dir/all
 all: Client/all
-all: Kinematics/all
+all: TrajectoryPlanning/all
 all: CommonFunctions/all
 all: ArucoTracking/all
-all: MotorCommands/all
-all: MotionControl/all
-all: Navigation/all
+all: RobotCommands/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: Client/preinstall
-preinstall: Kinematics/preinstall
+preinstall: TrajectoryPlanning/preinstall
 preinstall: CommonFunctions/preinstall
 preinstall: ArucoTracking/preinstall
-preinstall: MotorCommands/preinstall
-preinstall: MotionControl/preinstall
-preinstall: Navigation/preinstall
+preinstall: RobotCommands/preinstall
 
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/udp_client.dir/clean
+clean: CMakeFiles/openSwarm.dir/clean
 clean: Client/clean
-clean: Kinematics/clean
+clean: TrajectoryPlanning/clean
 clean: CommonFunctions/clean
 clean: ArucoTracking/clean
-clean: MotorCommands/clean
-clean: MotionControl/clean
-clean: Navigation/clean
+clean: RobotCommands/clean
 
 .PHONY : clean
 
@@ -142,109 +136,134 @@ CommonFunctions/clean: CommonFunctions/CMakeFiles/common.dir/clean
 .PHONY : CommonFunctions/clean
 
 #=============================================================================
-# Directory level rules for directory Kinematics
+# Directory level rules for directory RobotCommands
 
 # Recursive "all" directory target.
-Kinematics/all: Kinematics/CMakeFiles/kinematics.dir/all
+RobotCommands/all: RobotCommands/CMakeFiles/robotCommands.dir/all
 
-.PHONY : Kinematics/all
+.PHONY : RobotCommands/all
 
 # Recursive "preinstall" directory target.
-Kinematics/preinstall:
+RobotCommands/preinstall:
 
-.PHONY : Kinematics/preinstall
+.PHONY : RobotCommands/preinstall
 
 # Recursive "clean" directory target.
-Kinematics/clean: Kinematics/CMakeFiles/kinematics.dir/clean
+RobotCommands/clean: RobotCommands/CMakeFiles/robotCommands.dir/clean
 
-.PHONY : Kinematics/clean
+.PHONY : RobotCommands/clean
 
 #=============================================================================
-# Directory level rules for directory MotionControl
+# Directory level rules for directory TrajectoryPlanning
 
 # Recursive "all" directory target.
-MotionControl/all: MotionControl/CMakeFiles/motionControl.dir/all
+TrajectoryPlanning/all: TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
+TrajectoryPlanning/all: TrajectoryPlanning/Kinematics/all
+TrajectoryPlanning/all: TrajectoryPlanning/PathPlanning/all
 
-.PHONY : MotionControl/all
+.PHONY : TrajectoryPlanning/all
 
 # Recursive "preinstall" directory target.
-MotionControl/preinstall:
+TrajectoryPlanning/preinstall: TrajectoryPlanning/Kinematics/preinstall
+TrajectoryPlanning/preinstall: TrajectoryPlanning/PathPlanning/preinstall
 
-.PHONY : MotionControl/preinstall
+.PHONY : TrajectoryPlanning/preinstall
 
 # Recursive "clean" directory target.
-MotionControl/clean: MotionControl/CMakeFiles/motionControl.dir/clean
+TrajectoryPlanning/clean: TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/clean
+TrajectoryPlanning/clean: TrajectoryPlanning/Kinematics/clean
+TrajectoryPlanning/clean: TrajectoryPlanning/PathPlanning/clean
 
-.PHONY : MotionControl/clean
+.PHONY : TrajectoryPlanning/clean
 
 #=============================================================================
-# Directory level rules for directory MotorCommands
+# Directory level rules for directory TrajectoryPlanning/Kinematics
 
 # Recursive "all" directory target.
-MotorCommands/all: MotorCommands/CMakeFiles/motorCommands.dir/all
+TrajectoryPlanning/Kinematics/all: TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
+TrajectoryPlanning/Kinematics/all: TrajectoryPlanning/Kinematics/Feedback/all
 
-.PHONY : MotorCommands/all
+.PHONY : TrajectoryPlanning/Kinematics/all
 
 # Recursive "preinstall" directory target.
-MotorCommands/preinstall:
+TrajectoryPlanning/Kinematics/preinstall: TrajectoryPlanning/Kinematics/Feedback/preinstall
 
-.PHONY : MotorCommands/preinstall
+.PHONY : TrajectoryPlanning/Kinematics/preinstall
 
 # Recursive "clean" directory target.
-MotorCommands/clean: MotorCommands/CMakeFiles/motorCommands.dir/clean
+TrajectoryPlanning/Kinematics/clean: TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/clean
+TrajectoryPlanning/Kinematics/clean: TrajectoryPlanning/Kinematics/Feedback/clean
 
-.PHONY : MotorCommands/clean
+.PHONY : TrajectoryPlanning/Kinematics/clean
 
 #=============================================================================
-# Directory level rules for directory Navigation
+# Directory level rules for directory TrajectoryPlanning/Kinematics/Feedback
 
 # Recursive "all" directory target.
-Navigation/all: Navigation/CMakeFiles/navigation.dir/all
+TrajectoryPlanning/Kinematics/Feedback/all: TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/all
 
-.PHONY : Navigation/all
+.PHONY : TrajectoryPlanning/Kinematics/Feedback/all
 
 # Recursive "preinstall" directory target.
-Navigation/preinstall:
+TrajectoryPlanning/Kinematics/Feedback/preinstall:
 
-.PHONY : Navigation/preinstall
+.PHONY : TrajectoryPlanning/Kinematics/Feedback/preinstall
 
 # Recursive "clean" directory target.
-Navigation/clean: Navigation/CMakeFiles/navigation.dir/clean
+TrajectoryPlanning/Kinematics/Feedback/clean: TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/clean
 
-.PHONY : Navigation/clean
+.PHONY : TrajectoryPlanning/Kinematics/Feedback/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/udp_client.dir
+# Directory level rules for directory TrajectoryPlanning/PathPlanning
+
+# Recursive "all" directory target.
+TrajectoryPlanning/PathPlanning/all: TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+
+.PHONY : TrajectoryPlanning/PathPlanning/all
+
+# Recursive "preinstall" directory target.
+TrajectoryPlanning/PathPlanning/preinstall:
+
+.PHONY : TrajectoryPlanning/PathPlanning/preinstall
+
+# Recursive "clean" directory target.
+TrajectoryPlanning/PathPlanning/clean: TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/clean
+
+.PHONY : TrajectoryPlanning/PathPlanning/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/openSwarm.dir
 
 # All Build rule for target.
-CMakeFiles/udp_client.dir/all: Client/CMakeFiles/client.dir/all
-CMakeFiles/udp_client.dir/all: Kinematics/CMakeFiles/kinematics.dir/all
-CMakeFiles/udp_client.dir/all: CommonFunctions/CMakeFiles/common.dir/all
-CMakeFiles/udp_client.dir/all: ArucoTracking/CMakeFiles/arucoDetection.dir/all
-CMakeFiles/udp_client.dir/all: MotorCommands/CMakeFiles/motorCommands.dir/all
-CMakeFiles/udp_client.dir/all: MotionControl/CMakeFiles/motionControl.dir/all
-CMakeFiles/udp_client.dir/all: Navigation/CMakeFiles/navigation.dir/all
-	$(MAKE) -f CMakeFiles/udp_client.dir/build.make CMakeFiles/udp_client.dir/depend
-	$(MAKE) -f CMakeFiles/udp_client.dir/build.make CMakeFiles/udp_client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=16,17 "Built target udp_client"
-.PHONY : CMakeFiles/udp_client.dir/all
+CMakeFiles/openSwarm.dir/all: Client/CMakeFiles/client.dir/all
+CMakeFiles/openSwarm.dir/all: TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
+CMakeFiles/openSwarm.dir/all: TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
+CMakeFiles/openSwarm.dir/all: TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+CMakeFiles/openSwarm.dir/all: CommonFunctions/CMakeFiles/common.dir/all
+CMakeFiles/openSwarm.dir/all: ArucoTracking/CMakeFiles/arucoDetection.dir/all
+CMakeFiles/openSwarm.dir/all: RobotCommands/CMakeFiles/robotCommands.dir/all
+	$(MAKE) -f CMakeFiles/openSwarm.dir/build.make CMakeFiles/openSwarm.dir/depend
+	$(MAKE) -f CMakeFiles/openSwarm.dir/build.make CMakeFiles/openSwarm.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=11,12 "Built target openSwarm"
+.PHONY : CMakeFiles/openSwarm.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/udp_client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 17
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/udp_client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 0
-.PHONY : CMakeFiles/udp_client.dir/rule
+CMakeFiles/openSwarm.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 18
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/openSwarm.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
+.PHONY : CMakeFiles/openSwarm.dir/rule
 
 # Convenience name for target.
-udp_client: CMakeFiles/udp_client.dir/rule
+openSwarm: CMakeFiles/openSwarm.dir/rule
 
-.PHONY : udp_client
+.PHONY : openSwarm
 
 # clean rule for target.
-CMakeFiles/udp_client.dir/clean:
-	$(MAKE) -f CMakeFiles/udp_client.dir/build.make CMakeFiles/udp_client.dir/clean
-.PHONY : CMakeFiles/udp_client.dir/clean
+CMakeFiles/openSwarm.dir/clean:
+	$(MAKE) -f CMakeFiles/openSwarm.dir/build.make CMakeFiles/openSwarm.dir/clean
+.PHONY : CMakeFiles/openSwarm.dir/clean
 
 #=============================================================================
 # Target rules for target Client/CMakeFiles/client.dir
@@ -253,14 +272,14 @@ CMakeFiles/udp_client.dir/clean:
 Client/CMakeFiles/client.dir/all:
 	$(MAKE) -f Client/CMakeFiles/client.dir/build.make Client/CMakeFiles/client.dir/depend
 	$(MAKE) -f Client/CMakeFiles/client.dir/build.make Client/CMakeFiles/client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=3,4 "Built target client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=3,4 "Built target client"
 .PHONY : Client/CMakeFiles/client.dir/all
 
 # Build rule for subdir invocation for target.
 Client/CMakeFiles/client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 Client/CMakeFiles/client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
 .PHONY : Client/CMakeFiles/client.dir/rule
 
 # Convenience name for target.
@@ -274,31 +293,119 @@ Client/CMakeFiles/client.dir/clean:
 .PHONY : Client/CMakeFiles/client.dir/clean
 
 #=============================================================================
-# Target rules for target Kinematics/CMakeFiles/kinematics.dir
+# Target rules for target TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
 
 # All Build rule for target.
-Kinematics/CMakeFiles/kinematics.dir/all: CommonFunctions/CMakeFiles/common.dir/all
-	$(MAKE) -f Kinematics/CMakeFiles/kinematics.dir/build.make Kinematics/CMakeFiles/kinematics.dir/depend
-	$(MAKE) -f Kinematics/CMakeFiles/kinematics.dir/build.make Kinematics/CMakeFiles/kinematics.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=7,8 "Built target kinematics"
-.PHONY : Kinematics/CMakeFiles/kinematics.dir/all
+TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all: Client/CMakeFiles/client.dir/all
+TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all: TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
+TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all: TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all: CommonFunctions/CMakeFiles/common.dir/all
+TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all: RobotCommands/CMakeFiles/robotCommands.dir/all
+	$(MAKE) -f TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build.make TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/depend
+	$(MAKE) -f TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build.make TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=17,18 "Built target trajectoryPlanning"
+.PHONY : TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
 
 # Build rule for subdir invocation for target.
-Kinematics/CMakeFiles/kinematics.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 4
-	$(MAKE) -f CMakeFiles/Makefile2 Kinematics/CMakeFiles/kinematics.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 0
-.PHONY : Kinematics/CMakeFiles/kinematics.dir/rule
+TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 14
+	$(MAKE) -f CMakeFiles/Makefile2 TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
+.PHONY : TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/rule
 
 # Convenience name for target.
-kinematics: Kinematics/CMakeFiles/kinematics.dir/rule
+trajectoryPlanning: TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/rule
+
+.PHONY : trajectoryPlanning
+
+# clean rule for target.
+TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/clean:
+	$(MAKE) -f TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build.make TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/clean
+.PHONY : TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/clean
+
+#=============================================================================
+# Target rules for target TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
+
+# All Build rule for target.
+TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all: TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/all
+	$(MAKE) -f TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build.make TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/depend
+	$(MAKE) -f TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build.make TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=9,10 "Built target kinematics"
+.PHONY : TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
+
+# Build rule for subdir invocation for target.
+TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 12
+	$(MAKE) -f CMakeFiles/Makefile2 TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
+.PHONY : TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/rule
+
+# Convenience name for target.
+kinematics: TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/rule
 
 .PHONY : kinematics
 
 # clean rule for target.
-Kinematics/CMakeFiles/kinematics.dir/clean:
-	$(MAKE) -f Kinematics/CMakeFiles/kinematics.dir/build.make Kinematics/CMakeFiles/kinematics.dir/clean
-.PHONY : Kinematics/CMakeFiles/kinematics.dir/clean
+TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/clean:
+	$(MAKE) -f TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build.make TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/clean
+.PHONY : TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/clean
+
+#=============================================================================
+# Target rules for target TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir
+
+# All Build rule for target.
+TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/all: Client/CMakeFiles/client.dir/all
+TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/all: TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/all: CommonFunctions/CMakeFiles/common.dir/all
+TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/all: RobotCommands/CMakeFiles/robotCommands.dir/all
+	$(MAKE) -f TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/build.make TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/depend
+	$(MAKE) -f TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/build.make TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=7,8 "Built target feedback"
+.PHONY : TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/all
+
+# Build rule for subdir invocation for target.
+TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 10
+	$(MAKE) -f CMakeFiles/Makefile2 TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
+.PHONY : TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/rule
+
+# Convenience name for target.
+feedback: TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/rule
+
+.PHONY : feedback
+
+# clean rule for target.
+TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/clean:
+	$(MAKE) -f TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/build.make TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/clean
+.PHONY : TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/clean
+
+#=============================================================================
+# Target rules for target TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+
+# All Build rule for target.
+TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all:
+	$(MAKE) -f TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/depend
+	$(MAKE) -f TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=13,14 "Built target pathPlanning"
+.PHONY : TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+
+# Build rule for subdir invocation for target.
+TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
+.PHONY : TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/rule
+
+# Convenience name for target.
+pathPlanning: TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/rule
+
+.PHONY : pathPlanning
+
+# clean rule for target.
+TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/clean:
+	$(MAKE) -f TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/clean
+.PHONY : TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/clean
 
 #=============================================================================
 # Target rules for target CommonFunctions/CMakeFiles/common.dir
@@ -307,14 +414,14 @@ Kinematics/CMakeFiles/kinematics.dir/clean:
 CommonFunctions/CMakeFiles/common.dir/all:
 	$(MAKE) -f CommonFunctions/CMakeFiles/common.dir/build.make CommonFunctions/CMakeFiles/common.dir/depend
 	$(MAKE) -f CommonFunctions/CMakeFiles/common.dir/build.make CommonFunctions/CMakeFiles/common.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=5,6 "Built target common"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=5,6 "Built target common"
 .PHONY : CommonFunctions/CMakeFiles/common.dir/all
 
 # Build rule for subdir invocation for target.
 CommonFunctions/CMakeFiles/common.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CommonFunctions/CMakeFiles/common.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
 .PHONY : CommonFunctions/CMakeFiles/common.dir/rule
 
 # Convenience name for target.
@@ -334,14 +441,14 @@ CommonFunctions/CMakeFiles/common.dir/clean:
 ArucoTracking/CMakeFiles/arucoDetection.dir/all: CommonFunctions/CMakeFiles/common.dir/all
 	$(MAKE) -f ArucoTracking/CMakeFiles/arucoDetection.dir/build.make ArucoTracking/CMakeFiles/arucoDetection.dir/depend
 	$(MAKE) -f ArucoTracking/CMakeFiles/arucoDetection.dir/build.make ArucoTracking/CMakeFiles/arucoDetection.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=1,2 "Built target arucoDetection"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=1,2 "Built target arucoDetection"
 .PHONY : ArucoTracking/CMakeFiles/arucoDetection.dir/all
 
 # Build rule for subdir invocation for target.
 ArucoTracking/CMakeFiles/arucoDetection.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 ArucoTracking/CMakeFiles/arucoDetection.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
 .PHONY : ArucoTracking/CMakeFiles/arucoDetection.dir/rule
 
 # Convenience name for target.
@@ -355,90 +462,32 @@ ArucoTracking/CMakeFiles/arucoDetection.dir/clean:
 .PHONY : ArucoTracking/CMakeFiles/arucoDetection.dir/clean
 
 #=============================================================================
-# Target rules for target MotorCommands/CMakeFiles/motorCommands.dir
+# Target rules for target RobotCommands/CMakeFiles/robotCommands.dir
 
 # All Build rule for target.
-MotorCommands/CMakeFiles/motorCommands.dir/all: Client/CMakeFiles/client.dir/all
-MotorCommands/CMakeFiles/motorCommands.dir/all: CommonFunctions/CMakeFiles/common.dir/all
-	$(MAKE) -f MotorCommands/CMakeFiles/motorCommands.dir/build.make MotorCommands/CMakeFiles/motorCommands.dir/depend
-	$(MAKE) -f MotorCommands/CMakeFiles/motorCommands.dir/build.make MotorCommands/CMakeFiles/motorCommands.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=11,12,13 "Built target motorCommands"
-.PHONY : MotorCommands/CMakeFiles/motorCommands.dir/all
+RobotCommands/CMakeFiles/robotCommands.dir/all: Client/CMakeFiles/client.dir/all
+RobotCommands/CMakeFiles/robotCommands.dir/all: CommonFunctions/CMakeFiles/common.dir/all
+	$(MAKE) -f RobotCommands/CMakeFiles/robotCommands.dir/build.make RobotCommands/CMakeFiles/robotCommands.dir/depend
+	$(MAKE) -f RobotCommands/CMakeFiles/robotCommands.dir/build.make RobotCommands/CMakeFiles/robotCommands.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=15,16 "Built target robotCommands"
+.PHONY : RobotCommands/CMakeFiles/robotCommands.dir/all
 
 # Build rule for subdir invocation for target.
-MotorCommands/CMakeFiles/motorCommands.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 7
-	$(MAKE) -f CMakeFiles/Makefile2 MotorCommands/CMakeFiles/motorCommands.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 0
-.PHONY : MotorCommands/CMakeFiles/motorCommands.dir/rule
+RobotCommands/CMakeFiles/robotCommands.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 RobotCommands/CMakeFiles/robotCommands.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
+.PHONY : RobotCommands/CMakeFiles/robotCommands.dir/rule
 
 # Convenience name for target.
-motorCommands: MotorCommands/CMakeFiles/motorCommands.dir/rule
+robotCommands: RobotCommands/CMakeFiles/robotCommands.dir/rule
 
-.PHONY : motorCommands
-
-# clean rule for target.
-MotorCommands/CMakeFiles/motorCommands.dir/clean:
-	$(MAKE) -f MotorCommands/CMakeFiles/motorCommands.dir/build.make MotorCommands/CMakeFiles/motorCommands.dir/clean
-.PHONY : MotorCommands/CMakeFiles/motorCommands.dir/clean
-
-#=============================================================================
-# Target rules for target MotionControl/CMakeFiles/motionControl.dir
-
-# All Build rule for target.
-MotionControl/CMakeFiles/motionControl.dir/all: Client/CMakeFiles/client.dir/all
-MotionControl/CMakeFiles/motionControl.dir/all: Kinematics/CMakeFiles/kinematics.dir/all
-MotionControl/CMakeFiles/motionControl.dir/all: CommonFunctions/CMakeFiles/common.dir/all
-MotionControl/CMakeFiles/motionControl.dir/all: MotorCommands/CMakeFiles/motorCommands.dir/all
-MotionControl/CMakeFiles/motionControl.dir/all: Navigation/CMakeFiles/navigation.dir/all
-	$(MAKE) -f MotionControl/CMakeFiles/motionControl.dir/build.make MotionControl/CMakeFiles/motionControl.dir/depend
-	$(MAKE) -f MotionControl/CMakeFiles/motionControl.dir/build.make MotionControl/CMakeFiles/motionControl.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=9,10 "Built target motionControl"
-.PHONY : MotionControl/CMakeFiles/motionControl.dir/all
-
-# Build rule for subdir invocation for target.
-MotionControl/CMakeFiles/motionControl.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 13
-	$(MAKE) -f CMakeFiles/Makefile2 MotionControl/CMakeFiles/motionControl.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 0
-.PHONY : MotionControl/CMakeFiles/motionControl.dir/rule
-
-# Convenience name for target.
-motionControl: MotionControl/CMakeFiles/motionControl.dir/rule
-
-.PHONY : motionControl
+.PHONY : robotCommands
 
 # clean rule for target.
-MotionControl/CMakeFiles/motionControl.dir/clean:
-	$(MAKE) -f MotionControl/CMakeFiles/motionControl.dir/build.make MotionControl/CMakeFiles/motionControl.dir/clean
-.PHONY : MotionControl/CMakeFiles/motionControl.dir/clean
-
-#=============================================================================
-# Target rules for target Navigation/CMakeFiles/navigation.dir
-
-# All Build rule for target.
-Navigation/CMakeFiles/navigation.dir/all:
-	$(MAKE) -f Navigation/CMakeFiles/navigation.dir/build.make Navigation/CMakeFiles/navigation.dir/depend
-	$(MAKE) -f Navigation/CMakeFiles/navigation.dir/build.make Navigation/CMakeFiles/navigation.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=14,15 "Built target navigation"
-.PHONY : Navigation/CMakeFiles/navigation.dir/all
-
-# Build rule for subdir invocation for target.
-Navigation/CMakeFiles/navigation.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 Navigation/CMakeFiles/navigation.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 0
-.PHONY : Navigation/CMakeFiles/navigation.dir/rule
-
-# Convenience name for target.
-navigation: Navigation/CMakeFiles/navigation.dir/rule
-
-.PHONY : navigation
-
-# clean rule for target.
-Navigation/CMakeFiles/navigation.dir/clean:
-	$(MAKE) -f Navigation/CMakeFiles/navigation.dir/build.make Navigation/CMakeFiles/navigation.dir/clean
-.PHONY : Navigation/CMakeFiles/navigation.dir/clean
+RobotCommands/CMakeFiles/robotCommands.dir/clean:
+	$(MAKE) -f RobotCommands/CMakeFiles/robotCommands.dir/build.make RobotCommands/CMakeFiles/robotCommands.dir/clean
+.PHONY : RobotCommands/CMakeFiles/robotCommands.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

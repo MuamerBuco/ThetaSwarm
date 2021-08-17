@@ -1,4 +1,4 @@
-add_library(motorCommands manualControl.cpp sendMotorCommands.cpp)
+add_library(robotCommands sendMotorCommands.cpp)
 
-target_link_libraries( motorCommands common )
-target_link_libraries( motorCommands client )
+target_link_libraries( robotCommands common )
+target_link_libraries( robotCommands client )

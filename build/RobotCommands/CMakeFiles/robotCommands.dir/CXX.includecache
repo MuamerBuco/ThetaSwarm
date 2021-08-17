@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eon/OpenSwarm/Client/udp_client_server.h
+sys/types.h
+-
+sys/socket.h
+-
+netdb.h
+-
+stdexcept
+-
+
+/home/eon/OpenSwarm/CommonFunctions/common.h
+iostream
+-
+tuple
+-
+eigen-3.3.9/Eigen/Dense
+-
+
+/home/eon/OpenSwarm/RobotCommands/sendMotorCommands.cpp
+sendMotorCommands.h
+/home/eon/OpenSwarm/RobotCommands/sendMotorCommands.h
+../CommonFunctions/common.h
+/home/eon/OpenSwarm/CommonFunctions/common.h
+
+/home/eon/OpenSwarm/RobotCommands/sendMotorCommands.h
+../Client/udp_client_server.h
+/home/eon/OpenSwarm/Client/udp_client_server.h
+

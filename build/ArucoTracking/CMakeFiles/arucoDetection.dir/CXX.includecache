@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+/home/eon/OpenSwarm/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
 atomic
 -
 cassert
@@ -22,7 +22,7 @@ stdexcept
 type_traits
 -
 
-/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/ArucoTracking/arucoDetection.cpp
+/home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp
 opencv2/core/core.hpp
 -
 opencv2/highgui/highgui.hpp
@@ -32,11 +32,11 @@ opencv2/aruco.hpp
 opencv2/calib3d/calib3d.hpp
 -
 arucoDetection.h
-/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/ArucoTracking/arucoDetection.h
+/home/eon/OpenSwarm/ArucoTracking/arucoDetection.h
 ../CommonFunctions/common.h
-/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/CommonFunctions/common.h
+/home/eon/OpenSwarm/CommonFunctions/common.h
 ../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
-/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+/home/eon/OpenSwarm/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
 iostream
 -
 thread
@@ -50,9 +50,7 @@ functional
 X11/Xlib.h
 -
 
-/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/ArucoTracking/arucoDetection.h
-string
--
+/home/eon/OpenSwarm/ArucoTracking/arucoDetection.h
 eigen-3.3.9/Eigen/Dense
 -
 Eigen/Geometry
@@ -60,7 +58,7 @@ Eigen/Geometry
 vector
 -
 
-/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/CommonFunctions/common.h
+/home/eon/OpenSwarm/CommonFunctions/common.h
 iostream
 -
 tuple

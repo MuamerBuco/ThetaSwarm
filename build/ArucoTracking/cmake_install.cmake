@@ -1,4 +1,4 @@
-# Install script for directory: /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/ArucoTracking
+# Install script for directory: /home/eon/OpenSwarm/ArucoTracking
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/ArucoTracking/arucoDetection.cpp" "/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o"
+  "/home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp" "/home/eon/OpenSwarm/build/ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -16,7 +16,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CommonFunctions/CMakeFiles/common.dir/DependInfo.cmake"
+  "/home/eon/OpenSwarm/build/CommonFunctions/CMakeFiles/common.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

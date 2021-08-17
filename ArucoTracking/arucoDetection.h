@@ -1,7 +1,7 @@
-#ifndef STRING
-#define STRING
-#include <string>
-#endif
+// #ifndef STRING
+// #define STRING
+// #include <string>
+// #endif
 
 #include <eigen-3.3.9/Eigen/Dense>
 #include <Eigen/Geometry>

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient
+CMAKE_SOURCE_DIR = /home/eon/OpenSwarm
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build
+CMAKE_BINARY_DIR = /home/eon/OpenSwarm/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles /home/eon/OpenSwarm/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named udp_client
+# Target rules for targets named openSwarm
 
 # Build rule for target.
-udp_client: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 udp_client
-.PHONY : udp_client
+openSwarm: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 openSwarm
+.PHONY : openSwarm
 
 # fast build rule for target.
-udp_client/fast:
-	$(MAKE) -f CMakeFiles/udp_client.dir/build.make CMakeFiles/udp_client.dir/build
-.PHONY : udp_client/fast
+openSwarm/fast:
+	$(MAKE) -f CMakeFiles/openSwarm.dir/build.make CMakeFiles/openSwarm.dir/build
+.PHONY : openSwarm/fast
 
 #=============================================================================
 # Target rules for targets named client
@@ -137,6 +137,19 @@ client/fast:
 .PHONY : client/fast
 
 #=============================================================================
+# Target rules for targets named trajectoryPlanning
+
+# Build rule for target.
+trajectoryPlanning: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 trajectoryPlanning
+.PHONY : trajectoryPlanning
+
+# fast build rule for target.
+trajectoryPlanning/fast:
+	$(MAKE) -f TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build.make TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build
+.PHONY : trajectoryPlanning/fast
+
+#=============================================================================
 # Target rules for targets named kinematics
 
 # Build rule for target.
@@ -146,8 +159,34 @@ kinematics: cmake_check_build_system
 
 # fast build rule for target.
 kinematics/fast:
-	$(MAKE) -f Kinematics/CMakeFiles/kinematics.dir/build.make Kinematics/CMakeFiles/kinematics.dir/build
+	$(MAKE) -f TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build.make TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build
 .PHONY : kinematics/fast
+
+#=============================================================================
+# Target rules for targets named feedback
+
+# Build rule for target.
+feedback: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 feedback
+.PHONY : feedback
+
+# fast build rule for target.
+feedback/fast:
+	$(MAKE) -f TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/build.make TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/build
+.PHONY : feedback/fast
+
+#=============================================================================
+# Target rules for targets named pathPlanning
+
+# Build rule for target.
+pathPlanning: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pathPlanning
+.PHONY : pathPlanning
+
+# fast build rule for target.
+pathPlanning/fast:
+	$(MAKE) -f TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build
+.PHONY : pathPlanning/fast
 
 #=============================================================================
 # Target rules for targets named common
@@ -176,43 +215,17 @@ arucoDetection/fast:
 .PHONY : arucoDetection/fast
 
 #=============================================================================
-# Target rules for targets named motorCommands
+# Target rules for targets named robotCommands
 
 # Build rule for target.
-motorCommands: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 motorCommands
-.PHONY : motorCommands
+robotCommands: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 robotCommands
+.PHONY : robotCommands
 
 # fast build rule for target.
-motorCommands/fast:
-	$(MAKE) -f MotorCommands/CMakeFiles/motorCommands.dir/build.make MotorCommands/CMakeFiles/motorCommands.dir/build
-.PHONY : motorCommands/fast
-
-#=============================================================================
-# Target rules for targets named motionControl
-
-# Build rule for target.
-motionControl: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 motionControl
-.PHONY : motionControl
-
-# fast build rule for target.
-motionControl/fast:
-	$(MAKE) -f MotionControl/CMakeFiles/motionControl.dir/build.make MotionControl/CMakeFiles/motionControl.dir/build
-.PHONY : motionControl/fast
-
-#=============================================================================
-# Target rules for targets named navigation
-
-# Build rule for target.
-navigation: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 navigation
-.PHONY : navigation
-
-# fast build rule for target.
-navigation/fast:
-	$(MAKE) -f Navigation/CMakeFiles/navigation.dir/build.make Navigation/CMakeFiles/navigation.dir/build
-.PHONY : navigation/fast
+robotCommands/fast:
+	$(MAKE) -f RobotCommands/CMakeFiles/robotCommands.dir/build.make RobotCommands/CMakeFiles/robotCommands.dir/build
+.PHONY : robotCommands/fast
 
 main.o: main.cpp.o
 
@@ -220,7 +233,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/udp_client.dir/build.make CMakeFiles/udp_client.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/openSwarm.dir/build.make CMakeFiles/openSwarm.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -229,7 +242,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/udp_client.dir/build.make CMakeFiles/udp_client.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/openSwarm.dir/build.make CMakeFiles/openSwarm.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -238,7 +251,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/udp_client.dir/build.make CMakeFiles/udp_client.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/openSwarm.dir/build.make CMakeFiles/openSwarm.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -249,14 +262,15 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... udp_client"
+	@echo "... openSwarm"
 	@echo "... client"
+	@echo "... trajectoryPlanning"
 	@echo "... kinematics"
+	@echo "... feedback"
+	@echo "... pathPlanning"
 	@echo "... common"
 	@echo "... arucoDetection"
-	@echo "... motorCommands"
-	@echo "... motionControl"
-	@echo "... navigation"
+	@echo "... robotCommands"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

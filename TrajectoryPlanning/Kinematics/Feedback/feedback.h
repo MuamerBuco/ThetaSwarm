@@ -1,5 +1,5 @@
-#include "../MotorCommands/sendMotorCommands.h"
-#include "../CommonFunctions/common.h"
+#include "../../../RobotCommands/sendMotorCommands.h"
+#include "../../../CommonFunctions/common.h"
 
 #include <eigen-3.3.9/Eigen/Dense>
 

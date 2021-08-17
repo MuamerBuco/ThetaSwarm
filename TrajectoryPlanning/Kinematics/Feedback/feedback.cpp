@@ -1,10 +1,9 @@
 #include "feedback.h"
-#include "../Kinematics/kinematics.h"
-#include "../Client/udp_client_server.h"
-#include "../ArucoTracking/arucoDetection.h"
-#include "../Navigation/navigation.h"
-
-#include "../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
+#include "../kinematics.h"
+#include "../../PathPlanning/navigation.h"
+#include "../../../Client/udp_client_server.h"
+#include "../../../ArucoTracking/arucoDetection.h"
+#include "../../../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
 
 #include <thread>
 #include <cmath>

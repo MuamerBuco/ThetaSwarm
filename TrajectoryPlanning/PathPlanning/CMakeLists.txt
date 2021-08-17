@@ -1,1 +1,1 @@
-add_library(navigation navigation.cpp)
+add_library(pathPlanning navigation.cpp)

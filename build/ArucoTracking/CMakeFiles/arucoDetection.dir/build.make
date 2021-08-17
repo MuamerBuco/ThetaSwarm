@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient
+CMAKE_SOURCE_DIR = /home/eon/OpenSwarm
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build
+CMAKE_BINARY_DIR = /home/eon/OpenSwarm/build
 
 # Include any dependencies generated for this target.
 include ArucoTracking/CMakeFiles/arucoDetection.dir/depend.make
@@ -59,16 +59,16 @@ include ArucoTracking/CMakeFiles/arucoDetection.dir/flags.make
 
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: ArucoTracking/CMakeFiles/arucoDetection.dir/flags.make
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: ../ArucoTracking/arucoDetection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o"
-	cd /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/ArucoTracking && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o -c /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/ArucoTracking/arucoDetection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o"
+	cd /home/eon/OpenSwarm/build/ArucoTracking && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o -c /home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp
 
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/arucoDetection.dir/arucoDetection.cpp.i"
-	cd /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/ArucoTracking && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/ArucoTracking/arucoDetection.cpp > CMakeFiles/arucoDetection.dir/arucoDetection.cpp.i
+	cd /home/eon/OpenSwarm/build/ArucoTracking && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp > CMakeFiles/arucoDetection.dir/arucoDetection.cpp.i
 
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/arucoDetection.dir/arucoDetection.cpp.s"
-	cd /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/ArucoTracking && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/ArucoTracking/arucoDetection.cpp -o CMakeFiles/arucoDetection.dir/arucoDetection.cpp.s
+	cd /home/eon/OpenSwarm/build/ArucoTracking && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp -o CMakeFiles/arucoDetection.dir/arucoDetection.cpp.s
 
 # Object files for target arucoDetection
 arucoDetection_OBJECTS = \
@@ -80,9 +80,9 @@ arucoDetection_EXTERNAL_OBJECTS =
 ArucoTracking/libarucoDetection.a: ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o
 ArucoTracking/libarucoDetection.a: ArucoTracking/CMakeFiles/arucoDetection.dir/build.make
 ArucoTracking/libarucoDetection.a: ArucoTracking/CMakeFiles/arucoDetection.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libarucoDetection.a"
-	cd /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/ArucoTracking && $(CMAKE_COMMAND) -P CMakeFiles/arucoDetection.dir/cmake_clean_target.cmake
-	cd /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/ArucoTracking && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/arucoDetection.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libarucoDetection.a"
+	cd /home/eon/OpenSwarm/build/ArucoTracking && $(CMAKE_COMMAND) -P CMakeFiles/arucoDetection.dir/cmake_clean_target.cmake
+	cd /home/eon/OpenSwarm/build/ArucoTracking && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/arucoDetection.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 ArucoTracking/CMakeFiles/arucoDetection.dir/build: ArucoTracking/libarucoDetection.a
@@ -90,10 +90,10 @@ ArucoTracking/CMakeFiles/arucoDetection.dir/build: ArucoTracking/libarucoDetecti
 .PHONY : ArucoTracking/CMakeFiles/arucoDetection.dir/build
 
 ArucoTracking/CMakeFiles/arucoDetection.dir/clean:
-	cd /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/ArucoTracking && $(CMAKE_COMMAND) -P CMakeFiles/arucoDetection.dir/cmake_clean.cmake
+	cd /home/eon/OpenSwarm/build/ArucoTracking && $(CMAKE_COMMAND) -P CMakeFiles/arucoDetection.dir/cmake_clean.cmake
 .PHONY : ArucoTracking/CMakeFiles/arucoDetection.dir/clean
 
 ArucoTracking/CMakeFiles/arucoDetection.dir/depend:
-	cd /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/ArucoTracking /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/ArucoTracking /home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/build/ArucoTracking/CMakeFiles/arucoDetection.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/eon/OpenSwarm/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/eon/OpenSwarm /home/eon/OpenSwarm/ArucoTracking /home/eon/OpenSwarm/build /home/eon/OpenSwarm/build/ArucoTracking /home/eon/OpenSwarm/build/ArucoTracking/CMakeFiles/arucoDetection.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : ArucoTracking/CMakeFiles/arucoDetection.dir/depend
 

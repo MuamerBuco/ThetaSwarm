@@ -1,5 +1,5 @@
 #include "navigation.h"
-#include "../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
+#include "../../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
 
 #ifndef STRING
 #define STRING
