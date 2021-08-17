@@ -1,0 +1,23 @@
+%YAML:1.0
+iterationNr: 100
+strings:
+   - "image1.jpg"
+   - Awesomeness
+   - "baboon.jpg"
+Mapping:
+   One: 1
+   Two: 2
+R: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: f
+   data: [582.589975673331, 0, 312.9297884739343, 0, 580.0435190290906, 265.6784463441563, 0, 0, 1]
+T: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: f
+   data: [0.09236246795778885, -0.1902675039787654, 0.009945408691960552, 0.002142502281097812, 0.2884485860282079]
+MyData:
+   A: 97
+   X: 3.1415926535897931e+000
+   id: mydata1234

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmotionControl.a  CMakeFiles/motionControl.dir/feedback.cpp.o
+/usr/bin/ranlib libmotionControl.a

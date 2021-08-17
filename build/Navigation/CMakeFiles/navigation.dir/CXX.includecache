@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+atomic
+-
+cassert
+-
+cstddef
+-
+memory
+-
+new
+-
+stdexcept
+-
+type_traits
+-
+
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/Navigation/navigation.cpp
+navigation.h
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/Navigation/navigation.h
+../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+string
+-
+iostream
+-
+vector
+-
+
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/Navigation/navigation.h
+eigen-3.3.9/Eigen/Dense
+-
+vector
+-
+

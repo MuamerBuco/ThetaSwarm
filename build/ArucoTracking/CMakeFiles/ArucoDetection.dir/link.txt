@@ -1,0 +1,2 @@
+/usr/bin/ar qc libArucoDetection.a  CMakeFiles/ArucoDetection.dir/arucoDetection.cpp.o
+/usr/bin/ranlib libArucoDetection.a

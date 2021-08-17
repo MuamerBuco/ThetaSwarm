@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/CommonFunctions/common.h
+iostream
+-
+tuple
+-
+eigen-3.3.9/Eigen/Dense
+-
+
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/Kinematics/kinematics.cpp
+kinematics.h
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/Kinematics/kinematics.h
+../CommonFunctions/common.h
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/CommonFunctions/common.h
+eigen-3.3.9/Eigen/Dense
+-
+stdio.h
+-
+iostream
+-
+tuple
+-
+
+/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/Kinematics/kinematics.h
+eigen-3.3.9/Eigen/Dense
+-
+

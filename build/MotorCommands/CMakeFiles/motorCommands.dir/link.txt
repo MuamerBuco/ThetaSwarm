@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmotorCommands.a  CMakeFiles/motorCommands.dir/manualControl.cpp.o CMakeFiles/motorCommands.dir/sendMotorCommands.cpp.o
+/usr/bin/ranlib libmotorCommands.a
