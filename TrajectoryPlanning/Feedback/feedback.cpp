@@ -1,9 +1,9 @@
 #include "feedback.h"
-#include "../kinematics.h"
-#include "../../PathPlanning/navigation.h"
-#include "../../../Client/udp_client_server.h"
-#include "../../../ArucoTracking/arucoDetection.h"
-#include "../../../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
+#include "../Kinematics/kinematics.h"
+#include "../PathPlanning/navigation.h"
+#include "../../Client/udp_client_server.h"
+#include "../../ArucoTracking/arucoDetection.h"
+#include "../../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
 
 #include <thread>
 #include <cmath>
@@ -36,7 +36,7 @@ void initializePDCoefficients()
 }
 
 // take in a {phi_dot, x_dot, y_dot} vector, convert to appropriate speed-direction commands and send
-void SendVectorControl(VectorXi control_input, int *current_phi, udp_client *myClient)
+void SendVectorControl(Vector3f control_input, int *current_phi, udp_client *myClient)
 {
     uint8_t speeds_and_directions[9] = {0};
     
@@ -47,7 +47,7 @@ void SendVectorControl(VectorXi control_input, int *current_phi, udp_client *myC
 }
 
 // map different possible ranges of each variable to the same range
-VectorXi ScaleToEqualRange(VectorXi control_input)
+Vector3f ScaleToEqualRange(Vector3f control_input)
 {
     control_input(0,0) = MapValueToRange( -180, -100, 180, 100, control_input(0,0) );
     control_input(1,0) = MapValueToRange( -190, -100, 190, 100, control_input(1,0) );
@@ -57,9 +57,9 @@ VectorXi ScaleToEqualRange(VectorXi control_input)
 }
 
 // for now implement only Proportional controller
-VectorXi PD_Controller(VectorXi pose_error)
+Vector3f PD_Controller(Vector3f pose_error)
 {
-    VectorXi control_input(3,1);
+    Vector3f control_input(3,1);
 
     control_input = ScaleToEqualRange(pose_error);
 
@@ -82,26 +82,27 @@ VectorXi PD_Controller(VectorXi pose_error)
     return control_input;
 }
 
-VectorXi GetCurrentPose()
+Vector3f GetCurrentPose()
 {
     AllPosesInPass pose_holder = getAllPosesAndIDs();
 
-    VectorXi current_pose(3,1);
+    Vector3f current_pose(3,1);
 
-    current_pose(0,0) = static_cast<int>(pose_holder.poses[0].yaw);
-    current_pose(1,0) = static_cast<int>(pose_holder.poses[0].x);
-    current_pose(2,0) = static_cast<int>(pose_holder.poses[0].y);
+    current_pose(0,0) = pose_holder.poses[0].yaw;
+    current_pose(1,0) = pose_holder.poses[0].x;
+    current_pose(2,0) = pose_holder.poses[0].y;
 
     return current_pose;
 }
 
-// runs in a loop on a separate thread, takes front current poses of robots from buffer
-// takes new target poses if available, if not uses old
-// calculates error from target
-// runs error into Proportional control to get a q_dot control vector
-// applies non holonomic constraints on the chassis velocities
-// converts chassis velocities to wheel speeds, wheel speeds to pwm direction array
-// sends set of wheel commands to robot
+/*
+* runs in a loop on a separate thread, takes front current poses of robots from buffer
+* takes new target poses if available, if not uses old
+* calculates error from target
+* runs error into Proportional control to get a q_dot control vector
+* applies non holonomic constraints on the chassis velocities
+* converts chassis velocities to wheel speeds, wheel speeds to pwm direction array
+* sends set of wheel commands to robot */
 void calculate_feedback(std::string ip_addr, int port)
 {
     // initialize udp object
@@ -110,8 +111,8 @@ void calculate_feedback(std::string ip_addr, int port)
     AllTargetPoses target_poses_holder;
     TargetPose single_target_pose;
     
-    VectorXi target_pose_vector(3,1);
-    VectorXi current_pose_vector(3,1);
+    Vector3f target_pose_vector(3,1);
+    Vector3f current_pose_vector(3,1);
     int current_phi;
     
     // Initialize kinematics
@@ -137,9 +138,9 @@ void calculate_feedback(std::string ip_addr, int port)
             target_poses_holder = getAllTargetPosesAndIDs();
             single_target_pose = target_poses_holder.allPosesVector[0];
 
-            target_pose_vector(0,0) = static_cast<int>(single_target_pose.p);
-            target_pose_vector(1,0) = static_cast<int>(single_target_pose.x);
-            target_pose_vector(2,0) = static_cast<int>(single_target_pose.y);
+            target_pose_vector(0,0) = single_target_pose.p;
+            target_pose_vector(1,0) = single_target_pose.x;
+            target_pose_vector(2,0) = single_target_pose.y;
 
             //std::cout << "target_pose_vector" << target_pose_vector << std::endl;
 
@@ -162,7 +163,7 @@ void calculate_feedback(std::string ip_addr, int port)
         //current_phi = static_cast<int>( MapValueToRange(-180, 0, 180, 360, current_pose_vector(0,0)) );
         //std::cout << "current_phi new" << current_phi << std::endl;
         // calculate error vector
-        VectorXi pose_error_vector = target_pose_vector - current_pose_vector;
+        Vector3f pose_error_vector = target_pose_vector - current_pose_vector;
 
         //std::cout << "target_pose_vector" << target_pose_vector << std::endl;
 
@@ -180,7 +181,7 @@ void calculate_feedback(std::string ip_addr, int port)
         // }
 
         // apply proportional control
-        VectorXi q_dot = PD_Controller(pose_error_vector);
+        Vector3f q_dot = PD_Controller(pose_error_vector);
 
         // #testing
         //current_phi = 150;

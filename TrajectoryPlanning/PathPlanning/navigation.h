@@ -3,9 +3,9 @@
 
 struct TargetPose
 {
-    double x;
-    double y;
-    double p;
+    float x;
+    float y;
+    float p;
     int id;
 };
 

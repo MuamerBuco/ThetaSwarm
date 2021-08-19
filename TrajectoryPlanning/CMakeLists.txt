@@ -1,5 +1,6 @@
 add_library(trajectoryPlanning trajectoryPlanning.cpp)
 
+add_subdirectory(Feedback)
 add_subdirectory(Kinematics)
 add_subdirectory(PathPlanning)
 

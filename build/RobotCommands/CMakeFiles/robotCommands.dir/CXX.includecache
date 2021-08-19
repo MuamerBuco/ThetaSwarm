@@ -16,7 +16,7 @@ netdb.h
 stdexcept
 -
 
-/home/eon/OpenSwarm/CommonFunctions/common.h
+/home/eon/OpenSwarm/Common/common.h
 iostream
 -
 tuple
@@ -27,8 +27,8 @@ eigen-3.3.9/Eigen/Dense
 /home/eon/OpenSwarm/RobotCommands/sendMotorCommands.cpp
 sendMotorCommands.h
 /home/eon/OpenSwarm/RobotCommands/sendMotorCommands.h
-../CommonFunctions/common.h
-/home/eon/OpenSwarm/CommonFunctions/common.h
+../Common/common.h
+/home/eon/OpenSwarm/Common/common.h
 
 /home/eon/OpenSwarm/RobotCommands/sendMotorCommands.h
 ../Client/udp_client_server.h

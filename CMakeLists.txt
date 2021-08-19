@@ -13,7 +13,7 @@ add_executable( ${PROJECT_NAME} main.cpp )
 # add subdirectories
 add_subdirectory(Client)
 add_subdirectory(TrajectoryPlanning)
-add_subdirectory(CommonFunctions)
+add_subdirectory(Common)
 add_subdirectory(ArucoTracking)
 add_subdirectory(RobotCommands)
 

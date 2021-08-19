@@ -1,7 +1,5 @@
 #include "ArucoTracking/arucoDetection.h"
-#include "TrajectoryPlanning/Kinematics/Feedback/feedback.h"
-
-//#include <eigen-3.3.9/Eigen/Dense>
+#include "TrajectoryPlanning/Feedback/feedback.h"
 
 #include <iostream>
 #include <chrono>

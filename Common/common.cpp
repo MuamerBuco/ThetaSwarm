@@ -16,9 +16,9 @@ void PrintBuffer(uint8_t *buffer)
     std::cout << *buffer << std::endl;
 }
 
-std::tuple<float, float> findMaxMinAbsValues(VectorXf *speeds_vector)
+std::tuple<float, float> findMaxMinAbsValues(Vector4f *speeds_vector)
 {
-    VectorXf speeds_vector_copy = *speeds_vector;
+    Vector4f speeds_vector_copy = *speeds_vector;
 
     for(int i = 0; i < speeds_vector_copy.size(); i++) {
         speeds_vector_copy(i,0) = abs(speeds_vector_copy(i,0));

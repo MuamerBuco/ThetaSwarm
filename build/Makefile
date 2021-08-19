@@ -150,6 +150,19 @@ trajectoryPlanning/fast:
 .PHONY : trajectoryPlanning/fast
 
 #=============================================================================
+# Target rules for targets named feedback
+
+# Build rule for target.
+feedback: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 feedback
+.PHONY : feedback
+
+# fast build rule for target.
+feedback/fast:
+	$(MAKE) -f TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/build.make TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/build
+.PHONY : feedback/fast
+
+#=============================================================================
 # Target rules for targets named kinematics
 
 # Build rule for target.
@@ -161,19 +174,6 @@ kinematics: cmake_check_build_system
 kinematics/fast:
 	$(MAKE) -f TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build.make TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build
 .PHONY : kinematics/fast
-
-#=============================================================================
-# Target rules for targets named feedback
-
-# Build rule for target.
-feedback: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 feedback
-.PHONY : feedback
-
-# fast build rule for target.
-feedback/fast:
-	$(MAKE) -f TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/build.make TrajectoryPlanning/Kinematics/Feedback/CMakeFiles/feedback.dir/build
-.PHONY : feedback/fast
 
 #=============================================================================
 # Target rules for targets named pathPlanning
@@ -198,7 +198,7 @@ common: cmake_check_build_system
 
 # fast build rule for target.
 common/fast:
-	$(MAKE) -f CommonFunctions/CMakeFiles/common.dir/build.make CommonFunctions/CMakeFiles/common.dir/build
+	$(MAKE) -f Common/CMakeFiles/common.dir/build.make Common/CMakeFiles/common.dir/build
 .PHONY : common/fast
 
 #=============================================================================
@@ -265,8 +265,8 @@ help:
 	@echo "... openSwarm"
 	@echo "... client"
 	@echo "... trajectoryPlanning"
-	@echo "... kinematics"
 	@echo "... feedback"
+	@echo "... kinematics"
 	@echo "... pathPlanning"
 	@echo "... common"
 	@echo "... arucoDetection"

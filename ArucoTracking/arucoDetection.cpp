@@ -6,7 +6,7 @@
 #include <opencv2/calib3d/calib3d.hpp>
 
 #include "arucoDetection.h"
-#include "../CommonFunctions/common.h"
+#include "../Common/common.h"
 #include "../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
 
 #include <iostream>
@@ -33,8 +33,9 @@ SPSCQueue<AllPosesInPass> posesSPSCQueue(2);
 
 int videoPath = 2;
 
-const std::string calibrationFilePath = "/home/eon/Thesis/ThesisEmbedded/ESP32/TestFirmware/ThesisRobot/TestUDPClient/CameraCalibration/calibration1.yml";
+const std::string calibrationFilePath = "../CameraCalibration/calibration1.yml";
 
+// get camera calibration parameters from fileName path
 void readCameraParameters(cv::Mat *cameraMatrix, cv::Mat *distCoeffs, std::string fileName)
 {
     cv::FileStorage fs(fileName , cv::FileStorage::READ);
@@ -46,6 +47,7 @@ void readCameraParameters(cv::Mat *cameraMatrix, cv::Mat *distCoeffs, std::strin
 	std::cout << "distCoeffs read = " << *distCoeffs << std::endl;
 }
 
+// add offset to value
 int addOffset( int value, int offset)
 {
     value = abs(value) - offset;
@@ -53,6 +55,7 @@ int addOffset( int value, int offset)
     return value;
 }
 
+// open video source and start pushing frames to image SPSC queue 
 void start_capturing()
 {
     // open video source, set internal buffer to 0
@@ -62,6 +65,9 @@ void start_capturing()
     
     cv::Mat InputImage;
 
+    // try to open video feed
+    // if successful push frame to queue
+    // if fails, try again untill it succeeds
     while(1) {
         // if the input is opened, read image and push to buffer
         if(inputVideo.isOpened()) {
@@ -81,6 +87,15 @@ void start_capturing()
     }
 }
 
+/*
+* grab frames in queue, find markers, detect poses and push poses to queue by:
+* 1. start frame capturing
+* 2. initialize aruco detection infrastructure
+* 3. in infinite loop:
+*      1. grab image, copy for visualization
+*      2. detect markers, estimate pose, draw axis on visualizing image
+*      3. transform data to x,y coordinates, yaw in {-pi,pi} and ID to per robot pose holders
+*      4. try_push poses and visualized imgs to queue */
 void start_pose_estimation(const std::string calibrationPath)
 {
     std::thread capture_thread(start_capturing);
@@ -156,7 +171,7 @@ void start_pose_estimation(const std::string calibrationPath)
                 //my_yaw = addOffset(my_yaw, 0);
                 //std::cout << "The yaw after mapping: " << my_yaw << std::endl;
 
-                my_yaw = static_cast<int>(YRP_vector(2,0) * 100);
+                my_yaw = YRP_vector(2,0) * 100;
                 //std::cout << "The yaw saved value: " << my_yaw << std::endl;
                 
 
@@ -164,8 +179,8 @@ void start_pose_estimation(const std::string calibrationPath)
                 //std::cout << "The tvec 1: " << tvecs[i][1] << std::endl;
                 // add pose yaw, x, y and ID
                 single_pose_holder.yaw = my_yaw;
-                single_pose_holder.x = static_cast<int>( MapValueToRange(MAX_INPUT_VALUE_X, MAX_OUPUT_VALUE_X, MIN_INPUT_VALUE_X, MIN_OUPUT_VALUE_X, tvecs[i][0]) );
-                single_pose_holder.y = static_cast<int>( MapValueToRange(MAX_INPUT_VALUE_Y, MAX_OUPUT_VALUE_Y, MIN_INPUT_VALUE_Y, MIN_OUPUT_VALUE_Y, tvecs[i][1]) );
+                single_pose_holder.x = MapValueToRange(MAX_INPUT_VALUE_X, MAX_OUPUT_VALUE_X, MIN_INPUT_VALUE_X, MIN_OUPUT_VALUE_X, tvecs[i][0]);
+                single_pose_holder.y = MapValueToRange(MAX_INPUT_VALUE_Y, MAX_OUPUT_VALUE_Y, MIN_INPUT_VALUE_Y, MIN_OUPUT_VALUE_Y, tvecs[i][1]);
                 single_pose_holder.id = ids[i];
                 pose_holder.poses.push_back(single_pose_holder);
                 
@@ -205,6 +220,7 @@ void start_pose_estimation(const std::string calibrationPath)
     capture_thread.join();
 }
 
+// run visualization on thread  
 void start_visualization()
 {
     while(1) {
@@ -219,6 +235,7 @@ void start_visualization()
     }
 }
 
+// start detecting markers and placing found in SPSC queue
 void start_aruco_detection()
 {
     std::thread estimation_thread(start_pose_estimation, calibrationFilePath);
@@ -230,7 +247,7 @@ void start_aruco_detection()
     visualization_thread.join();
 }
 
-// returns a struct holding all pose/id structs per robot, blocking
+// returns a struct holding all pose/id structs per robot, blocking function
 AllPosesInPass getAllPosesAndIDs()
 {
     while(!posesSPSCQueue.front());

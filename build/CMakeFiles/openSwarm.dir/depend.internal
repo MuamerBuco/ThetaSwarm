@@ -4,9 +4,9 @@
 CMakeFiles/openSwarm.dir/main.cpp.o
  /home/eon/OpenSwarm/ArucoTracking/arucoDetection.h
  /home/eon/OpenSwarm/Client/udp_client_server.h
- /home/eon/OpenSwarm/CommonFunctions/common.h
+ /home/eon/OpenSwarm/Common/common.h
  /home/eon/OpenSwarm/RobotCommands/sendMotorCommands.h
- /home/eon/OpenSwarm/TrajectoryPlanning/Kinematics/Feedback/feedback.h
+ /home/eon/OpenSwarm/TrajectoryPlanning/Feedback/feedback.h
  /home/eon/OpenSwarm/main.cpp
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core

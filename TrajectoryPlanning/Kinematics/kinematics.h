@@ -8,4 +8,4 @@
 using namespace Eigen;
 
 void initialize_H_0_R();
-int CalculateMotorSpeedVector(VectorXi control_vector, uint8_t *speeds_and_directions, int *phiCurrent);
+int CalculateMotorSpeedVector(Vector3f control_vector, uint8_t *speeds_and_directions, int *phiCurrent);

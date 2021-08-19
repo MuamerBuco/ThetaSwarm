@@ -1,5 +1,5 @@
 #include "kinematics.h"
-#include "../../CommonFunctions/common.h"
+#include "../../Common/common.h"
 #include <eigen-3.3.9/Eigen/Dense>
 #include <stdio.h>
 #include <iostream>
@@ -62,7 +62,7 @@ void initialize_H_0_R()
     H0_R = matrix_scalar * h_zero;
 }
 
-VectorXf applyNonHolonomicConstraints(VectorXf speeds_vector)
+Vector4f applyNonHolonomicConstraints(Vector4f speeds_vector)
 {   
     // fins lowest and highest absolute values in speed vector
     // to extract the speed ratios to then multiply by proportional control
@@ -72,7 +72,7 @@ VectorXf applyNonHolonomicConstraints(VectorXf speeds_vector)
 
     //std::cout << "the max speeds: " << max_input_speed << " " << min_input_speed << std::endl;
 
-    VectorXf normalized_speeds(4,1);
+    Vector4f normalized_speeds(4,1);
 
     for(int i = 0; i < 4; i++)
     {
@@ -86,7 +86,7 @@ VectorXf applyNonHolonomicConstraints(VectorXf speeds_vector)
 
 // modify speeds_and_dirrections with mapped radians per second to the appropriate driving PWM duty cycle and then check constraints, 
 // minimum responsive PWM is 160, max is 255, 
- VectorXi MapRadiansToPWM(VectorXf speed_vector)
+ VectorXi MapRadiansToPWM(Vector4f speed_vector)
  {
     float unit_speed_per_pwm = PWM_VIABLE_RANGE/(ROTATION_SPEED_RANGE);
     
@@ -97,7 +97,7 @@ VectorXf applyNonHolonomicConstraints(VectorXf speeds_vector)
 
     //std::cout << "unit_speed_per_pwm" << unit_speed_per_pwm << std::endl;
 
-    VectorXf fixed_speed_vector = applyNonHolonomicConstraints(speed_vector);
+    Vector4f fixed_speed_vector = applyNonHolonomicConstraints(speed_vector);
 
     //std::cout << "The fixed_speed_vector vector" << std::endl << fixed_speed_vector << std::endl;
     
@@ -132,7 +132,7 @@ VectorXf applyNonHolonomicConstraints(VectorXf speeds_vector)
 }
 
 // Calculates necessary PWM/Direction signal from the control vector, and modifies speeds_and_directions
-int CalculateMotorSpeedVector(VectorXi control_vector, uint8_t *speeds_and_directions, int *phiCurrent){
+int CalculateMotorSpeedVector(Vector3f control_vector, uint8_t *speeds_and_directions, int *phiCurrent){
 
     double phi = *phiCurrent * 1.00;
 
@@ -140,7 +140,7 @@ int CalculateMotorSpeedVector(VectorXi control_vector, uint8_t *speeds_and_direc
 
     //phi = phi * (PI / 180.0);
 
-    MatrixXf rotation_matrix(3,3);
+    Matrix3f rotation_matrix(3,3);
 
     rotation_matrix(0,0) = 1;
     rotation_matrix(0,1) = 0;
@@ -151,15 +151,14 @@ int CalculateMotorSpeedVector(VectorXi control_vector, uint8_t *speeds_and_direc
     rotation_matrix(2,0) = 0;
     rotation_matrix(2,1) = -sin(phi);
     rotation_matrix(2,2) = cos(phi);
-
-    VectorXf control_vector_float = control_vector.cast<float>();
     
     // speeds in radians/s of each wheel
-    VectorXf speed_vector = H0_R * rotation_matrix * control_vector_float;
+    Vector4f speed_vector = H0_R * rotation_matrix * control_vector;
     
     speeds_and_directions[0] = 1;
     
-    VectorXi speeds_and_directions_vector = MapRadiansToPWM(speed_vector); // map speed-per-wheel(in radians) vector to pwm-and-direction-per-motor vector
+    // map speed-per-wheel(in radians) vector to pwm-and-direction-per-motor vector
+    VectorXi speeds_and_directions_vector = MapRadiansToPWM(speed_vector);
     
     for(uint8_t i = 1; i < 9; i++) {
         speeds_and_directions[i] = speeds_and_directions_vector(i,0);

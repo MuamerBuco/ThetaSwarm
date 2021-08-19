@@ -44,6 +44,7 @@
 					"childIndexes" : 
 					[
 						3,
+						4,
 						5
 					],
 					"minimumCMakeVersion" : 
@@ -59,11 +60,21 @@
 					]
 				},
 				{
-					"build" : "TrajectoryPlanning/Kinematics",
-					"childIndexes" : 
+					"build" : "TrajectoryPlanning/Feedback",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 0,
+					"source" : "TrajectoryPlanning/Feedback",
+					"targetIndexes" : 
 					[
-						4
-					],
+						3
+					]
+				},
+				{
+					"build" : "TrajectoryPlanning/Kinematics",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -74,20 +85,6 @@
 					"targetIndexes" : 
 					[
 						4
-					]
-				},
-				{
-					"build" : "TrajectoryPlanning/Kinematics/Feedback",
-					"minimumCMakeVersion" : 
-					{
-						"string" : "3.16"
-					},
-					"parentIndex" : 3,
-					"projectIndex" : 0,
-					"source" : "TrajectoryPlanning/Kinematics/Feedback",
-					"targetIndexes" : 
-					[
-						3
 					]
 				},
 				{
@@ -105,14 +102,14 @@
 					]
 				},
 				{
-					"build" : "CommonFunctions",
+					"build" : "Common",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
 					},
 					"parentIndex" : 0,
 					"projectIndex" : 0,
-					"source" : "CommonFunctions",
+					"source" : "Common",
 					"targetIndexes" : 
 					[
 						2
@@ -183,7 +180,7 @@
 				{
 					"directoryIndex" : 7,
 					"id" : "arucoDetection::@5ad8148c91dbe96e3cde",
-					"jsonFile" : "target-arucoDetection-a58227908784a34f7d5b.json",
+					"jsonFile" : "target-arucoDetection-f4f341ed03670f948e42.json",
 					"name" : "arucoDetection",
 					"projectIndex" : 0
 				},
@@ -196,29 +193,29 @@
 				},
 				{
 					"directoryIndex" : 6,
-					"id" : "common::@e2c5d47632597851269c",
-					"jsonFile" : "target-common-40d7e5f70253a37e2246.json",
+					"id" : "common::@13b50f4fff9a3833e1fc",
+					"jsonFile" : "target-common-029c62ca368cccf02064.json",
 					"name" : "common",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 4,
-					"id" : "feedback::@62690f5e836a7ce65d89",
-					"jsonFile" : "target-feedback-b55fec91e9df3de3ab4e.json",
+					"directoryIndex" : 3,
+					"id" : "feedback::@ad543cc0650acb8ade3c",
+					"jsonFile" : "target-feedback-b9698f567f88ae74624a.json",
 					"name" : "feedback",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 3,
+					"directoryIndex" : 4,
 					"id" : "kinematics::@1117abf5cd3cce857392",
-					"jsonFile" : "target-kinematics-6fad9482c332ddeb98d4.json",
+					"jsonFile" : "target-kinematics-62d5db536de10139fd91.json",
 					"name" : "kinematics",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "openSwarm::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-openSwarm-5e617915d9e5548335de.json",
+					"jsonFile" : "target-openSwarm-f424912b2fa2275c54c8.json",
 					"name" : "openSwarm",
 					"projectIndex" : 0
 				},
@@ -232,14 +229,14 @@
 				{
 					"directoryIndex" : 8,
 					"id" : "robotCommands::@469f68b773499591ac4c",
-					"jsonFile" : "target-robotCommands-dca3446623bb26d66568.json",
+					"jsonFile" : "target-robotCommands-529ce89b16cafaea96a8.json",
 					"name" : "robotCommands",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
 					"id" : "trajectoryPlanning::@1825af352b3093106da0",
-					"jsonFile" : "target-trajectoryPlanning-8b32fe1c8206ee9e407e.json",
+					"jsonFile" : "target-trajectoryPlanning-a8ed93d6a212d306f43e.json",
 					"name" : "trajectoryPlanning",
 					"projectIndex" : 0
 				}

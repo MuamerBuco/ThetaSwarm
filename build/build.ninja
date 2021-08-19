@@ -60,7 +60,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 #############################################
 # Order-only phony target for openSwarm
 
-build cmake_object_order_depends_target_openSwarm: phony || cmake_object_order_depends_target_arucoDetection cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_robotCommands cmake_object_order_depends_target_trajectoryPlanning
+build cmake_object_order_depends_target_openSwarm: phony || cmake_object_order_depends_target_arucoDetection cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_feedback cmake_object_order_depends_target_pathPlanning cmake_object_order_depends_target_robotCommands cmake_object_order_depends_target_trajectoryPlanning
 
 build CMakeFiles/openSwarm.dir/main.cpp.o: CXX_COMPILER__openSwarm ../main.cpp || cmake_object_order_depends_target_openSwarm
   DEP_FILE = CMakeFiles/openSwarm.dir/main.cpp.o.d
@@ -77,9 +77,9 @@ build CMakeFiles/openSwarm.dir/main.cpp.o: CXX_COMPILER__openSwarm ../main.cpp |
 #############################################
 # Link the executable openSwarm
 
-build openSwarm: CXX_EXECUTABLE_LINKER__openSwarm CMakeFiles/openSwarm.dir/main.cpp.o | Client/libclient.a TrajectoryPlanning/libtrajectoryPlanning.a CommonFunctions/libcommon.a ArucoTracking/libarucoDetection.a RobotCommands/librobotCommands.a /usr/lib/x86_64-linux-gnu/libcurses.so /usr/lib/x86_64-linux-gnu/libform.so /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0 Client/libclient.a CommonFunctions/libcommon.a || ArucoTracking/libarucoDetection.a Client/libclient.a CommonFunctions/libcommon.a RobotCommands/librobotCommands.a TrajectoryPlanning/libtrajectoryPlanning.a
+build openSwarm: CXX_EXECUTABLE_LINKER__openSwarm CMakeFiles/openSwarm.dir/main.cpp.o | Client/libclient.a TrajectoryPlanning/libtrajectoryPlanning.a Common/libcommon.a ArucoTracking/libarucoDetection.a RobotCommands/librobotCommands.a /usr/lib/x86_64-linux-gnu/libcurses.so /usr/lib/x86_64-linux-gnu/libform.so TrajectoryPlanning/Kinematics/libkinematics.a TrajectoryPlanning/Feedback/libfeedback.a TrajectoryPlanning/Kinematics/libkinematics.a TrajectoryPlanning/Feedback/libfeedback.a RobotCommands/librobotCommands.a Client/libclient.a TrajectoryPlanning/PathPlanning/libpathPlanning.a Common/libcommon.a /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0 || ArucoTracking/libarucoDetection.a Client/libclient.a Common/libcommon.a RobotCommands/librobotCommands.a TrajectoryPlanning/Feedback/libfeedback.a TrajectoryPlanning/PathPlanning/libpathPlanning.a TrajectoryPlanning/libtrajectoryPlanning.a
   FLAGS = -std=c++11 -pthread -g
-  LINK_LIBRARIES = Client/libclient.a  TrajectoryPlanning/libtrajectoryPlanning.a  CommonFunctions/libcommon.a  ArucoTracking/libarucoDetection.a  RobotCommands/librobotCommands.a  -lcurses  /usr/lib/x86_64-linux-gnu/libform.so  -lkinematics  -lpathPlanning  /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0  Client/libclient.a  CommonFunctions/libcommon.a
+  LINK_LIBRARIES = Client/libclient.a  TrajectoryPlanning/libtrajectoryPlanning.a  Common/libcommon.a  ArucoTracking/libarucoDetection.a  RobotCommands/librobotCommands.a  -lcurses  /usr/lib/x86_64-linux-gnu/libform.so  TrajectoryPlanning/Kinematics/libkinematics.a  TrajectoryPlanning/Feedback/libfeedback.a  TrajectoryPlanning/Kinematics/libkinematics.a  TrajectoryPlanning/Feedback/libfeedback.a  RobotCommands/librobotCommands.a  Client/libclient.a  TrajectoryPlanning/PathPlanning/libpathPlanning.a  Common/libcommon.a  /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0
   OBJECT_DIR = CMakeFiles/openSwarm.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -182,11 +182,12 @@ build TrajectoryPlanning/edit_cache: phony TrajectoryPlanning/CMakeFiles/edit_ca
 #############################################
 # Order-only phony target for trajectoryPlanning
 
-build cmake_object_order_depends_target_trajectoryPlanning: phony || TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
+build cmake_object_order_depends_target_trajectoryPlanning: phony || cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_feedback cmake_object_order_depends_target_pathPlanning cmake_object_order_depends_target_robotCommands
 
 build TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o: CXX_COMPILER__trajectoryPlanning ../TrajectoryPlanning/trajectoryPlanning.cpp || cmake_object_order_depends_target_trajectoryPlanning
   DEP_FILE = TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o.d
   FLAGS = -g
+  INCLUDES = -isystem /usr/include/eigen3
   OBJECT_DIR = TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
   OBJECT_FILE_DIR = TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
 
@@ -198,13 +199,195 @@ build TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cp
 #############################################
 # Link the static library TrajectoryPlanning/libtrajectoryPlanning.a
 
-build TrajectoryPlanning/libtrajectoryPlanning.a: CXX_STATIC_LIBRARY_LINKER__trajectoryPlanning TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o
+build TrajectoryPlanning/libtrajectoryPlanning.a: CXX_STATIC_LIBRARY_LINKER__trajectoryPlanning TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o || Client/libclient.a Common/libcommon.a RobotCommands/librobotCommands.a TrajectoryPlanning/Feedback/libfeedback.a TrajectoryPlanning/PathPlanning/libpathPlanning.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
   POST_BUILD = :
   PRE_LINK = :
   TARGET_FILE = TrajectoryPlanning/libtrajectoryPlanning.a
   TARGET_PDB = trajectoryPlanning.a.dbg
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/eon/OpenSwarm/TrajectoryPlanning/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build TrajectoryPlanning/Feedback/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/Feedback && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build TrajectoryPlanning/Feedback/rebuild_cache: phony TrajectoryPlanning/Feedback/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build TrajectoryPlanning/Feedback/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/Feedback && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build TrajectoryPlanning/Feedback/edit_cache: phony TrajectoryPlanning/Feedback/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target feedback
+
+
+#############################################
+# Order-only phony target for feedback
+
+build cmake_object_order_depends_target_feedback: phony || cmake_object_order_depends_target_kinematics
+
+build TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/feedback.cpp.o: CXX_COMPILER__feedback ../TrajectoryPlanning/Feedback/feedback.cpp || cmake_object_order_depends_target_feedback
+  DEP_FILE = TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/feedback.cpp.o.d
+  FLAGS = -g
+  INCLUDES = -isystem /usr/include/eigen3
+  OBJECT_DIR = TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir
+  OBJECT_FILE_DIR = TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target feedback
+
+
+#############################################
+# Link the static library TrajectoryPlanning/Feedback/libfeedback.a
+
+build TrajectoryPlanning/Feedback/libfeedback.a: CXX_STATIC_LIBRARY_LINKER__feedback TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/feedback.cpp.o || TrajectoryPlanning/Kinematics/libkinematics.a
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = TrajectoryPlanning/Feedback/libfeedback.a
+  TARGET_PDB = feedback.a.dbg
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/eon/OpenSwarm/TrajectoryPlanning/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build TrajectoryPlanning/Kinematics/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/Kinematics && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build TrajectoryPlanning/Kinematics/rebuild_cache: phony TrajectoryPlanning/Kinematics/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build TrajectoryPlanning/Kinematics/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/Kinematics && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build TrajectoryPlanning/Kinematics/edit_cache: phony TrajectoryPlanning/Kinematics/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target kinematics
+
+
+#############################################
+# Order-only phony target for kinematics
+
+build cmake_object_order_depends_target_kinematics: phony || cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_pathPlanning cmake_object_order_depends_target_robotCommands
+
+build TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o: CXX_COMPILER__kinematics ../TrajectoryPlanning/Kinematics/kinematics.cpp || cmake_object_order_depends_target_kinematics
+  DEP_FILE = TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o.d
+  FLAGS = -g
+  INCLUDES = -isystem /usr/include/eigen3
+  OBJECT_DIR = TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
+  OBJECT_FILE_DIR = TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target kinematics
+
+
+#############################################
+# Link the static library TrajectoryPlanning/Kinematics/libkinematics.a
+
+build TrajectoryPlanning/Kinematics/libkinematics.a: CXX_STATIC_LIBRARY_LINKER__kinematics TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o || Client/libclient.a Common/libcommon.a RobotCommands/librobotCommands.a TrajectoryPlanning/PathPlanning/libpathPlanning.a
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = TrajectoryPlanning/Kinematics/libkinematics.a
+  TARGET_PDB = kinematics.a.dbg
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/eon/OpenSwarm/TrajectoryPlanning/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build TrajectoryPlanning/PathPlanning/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/PathPlanning && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build TrajectoryPlanning/PathPlanning/rebuild_cache: phony TrajectoryPlanning/PathPlanning/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build TrajectoryPlanning/PathPlanning/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/PathPlanning && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build TrajectoryPlanning/PathPlanning/edit_cache: phony TrajectoryPlanning/PathPlanning/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target pathPlanning
+
+
+#############################################
+# Order-only phony target for pathPlanning
+
+build cmake_object_order_depends_target_pathPlanning: phony || TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+
+build TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o: CXX_COMPILER__pathPlanning ../TrajectoryPlanning/PathPlanning/navigation.cpp || cmake_object_order_depends_target_pathPlanning
+  DEP_FILE = TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o.d
+  FLAGS = -g
+  OBJECT_DIR = TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+  OBJECT_FILE_DIR = TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target pathPlanning
+
+
+#############################################
+# Link the static library TrajectoryPlanning/PathPlanning/libpathPlanning.a
+
+build TrajectoryPlanning/PathPlanning/libpathPlanning.a: CXX_STATIC_LIBRARY_LINKER__pathPlanning TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = TrajectoryPlanning/PathPlanning/libpathPlanning.a
+  TARGET_PDB = pathPlanning.a.dbg
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
@@ -215,25 +398,25 @@ build TrajectoryPlanning/libtrajectoryPlanning.a: CXX_STATIC_LIBRARY_LINKER__tra
 #############################################
 # Utility command for rebuild_cache
 
-build CommonFunctions/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/CommonFunctions && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+build Common/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/Common && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
 
-build CommonFunctions/rebuild_cache: phony CommonFunctions/CMakeFiles/rebuild_cache.util
+build Common/rebuild_cache: phony Common/CMakeFiles/rebuild_cache.util
 
 
 #############################################
 # Utility command for edit_cache
 
-build CommonFunctions/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/CommonFunctions && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+build Common/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/Common && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
   DESC = Running CMake cache editor...
   pool = console
   restat = 1
 
-build CommonFunctions/edit_cache: phony CommonFunctions/CMakeFiles/edit_cache.util
+build Common/edit_cache: phony Common/CMakeFiles/edit_cache.util
 
 # =============================================================================
 # Object build statements for STATIC_LIBRARY target common
@@ -242,13 +425,13 @@ build CommonFunctions/edit_cache: phony CommonFunctions/CMakeFiles/edit_cache.ut
 #############################################
 # Order-only phony target for common
 
-build cmake_object_order_depends_target_common: phony || CommonFunctions/CMakeFiles/common.dir
+build cmake_object_order_depends_target_common: phony || Common/CMakeFiles/common.dir
 
-build CommonFunctions/CMakeFiles/common.dir/common.cpp.o: CXX_COMPILER__common ../CommonFunctions/common.cpp || cmake_object_order_depends_target_common
-  DEP_FILE = CommonFunctions/CMakeFiles/common.dir/common.cpp.o.d
+build Common/CMakeFiles/common.dir/common.cpp.o: CXX_COMPILER__common ../Common/common.cpp || cmake_object_order_depends_target_common
+  DEP_FILE = Common/CMakeFiles/common.dir/common.cpp.o.d
   FLAGS = -g
-  OBJECT_DIR = CommonFunctions/CMakeFiles/common.dir
-  OBJECT_FILE_DIR = CommonFunctions/CMakeFiles/common.dir
+  OBJECT_DIR = Common/CMakeFiles/common.dir
+  OBJECT_FILE_DIR = Common/CMakeFiles/common.dir
 
 
 # =============================================================================
@@ -256,14 +439,14 @@ build CommonFunctions/CMakeFiles/common.dir/common.cpp.o: CXX_COMPILER__common .
 
 
 #############################################
-# Link the static library CommonFunctions/libcommon.a
+# Link the static library Common/libcommon.a
 
-build CommonFunctions/libcommon.a: CXX_STATIC_LIBRARY_LINKER__common CommonFunctions/CMakeFiles/common.dir/common.cpp.o
+build Common/libcommon.a: CXX_STATIC_LIBRARY_LINKER__common Common/CMakeFiles/common.dir/common.cpp.o
   LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = CommonFunctions/CMakeFiles/common.dir
+  OBJECT_DIR = Common/CMakeFiles/common.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = CommonFunctions/libcommon.a
+  TARGET_FILE = Common/libcommon.a
   TARGET_PDB = common.a.dbg
 
 # =============================================================================
@@ -319,7 +502,7 @@ build ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: CXX_COMP
 #############################################
 # Link the static library ArucoTracking/libarucoDetection.a
 
-build ArucoTracking/libarucoDetection.a: CXX_STATIC_LIBRARY_LINKER__arucoDetection ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o || CommonFunctions/libcommon.a /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0
+build ArucoTracking/libarucoDetection.a: CXX_STATIC_LIBRARY_LINKER__arucoDetection ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o || Common/libcommon.a /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = ArucoTracking/CMakeFiles/arucoDetection.dir
   POST_BUILD = :
@@ -379,7 +562,7 @@ build RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o: CXX_CO
 #############################################
 # Link the static library RobotCommands/librobotCommands.a
 
-build RobotCommands/librobotCommands.a: CXX_STATIC_LIBRARY_LINKER__robotCommands RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o || Client/libclient.a CommonFunctions/libcommon.a
+build RobotCommands/librobotCommands.a: CXX_STATIC_LIBRARY_LINKER__robotCommands RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o || Client/libclient.a Common/libcommon.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = RobotCommands/CMakeFiles/robotCommands.dir
   POST_BUILD = :
@@ -394,17 +577,29 @@ build arucoDetection: phony ArucoTracking/libarucoDetection.a
 
 build client: phony Client/libclient.a
 
-build common: phony CommonFunctions/libcommon.a
+build common: phony Common/libcommon.a
+
+build feedback: phony TrajectoryPlanning/Feedback/libfeedback.a
+
+build kinematics: phony TrajectoryPlanning/Kinematics/libkinematics.a
 
 build libarucoDetection.a: phony ArucoTracking/libarucoDetection.a
 
 build libclient.a: phony Client/libclient.a
 
-build libcommon.a: phony CommonFunctions/libcommon.a
+build libcommon.a: phony Common/libcommon.a
+
+build libfeedback.a: phony TrajectoryPlanning/Feedback/libfeedback.a
+
+build libkinematics.a: phony TrajectoryPlanning/Kinematics/libkinematics.a
+
+build libpathPlanning.a: phony TrajectoryPlanning/PathPlanning/libpathPlanning.a
 
 build librobotCommands.a: phony RobotCommands/librobotCommands.a
 
 build libtrajectoryPlanning.a: phony TrajectoryPlanning/libtrajectoryPlanning.a
+
+build pathPlanning: phony TrajectoryPlanning/PathPlanning/libpathPlanning.a
 
 build robotCommands: phony RobotCommands/librobotCommands.a
 
@@ -418,7 +613,7 @@ build trajectoryPlanning: phony TrajectoryPlanning/libtrajectoryPlanning.a
 #############################################
 # Folder: /home/eon/OpenSwarm/build
 
-build all: phony openSwarm Client/all TrajectoryPlanning/all CommonFunctions/all ArucoTracking/all RobotCommands/all
+build all: phony openSwarm Client/all TrajectoryPlanning/all Common/all ArucoTracking/all RobotCommands/all
 
 # =============================================================================
 
@@ -437,9 +632,9 @@ build Client/all: phony Client/libclient.a
 # =============================================================================
 
 #############################################
-# Folder: /home/eon/OpenSwarm/build/CommonFunctions
+# Folder: /home/eon/OpenSwarm/build/Common
 
-build CommonFunctions/all: phony CommonFunctions/libcommon.a
+build Common/all: phony Common/libcommon.a
 
 # =============================================================================
 
@@ -453,7 +648,28 @@ build RobotCommands/all: phony RobotCommands/librobotCommands.a
 #############################################
 # Folder: /home/eon/OpenSwarm/build/TrajectoryPlanning
 
-build TrajectoryPlanning/all: phony TrajectoryPlanning/libtrajectoryPlanning.a
+build TrajectoryPlanning/all: phony TrajectoryPlanning/libtrajectoryPlanning.a TrajectoryPlanning/Feedback/all TrajectoryPlanning/Kinematics/all TrajectoryPlanning/PathPlanning/all
+
+# =============================================================================
+
+#############################################
+# Folder: /home/eon/OpenSwarm/build/TrajectoryPlanning/Feedback
+
+build TrajectoryPlanning/Feedback/all: phony TrajectoryPlanning/Feedback/libfeedback.a
+
+# =============================================================================
+
+#############################################
+# Folder: /home/eon/OpenSwarm/build/TrajectoryPlanning/Kinematics
+
+build TrajectoryPlanning/Kinematics/all: phony TrajectoryPlanning/Kinematics/libkinematics.a
+
+# =============================================================================
+
+#############################################
+# Folder: /home/eon/OpenSwarm/build/TrajectoryPlanning/PathPlanning
+
+build TrajectoryPlanning/PathPlanning/all: phony TrajectoryPlanning/PathPlanning/libpathPlanning.a
 
 # =============================================================================
 # Built-in targets
@@ -467,14 +683,14 @@ default all
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../ArucoTracking/CMakeLists.txt ../CMakeLists.txt ../Client/CMakeLists.txt ../CommonFunctions/CMakeLists.txt ../RobotCommands/CMakeLists.txt ../TrajectoryPlanning/CMakeLists.txt /usr/lib/cmake/eigen3/Eigen3Config.cmake /usr/lib/cmake/eigen3/Eigen3ConfigVersion.cmake /usr/lib/cmake/eigen3/Eigen3Targets.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/FindCurses.cmake /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.16/Modules/FindPackageMessage.cmake /usr/share/cmake-3.16/Modules/FindPkgConfig.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../ArucoTracking/CMakeLists.txt ../CMakeLists.txt ../Client/CMakeLists.txt ../Common/CMakeLists.txt ../RobotCommands/CMakeLists.txt ../TrajectoryPlanning/CMakeLists.txt ../TrajectoryPlanning/Feedback/CMakeLists.txt ../TrajectoryPlanning/Kinematics/CMakeLists.txt ../TrajectoryPlanning/PathPlanning/CMakeLists.txt /usr/lib/cmake/eigen3/Eigen3Config.cmake /usr/lib/cmake/eigen3/Eigen3ConfigVersion.cmake /usr/lib/cmake/eigen3/Eigen3Targets.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/FindCurses.cmake /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.16/Modules/FindPackageMessage.cmake /usr/share/cmake-3.16/Modules/FindPkgConfig.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../ArucoTracking/CMakeLists.txt ../CMakeLists.txt ../Client/CMakeLists.txt ../CommonFunctions/CMakeLists.txt ../RobotCommands/CMakeLists.txt ../TrajectoryPlanning/CMakeLists.txt /usr/lib/cmake/eigen3/Eigen3Config.cmake /usr/lib/cmake/eigen3/Eigen3ConfigVersion.cmake /usr/lib/cmake/eigen3/Eigen3Targets.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/FindCurses.cmake /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.16/Modules/FindPackageMessage.cmake /usr/share/cmake-3.16/Modules/FindPkgConfig.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake: phony
+build ../ArucoTracking/CMakeLists.txt ../CMakeLists.txt ../Client/CMakeLists.txt ../Common/CMakeLists.txt ../RobotCommands/CMakeLists.txt ../TrajectoryPlanning/CMakeLists.txt ../TrajectoryPlanning/Feedback/CMakeLists.txt ../TrajectoryPlanning/Kinematics/CMakeLists.txt ../TrajectoryPlanning/PathPlanning/CMakeLists.txt /usr/lib/cmake/eigen3/Eigen3Config.cmake /usr/lib/cmake/eigen3/Eigen3ConfigVersion.cmake /usr/lib/cmake/eigen3/Eigen3Targets.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/FindCurses.cmake /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.16/Modules/FindPackageMessage.cmake /usr/share/cmake-3.16/Modules/FindPkgConfig.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake: phony
 
 
 #############################################

@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "RobotCommands/librobotCommands.a"
+			"path" : "TrajectoryPlanning/Kinematics/libkinematics.a"
 		}
 	],
 	"backtrace" : 1,
@@ -16,7 +16,7 @@
 		],
 		"files" : 
 		[
-			"RobotCommands/CMakeLists.txt"
+			"TrajectoryPlanning/Kinematics/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -27,12 +27,6 @@
 				"command" : 0,
 				"file" : 0,
 				"line" : 1,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 4,
 				"parent" : 0
 			},
 			{
@@ -52,6 +46,14 @@
 					"fragment" : " "
 				}
 			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/usr/include/eigen3"
+				}
+			],
 			"language" : "CXX",
 			"sourceIndexes" : 
 			[
@@ -66,17 +68,25 @@
 			"id" : "client::@39d0ae6511a0d9878f7b"
 		},
 		{
-			"backtrace" : 3,
-			"id" : "common::@e2c5d47632597851269c"
+			"backtrace" : 2,
+			"id" : "pathPlanning::@5624f28a005ba942b25a"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "common::@13b50f4fff9a3833e1fc"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "robotCommands::@469f68b773499591ac4c"
 		}
 	],
-	"id" : "robotCommands::@469f68b773499591ac4c",
-	"name" : "robotCommands",
-	"nameOnDisk" : "librobotCommands.a",
+	"id" : "kinematics::@1117abf5cd3cce857392",
+	"name" : "kinematics",
+	"nameOnDisk" : "libkinematics.a",
 	"paths" : 
 	{
-		"build" : "RobotCommands",
-		"source" : "RobotCommands"
+		"build" : "TrajectoryPlanning/Kinematics",
+		"source" : "TrajectoryPlanning/Kinematics"
 	},
 	"sourceGroups" : 
 	[
@@ -93,7 +103,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "RobotCommands/sendMotorCommands.cpp",
+			"path" : "TrajectoryPlanning/Kinematics/kinematics.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

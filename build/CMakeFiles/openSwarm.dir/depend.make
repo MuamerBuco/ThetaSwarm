@@ -3,9 +3,9 @@
 
 CMakeFiles/openSwarm.dir/main.cpp.o: ../ArucoTracking/arucoDetection.h
 CMakeFiles/openSwarm.dir/main.cpp.o: ../Client/udp_client_server.h
-CMakeFiles/openSwarm.dir/main.cpp.o: ../CommonFunctions/common.h
+CMakeFiles/openSwarm.dir/main.cpp.o: ../Common/common.h
 CMakeFiles/openSwarm.dir/main.cpp.o: ../RobotCommands/sendMotorCommands.h
-CMakeFiles/openSwarm.dir/main.cpp.o: ../TrajectoryPlanning/Kinematics/Feedback/feedback.h
+CMakeFiles/openSwarm.dir/main.cpp.o: ../TrajectoryPlanning/Feedback/feedback.h
 CMakeFiles/openSwarm.dir/main.cpp.o: ../main.cpp
 CMakeFiles/openSwarm.dir/main.cpp.o: /usr/include/eigen3/Eigen/Cholesky
 CMakeFiles/openSwarm.dir/main.cpp.o: /usr/include/eigen3/Eigen/Core

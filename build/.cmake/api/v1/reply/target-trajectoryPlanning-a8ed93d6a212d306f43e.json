@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "TrajectoryPlanning/Kinematics/libkinematics.a"
+			"path" : "TrajectoryPlanning/libtrajectoryPlanning.a"
 		}
 	],
 	"backtrace" : 1,
@@ -16,7 +16,7 @@
 		],
 		"files" : 
 		[
-			"TrajectoryPlanning/Kinematics/CMakeLists.txt"
+			"TrajectoryPlanning/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -32,7 +32,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 5,
+				"line" : 7,
 				"parent" : 0
 			}
 		]
@@ -64,16 +64,33 @@
 	"dependencies" : 
 	[
 		{
-			"id" : "feedback::@62690f5e836a7ce65d89"
+			"backtrace" : 2,
+			"id" : "client::@39d0ae6511a0d9878f7b"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "feedback::@ad543cc0650acb8ade3c"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "pathPlanning::@5624f28a005ba942b25a"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "common::@13b50f4fff9a3833e1fc"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "robotCommands::@469f68b773499591ac4c"
 		}
 	],
-	"id" : "kinematics::@1117abf5cd3cce857392",
-	"name" : "kinematics",
-	"nameOnDisk" : "libkinematics.a",
+	"id" : "trajectoryPlanning::@1825af352b3093106da0",
+	"name" : "trajectoryPlanning",
+	"nameOnDisk" : "libtrajectoryPlanning.a",
 	"paths" : 
 	{
-		"build" : "TrajectoryPlanning/Kinematics",
-		"source" : "TrajectoryPlanning/Kinematics"
+		"build" : "TrajectoryPlanning",
+		"source" : "TrajectoryPlanning"
 	},
 	"sourceGroups" : 
 	[
@@ -90,7 +107,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "TrajectoryPlanning/Kinematics/kinematics.cpp",
+			"path" : "TrajectoryPlanning/trajectoryPlanning.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

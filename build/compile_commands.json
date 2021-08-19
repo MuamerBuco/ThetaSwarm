@@ -13,14 +13,32 @@
 
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++    -g   -o TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o -c /home/eon/OpenSwarm/TrajectoryPlanning/trajectoryPlanning.cpp",
+  "command": "/usr/bin/c++   -isystem /usr/include/eigen3  -g   -o TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o -c /home/eon/OpenSwarm/TrajectoryPlanning/trajectoryPlanning.cpp",
   "file": "/home/eon/OpenSwarm/TrajectoryPlanning/trajectoryPlanning.cpp"
 },
 
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++    -g   -o CommonFunctions/CMakeFiles/common.dir/common.cpp.o -c /home/eon/OpenSwarm/CommonFunctions/common.cpp",
-  "file": "/home/eon/OpenSwarm/CommonFunctions/common.cpp"
+  "command": "/usr/bin/c++   -isystem /usr/include/eigen3  -g   -o TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/feedback.cpp.o -c /home/eon/OpenSwarm/TrajectoryPlanning/Feedback/feedback.cpp",
+  "file": "/home/eon/OpenSwarm/TrajectoryPlanning/Feedback/feedback.cpp"
+},
+
+{
+  "directory": "/home/eon/OpenSwarm/build",
+  "command": "/usr/bin/c++   -isystem /usr/include/eigen3  -g   -o TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o -c /home/eon/OpenSwarm/TrajectoryPlanning/Kinematics/kinematics.cpp",
+  "file": "/home/eon/OpenSwarm/TrajectoryPlanning/Kinematics/kinematics.cpp"
+},
+
+{
+  "directory": "/home/eon/OpenSwarm/build",
+  "command": "/usr/bin/c++    -g   -o TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o -c /home/eon/OpenSwarm/TrajectoryPlanning/PathPlanning/navigation.cpp",
+  "file": "/home/eon/OpenSwarm/TrajectoryPlanning/PathPlanning/navigation.cpp"
+},
+
+{
+  "directory": "/home/eon/OpenSwarm/build",
+  "command": "/usr/bin/c++    -g   -o Common/CMakeFiles/common.dir/common.cpp.o -c /home/eon/OpenSwarm/Common/common.cpp",
+  "file": "/home/eon/OpenSwarm/Common/common.cpp"
 },
 
 {

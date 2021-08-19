@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "TrajectoryPlanning/Kinematics/Feedback/libfeedback.a"
+			"path" : "TrajectoryPlanning/Feedback/libfeedback.a"
 		}
 	],
 	"backtrace" : 1,
@@ -16,7 +16,7 @@
 		],
 		"files" : 
 		[
-			"TrajectoryPlanning/Kinematics/Feedback/CMakeLists.txt"
+			"TrajectoryPlanning/Feedback/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -27,18 +27,6 @@
 				"command" : 0,
 				"file" : 0,
 				"line" : 1,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 6,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 8,
 				"parent" : 0
 			},
 			{
@@ -61,7 +49,7 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 4,
+					"backtrace" : 2,
 					"isSystem" : true,
 					"path" : "/usr/include/eigen3"
 				}
@@ -76,29 +64,16 @@
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 2,
-			"id" : "client::@39d0ae6511a0d9878f7b"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "pathPlanning::@5624f28a005ba942b25a"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "common::@e2c5d47632597851269c"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "robotCommands::@469f68b773499591ac4c"
+			"id" : "kinematics::@1117abf5cd3cce857392"
 		}
 	],
-	"id" : "feedback::@62690f5e836a7ce65d89",
+	"id" : "feedback::@ad543cc0650acb8ade3c",
 	"name" : "feedback",
 	"nameOnDisk" : "libfeedback.a",
 	"paths" : 
 	{
-		"build" : "TrajectoryPlanning/Kinematics/Feedback",
-		"source" : "TrajectoryPlanning/Kinematics/Feedback"
+		"build" : "TrajectoryPlanning/Feedback",
+		"source" : "TrajectoryPlanning/Feedback"
 	},
 	"sourceGroups" : 
 	[
@@ -115,7 +90,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "TrajectoryPlanning/Kinematics/Feedback/feedback.cpp",
+			"path" : "TrajectoryPlanning/Feedback/feedback.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

@@ -6,3 +6,29 @@
 
 #IncludeRegexTransform: 
 
+/home/eon/OpenSwarm/Common/common.h
+iostream
+-
+tuple
+-
+eigen-3.3.9/Eigen/Dense
+-
+
+/home/eon/OpenSwarm/TrajectoryPlanning/Kinematics/kinematics.cpp
+kinematics.h
+/home/eon/OpenSwarm/TrajectoryPlanning/Kinematics/kinematics.h
+../../Common/common.h
+/home/eon/OpenSwarm/Common/common.h
+eigen-3.3.9/Eigen/Dense
+-
+stdio.h
+-
+iostream
+-
+tuple
+-
+
+/home/eon/OpenSwarm/TrajectoryPlanning/Kinematics/kinematics.h
+eigen-3.3.9/Eigen/Dense
+-
+

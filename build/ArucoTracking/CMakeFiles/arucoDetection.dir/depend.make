@@ -4,7 +4,7 @@
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: ../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: ../ArucoTracking/arucoDetection.cpp
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: ../ArucoTracking/arucoDetection.h
-ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: ../CommonFunctions/common.h
+ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: ../Common/common.h
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: /usr/include/eigen3/Eigen/Cholesky
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: /usr/include/eigen3/Eigen/Core
 ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: /usr/include/eigen3/Eigen/Geometry

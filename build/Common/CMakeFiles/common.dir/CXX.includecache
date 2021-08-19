@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eon/OpenSwarm/Common/common.cpp
+common.h
+/home/eon/OpenSwarm/Common/common.h
+unistd.h
+-
+
+/home/eon/OpenSwarm/Common/common.h
+iostream
+-
+tuple
+-
+eigen-3.3.9/Eigen/Dense
+-
+
