@@ -1,0 +1,2 @@
+/usr/bin/ar qc librobotControl.a  CMakeFiles/robotControl.dir/autoMR.cpp.o
+/usr/bin/ranlib librobotControl.a

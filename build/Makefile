@@ -124,71 +124,6 @@ openSwarm/fast:
 .PHONY : openSwarm/fast
 
 #=============================================================================
-# Target rules for targets named client
-
-# Build rule for target.
-client: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 client
-.PHONY : client
-
-# fast build rule for target.
-client/fast:
-	$(MAKE) -f Client/CMakeFiles/client.dir/build.make Client/CMakeFiles/client.dir/build
-.PHONY : client/fast
-
-#=============================================================================
-# Target rules for targets named trajectoryPlanning
-
-# Build rule for target.
-trajectoryPlanning: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 trajectoryPlanning
-.PHONY : trajectoryPlanning
-
-# fast build rule for target.
-trajectoryPlanning/fast:
-	$(MAKE) -f TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build.make TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build
-.PHONY : trajectoryPlanning/fast
-
-#=============================================================================
-# Target rules for targets named feedback
-
-# Build rule for target.
-feedback: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 feedback
-.PHONY : feedback
-
-# fast build rule for target.
-feedback/fast:
-	$(MAKE) -f TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/build.make TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/build
-.PHONY : feedback/fast
-
-#=============================================================================
-# Target rules for targets named kinematics
-
-# Build rule for target.
-kinematics: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 kinematics
-.PHONY : kinematics
-
-# fast build rule for target.
-kinematics/fast:
-	$(MAKE) -f TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build.make TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build
-.PHONY : kinematics/fast
-
-#=============================================================================
-# Target rules for targets named pathPlanning
-
-# Build rule for target.
-pathPlanning: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 pathPlanning
-.PHONY : pathPlanning
-
-# fast build rule for target.
-pathPlanning/fast:
-	$(MAKE) -f TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build
-.PHONY : pathPlanning/fast
-
-#=============================================================================
 # Target rules for targets named common
 
 # Build rule for target.
@@ -215,6 +150,32 @@ arucoDetection/fast:
 .PHONY : arucoDetection/fast
 
 #=============================================================================
+# Target rules for targets named swarmControl
+
+# Build rule for target.
+swarmControl: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 swarmControl
+.PHONY : swarmControl
+
+# fast build rule for target.
+swarmControl/fast:
+	$(MAKE) -f SwarmControl/CMakeFiles/swarmControl.dir/build.make SwarmControl/CMakeFiles/swarmControl.dir/build
+.PHONY : swarmControl/fast
+
+#=============================================================================
+# Target rules for targets named robotControl
+
+# Build rule for target.
+robotControl: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 robotControl
+.PHONY : robotControl
+
+# fast build rule for target.
+robotControl/fast:
+	$(MAKE) -f SwarmControl/RobotObject/CMakeFiles/robotControl.dir/build.make SwarmControl/RobotObject/CMakeFiles/robotControl.dir/build
+.PHONY : robotControl/fast
+
+#=============================================================================
 # Target rules for targets named robotCommands
 
 # Build rule for target.
@@ -224,8 +185,60 @@ robotCommands: cmake_check_build_system
 
 # fast build rule for target.
 robotCommands/fast:
-	$(MAKE) -f RobotCommands/CMakeFiles/robotCommands.dir/build.make RobotCommands/CMakeFiles/robotCommands.dir/build
+	$(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build
 .PHONY : robotCommands/fast
+
+#=============================================================================
+# Target rules for targets named client
+
+# Build rule for target.
+client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 client
+.PHONY : client
+
+# fast build rule for target.
+client/fast:
+	$(MAKE) -f SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/build.make SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/build
+.PHONY : client/fast
+
+#=============================================================================
+# Target rules for targets named trajectoryPlanning
+
+# Build rule for target.
+trajectoryPlanning: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 trajectoryPlanning
+.PHONY : trajectoryPlanning
+
+# fast build rule for target.
+trajectoryPlanning/fast:
+	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build
+.PHONY : trajectoryPlanning/fast
+
+#=============================================================================
+# Target rules for targets named kinematics
+
+# Build rule for target.
+kinematics: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 kinematics
+.PHONY : kinematics
+
+# fast build rule for target.
+kinematics/fast:
+	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build
+.PHONY : kinematics/fast
+
+#=============================================================================
+# Target rules for targets named pathPlanning
+
+# Build rule for target.
+pathPlanning: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pathPlanning
+.PHONY : pathPlanning
+
+# fast build rule for target.
+pathPlanning/fast:
+	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build
+.PHONY : pathPlanning/fast
 
 main.o: main.cpp.o
 
@@ -263,14 +276,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... openSwarm"
-	@echo "... client"
-	@echo "... trajectoryPlanning"
-	@echo "... feedback"
-	@echo "... kinematics"
-	@echo "... pathPlanning"
 	@echo "... common"
 	@echo "... arucoDetection"
+	@echo "... swarmControl"
+	@echo "... robotControl"
 	@echo "... robotCommands"
+	@echo "... client"
+	@echo "... trajectoryPlanning"
+	@echo "... kinematics"
+	@echo "... pathPlanning"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

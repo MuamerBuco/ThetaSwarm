@@ -39,16 +39,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/eon/OpenSwarm/build/Client/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/eon/OpenSwarm/build/TrajectoryPlanning/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
   include("/home/eon/OpenSwarm/build/Common/cmake_install.cmake")
 endif()
 
@@ -59,7 +49,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/eon/OpenSwarm/build/RobotCommands/cmake_install.cmake")
+  include("/home/eon/OpenSwarm/build/SwarmControl/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

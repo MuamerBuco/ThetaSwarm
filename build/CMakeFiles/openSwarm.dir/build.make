@@ -79,21 +79,11 @@ openSwarm_EXTERNAL_OBJECTS =
 
 openSwarm: CMakeFiles/openSwarm.dir/main.cpp.o
 openSwarm: CMakeFiles/openSwarm.dir/build.make
-openSwarm: Client/libclient.a
-openSwarm: TrajectoryPlanning/libtrajectoryPlanning.a
 openSwarm: Common/libcommon.a
 openSwarm: ArucoTracking/libarucoDetection.a
-openSwarm: RobotCommands/librobotCommands.a
+openSwarm: SwarmControl/libswarmControl.a
 openSwarm: /usr/lib/x86_64-linux-gnu/libcurses.so
 openSwarm: /usr/lib/x86_64-linux-gnu/libform.so
-openSwarm: TrajectoryPlanning/Kinematics/libkinematics.a
-openSwarm: TrajectoryPlanning/Feedback/libfeedback.a
-openSwarm: TrajectoryPlanning/Kinematics/libkinematics.a
-openSwarm: TrajectoryPlanning/Feedback/libfeedback.a
-openSwarm: RobotCommands/librobotCommands.a
-openSwarm: Client/libclient.a
-openSwarm: TrajectoryPlanning/PathPlanning/libpathPlanning.a
-openSwarm: Common/libcommon.a
 openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0
 openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0
 openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0
@@ -142,6 +132,13 @@ openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0
 openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0
 openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0
 openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0
+openSwarm: SwarmControl/RobotObject/librobotControl.a
+openSwarm: SwarmControl/RobotObject/RobotCommands/librobotCommands.a
+openSwarm: SwarmControl/RobotObject/RobotCommands/Client/libclient.a
+openSwarm: SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a
+openSwarm: SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a
+openSwarm: Common/libcommon.a
+openSwarm: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a
 openSwarm: CMakeFiles/openSwarm.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable openSwarm"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/openSwarm.dir/link.txt --verbose=$(VERBOSE)

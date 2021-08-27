@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/kinematics.h
+eigen-3.3.9/Eigen/Dense
+-
+
+/home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/navigation.h
+eigen-3.3.9/Eigen/Dense
+-
+vector
+-
+
+/home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/trajectoryPlanning.cpp
+Kinematics/kinematics.h
+/home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/kinematics.h
+PathPlanning/navigation.h
+/home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/navigation.h
+

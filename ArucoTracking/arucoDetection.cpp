@@ -7,7 +7,6 @@
 
 #include "arucoDetection.h"
 #include "../Common/common.h"
-#include "../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
 
 #include <iostream>
 #include <thread>
@@ -22,10 +21,9 @@ using namespace rigtorp;
 
 #define MAX_NUMBER_OF_ACTIVE_UNITS 6
 
+SPSCQueue<AllPosesInPass> posesSPSCQueue(2);
 SPSCQueue<cv::Mat> imageSPSCQueue(2);
 SPSCQueue<cv::Mat> visualizationSPSCQueue(2);
-
-SPSCQueue<AllPosesInPass> posesSPSCQueue(2);
 
 // const std::string videoIP = "rtsp://192.168.1.79:4847/h264_ulaw.sdp";
 //const std::string videoPath = "rtsp://192.168.1.97:4847/h264_ulaw.sdp";
@@ -53,6 +51,32 @@ int addOffset( int value, int offset)
     value = abs(value) - offset;
 
     return value;
+}
+
+// TODO: solve the pose grabbing by different modules
+// returns a struct holding all pose/id structs per robot, blocking function
+AllPosesInPass getAllPosesAndIDs()
+{
+    while(!posesSPSCQueue.front());
+    AllPosesInPass pose_holder = *posesSPSCQueue.front();
+
+    posesSPSCQueue.pop();
+
+    return pose_holder;
+}
+
+// get the current pose of the 0th robot
+Vector3f GetCurrentPose()
+{
+    AllPosesInPass pose_holder = getAllPosesAndIDs();
+
+    Vector3f current_pose(3,1);
+
+    current_pose(0,0) = pose_holder.poses[0].yaw;
+    current_pose(1,0) = pose_holder.poses[0].x;
+    current_pose(2,0) = pose_holder.poses[0].y;
+
+    return current_pose;
 }
 
 // open video source and start pushing frames to image SPSC queue 
@@ -127,8 +151,8 @@ void start_pose_estimation(const std::string calibrationPath)
     int my_yaw;
 
     while(1) {
-        for(int test1 = 0; test1 < 200; test1++){
-        auto start1 = std::chrono::system_clock::now();
+        for(int test1 = 0; test1 < 200; test1++){ //#metrics
+        auto start1 = std::chrono::system_clock::now(); //#metrics
 
         while (!imageSPSCQueue.front());
         // #testing
@@ -162,6 +186,8 @@ void start_pose_estimation(const std::string calibrationPath)
                     }
                 }
 
+                // TODO clean up this shit
+
                 // transform rotation matrix to yaw, pitch. roll (in that order)
                 Vector3f YRP_vector = new_rotations.eulerAngles(2, 2, 2);
                 //std::cout << "The yaw before mapping: " << YRP_vector(0,0) << std::endl;
@@ -171,6 +197,7 @@ void start_pose_estimation(const std::string calibrationPath)
                 //my_yaw = addOffset(my_yaw, 0);
                 //std::cout << "The yaw after mapping: " << my_yaw << std::endl;
 
+                // TODO remove the *100 ?
                 my_yaw = YRP_vector(2,0) * 100;
                 //std::cout << "The yaw saved value: " << my_yaw << std::endl;
                 
@@ -211,16 +238,16 @@ void start_pose_estimation(const std::string calibrationPath)
         // pop frame used for pose estimation
         imageSPSCQueue.pop();
 
-        auto end1 = std::chrono::system_clock::now();
-        auto elapsed1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count();
-        std::cout << "The first part took: " << elapsed1  << std::endl;
+        auto end1 = std::chrono::system_clock::now(); //#metrics
+        auto elapsed1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count(); //#metrics
+        std::cout << "The first part took: " << elapsed1  << std::endl; //#metrics
 
         }
     }
     capture_thread.join();
 }
 
-// run visualization on thread  
+// run visualization  
 void start_visualization()
 {
     while(1) {
@@ -245,17 +272,6 @@ void start_aruco_detection()
 
     estimation_thread.join();
     visualization_thread.join();
-}
-
-// returns a struct holding all pose/id structs per robot, blocking function
-AllPosesInPass getAllPosesAndIDs()
-{
-    while(!posesSPSCQueue.front());
-    AllPosesInPass pose_holder = *posesSPSCQueue.front();
-
-    posesSPSCQueue.pop();
-
-    return pose_holder;
 }
 
 void whatever1()

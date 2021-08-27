@@ -1,0 +1,115 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "SwarmControl/libswarmControl.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries"
+		],
+		"files" : 
+		[
+			"SwarmControl/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 5,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " "
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "common::@13b50f4fff9a3833e1fc"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "robotControl::@036c3a33cff91daa0275"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "robotCommands::@092f264e894f1f58cf32"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "client::@12741848976181a089d9"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "trajectoryPlanning::@d17c4c452a380da27c19"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kinematics::@6f9f1b427e11af2f5f49"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "pathPlanning::@22d1e0776d4e541c6141"
+		}
+	],
+	"id" : "swarmControl::@4f4845002d93db8ba287",
+	"name" : "swarmControl",
+	"nameOnDisk" : "libswarmControl.a",
+	"paths" : 
+	{
+		"build" : "SwarmControl",
+		"source" : "SwarmControl"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "SwarmControl/swarm.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

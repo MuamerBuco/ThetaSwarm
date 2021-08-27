@@ -3,8 +3,10 @@
 // #include <string>
 // #endif
 
+#include "../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
+
 #include <eigen-3.3.9/Eigen/Dense>
-#include <Eigen/Geometry>
+#include <eigen-3.3.9/Eigen/Geometry>
 #include <vector>
 
 #define MAX_NUMBER_OF_ACTIVE_UNITS 6
@@ -38,5 +40,7 @@ struct AllPosesInPass
 };
 
 AllPosesInPass getAllPosesAndIDs();
+
+Eigen::Vector3f GetCurrentPose();
 
 void start_aruco_detection();
