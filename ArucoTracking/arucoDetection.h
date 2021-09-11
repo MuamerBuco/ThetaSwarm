@@ -1,45 +1,42 @@
-// #ifndef STRING
-// #define STRING
-// #include <string>
-// #endif
-
+// include 3rd party libs
 #include "../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
+#include "../3rdParty/rapidjson/filereadstream.h"
+#include "../3rdParty/rapidjson/rapidjson.h"
+#include "../3rdParty/rapidjson/document.h"
+#include "../3rdParty/rapidjson/istreamwrapper.h"
 
 #include <eigen-3.3.9/Eigen/Dense>
-#include <eigen-3.3.9/Eigen/Geometry>
+//#include <eigen-3.3.9/Eigen/Geometry>
+// TODO add precompiled headers in the cmake build
 #include <vector>
+#include <fstream>
 
-#define MAX_NUMBER_OF_ACTIVE_UNITS 6
-
-#define MAX_INPUT_VALUE_P 11
-#define MIN_INPUT_VALUE_P 18
-#define MAX_OUPUT_VALUE_P 10
-#define MIN_OUPUT_VALUE_P 15
-
-#define MIN_INPUT_VALUE_X -1.235
-#define MAX_INPUT_VALUE_X 1.345
-#define MAX_OUPUT_VALUE_X 190
-#define MIN_OUPUT_VALUE_X 0
-
-#define MIN_INPUT_VALUE_Y 0.80
-#define MAX_INPUT_VALUE_Y -0.81
-#define MAX_OUPUT_VALUE_Y 120
-#define MIN_OUPUT_VALUE_Y 0
-
-struct ChassisPoseAndID
+struct SinglePoseVector
 {
-    int yaw;
-    int x;
-    int y;
+    float yaw = 0;
+    float x = 0;
+    float y = 0;
+};
+
+struct FullPoseState
+{
+    SinglePoseVector q;
+    SinglePoseVector q_dot;
+    SinglePoseVector q_dot_dot;
+};
+
+struct ChassisFullState
+{
     int id;
+    FullPoseState pose_state;
 };
 
-struct AllPosesInPass
+struct AllPoseStates
 {
-    std::vector<ChassisPoseAndID> poses;
+    std::vector<ChassisFullState> poses;
 };
 
-AllPosesInPass getAllPosesAndIDs();
+AllPoseStates getAllPoseStates();
 
 Eigen::Vector3f GetCurrentPose();
 

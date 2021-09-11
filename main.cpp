@@ -6,18 +6,13 @@
 
 int main()
 {
-    // std::thread aruco_thread(start_aruco_detection);
-    // msDelay(1000);
-    // std::thread control_thread(run_feedback_control);
-
-    // //std::cout << "we got to the next part" << std::endl;
-
-    // while(1){
-    //     //runManualControl();
-    // }
+    std::thread aruco_thread(start_aruco_detection);
     
-    // aruco_thread.join();
-    // control_thread.join();
+    //std::cout << "we got to the next part" << std::endl;
 
-    //msDelay(5000);
+    while(1){
+        //runManualControl();
+    }
+    
+    aruco_thread.join();
 }

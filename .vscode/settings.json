@@ -81,7 +81,14 @@
         "specialfunctions": "cpp",
         "splines": "cpp",
         "*.evaluator": "cpp",
-        "*.traits": "cpp"
+        "*.traits": "cpp",
+        "csignal": "cpp",
+        "codecvt": "cpp",
+        "forward_list": "cpp",
+        "unordered_set": "cpp",
+        "regex": "cpp",
+        "shared_mutex": "cpp",
+        "valarray": "cpp"
     },
     "git.ignoreLimitWarning": true
 }

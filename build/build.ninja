@@ -60,12 +60,12 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 #############################################
 # Order-only phony target for openSwarm
 
-build cmake_object_order_depends_target_openSwarm: phony || cmake_object_order_depends_target_arucoDetection cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_feedback cmake_object_order_depends_target_pathPlanning cmake_object_order_depends_target_robotCommands cmake_object_order_depends_target_trajectoryPlanning
+build cmake_object_order_depends_target_openSwarm: phony || cmake_object_order_depends_target_arucoDetection cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_kinematics cmake_object_order_depends_target_pathPlanning cmake_object_order_depends_target_robotCommands cmake_object_order_depends_target_robotControl cmake_object_order_depends_target_swarmControl cmake_object_order_depends_target_trajectoryPlanning
 
 build CMakeFiles/openSwarm.dir/main.cpp.o: CXX_COMPILER__openSwarm ../main.cpp || cmake_object_order_depends_target_openSwarm
   DEP_FILE = CMakeFiles/openSwarm.dir/main.cpp.o.d
-  FLAGS = -std=c++11 -pthread -g
-  INCLUDES = -isystem /usr/include/eigen3 -isystem /usr/include/opencv4
+  FLAGS = -g   -std=gnu++17
+  INCLUDES = -isystem /usr/include/opencv4
   OBJECT_DIR = CMakeFiles/openSwarm.dir
   OBJECT_FILE_DIR = CMakeFiles/openSwarm.dir
 
@@ -77,317 +77,14 @@ build CMakeFiles/openSwarm.dir/main.cpp.o: CXX_COMPILER__openSwarm ../main.cpp |
 #############################################
 # Link the executable openSwarm
 
-build openSwarm: CXX_EXECUTABLE_LINKER__openSwarm CMakeFiles/openSwarm.dir/main.cpp.o | Client/libclient.a TrajectoryPlanning/libtrajectoryPlanning.a Common/libcommon.a ArucoTracking/libarucoDetection.a RobotCommands/librobotCommands.a /usr/lib/x86_64-linux-gnu/libcurses.so /usr/lib/x86_64-linux-gnu/libform.so TrajectoryPlanning/Kinematics/libkinematics.a TrajectoryPlanning/Feedback/libfeedback.a TrajectoryPlanning/Kinematics/libkinematics.a TrajectoryPlanning/Feedback/libfeedback.a RobotCommands/librobotCommands.a Client/libclient.a TrajectoryPlanning/PathPlanning/libpathPlanning.a Common/libcommon.a /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0 || ArucoTracking/libarucoDetection.a Client/libclient.a Common/libcommon.a RobotCommands/librobotCommands.a TrajectoryPlanning/Feedback/libfeedback.a TrajectoryPlanning/PathPlanning/libpathPlanning.a TrajectoryPlanning/libtrajectoryPlanning.a
-  FLAGS = -std=c++11 -pthread -g
-  LINK_LIBRARIES = Client/libclient.a  TrajectoryPlanning/libtrajectoryPlanning.a  Common/libcommon.a  ArucoTracking/libarucoDetection.a  RobotCommands/librobotCommands.a  -lcurses  /usr/lib/x86_64-linux-gnu/libform.so  TrajectoryPlanning/Kinematics/libkinematics.a  TrajectoryPlanning/Feedback/libfeedback.a  TrajectoryPlanning/Kinematics/libkinematics.a  TrajectoryPlanning/Feedback/libfeedback.a  RobotCommands/librobotCommands.a  Client/libclient.a  TrajectoryPlanning/PathPlanning/libpathPlanning.a  Common/libcommon.a  /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0
+build openSwarm: CXX_EXECUTABLE_LINKER__openSwarm CMakeFiles/openSwarm.dir/main.cpp.o | Common/libcommon.a ArucoTracking/libarucoDetection.a SwarmControl/libswarmControl.a /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0 /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0 SwarmControl/RobotObject/librobotControl.a /usr/local/lib/libompl.so /usr/lib/x86_64-linux-gnu/libboost_serialization.so /usr/lib/x86_64-linux-gnu/libboost_filesystem.so /usr/lib/x86_64-linux-gnu/libboost_system.so SwarmControl/RobotObject/RobotCommands/librobotCommands.a SwarmControl/RobotObject/RobotCommands/Client/libclient.a SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a Common/libcommon.a SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a || ArucoTracking/libarucoDetection.a Common/libcommon.a SwarmControl/RobotObject/RobotCommands/Client/libclient.a SwarmControl/RobotObject/RobotCommands/librobotCommands.a SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a SwarmControl/RobotObject/librobotControl.a SwarmControl/libswarmControl.a
+  FLAGS = -g
+  LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib  Common/libcommon.a  ArucoTracking/libarucoDetection.a  SwarmControl/libswarmControl.a  /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.2.0  /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.2.0  SwarmControl/RobotObject/librobotControl.a  /usr/local/lib/libompl.so  /usr/lib/x86_64-linux-gnu/libboost_serialization.so  /usr/lib/x86_64-linux-gnu/libboost_filesystem.so  /usr/lib/x86_64-linux-gnu/libboost_system.so  -lode  SwarmControl/RobotObject/RobotCommands/librobotCommands.a  SwarmControl/RobotObject/RobotCommands/Client/libclient.a  SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a  SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a  Common/libcommon.a  SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a
   OBJECT_DIR = CMakeFiles/openSwarm.dir
   POST_BUILD = :
   PRE_LINK = :
   TARGET_FILE = openSwarm
   TARGET_PDB = openSwarm.dbg
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/eon/OpenSwarm/CMakeLists.txt
-# =============================================================================
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build Client/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/Client && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build Client/rebuild_cache: phony Client/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for edit_cache
-
-build Client/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/Client && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake cache editor...
-  pool = console
-  restat = 1
-
-build Client/edit_cache: phony Client/CMakeFiles/edit_cache.util
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target client
-
-
-#############################################
-# Order-only phony target for client
-
-build cmake_object_order_depends_target_client: phony || Client/CMakeFiles/client.dir
-
-build Client/CMakeFiles/client.dir/udpClient.cpp.o: CXX_COMPILER__client ../Client/udpClient.cpp || cmake_object_order_depends_target_client
-  DEP_FILE = Client/CMakeFiles/client.dir/udpClient.cpp.o.d
-  FLAGS = -g
-  OBJECT_DIR = Client/CMakeFiles/client.dir
-  OBJECT_FILE_DIR = Client/CMakeFiles/client.dir
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target client
-
-
-#############################################
-# Link the static library Client/libclient.a
-
-build Client/libclient.a: CXX_STATIC_LIBRARY_LINKER__client Client/CMakeFiles/client.dir/udpClient.cpp.o
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = Client/CMakeFiles/client.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = Client/libclient.a
-  TARGET_PDB = client.a.dbg
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/eon/OpenSwarm/CMakeLists.txt
-# =============================================================================
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build TrajectoryPlanning/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build TrajectoryPlanning/rebuild_cache: phony TrajectoryPlanning/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for edit_cache
-
-build TrajectoryPlanning/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake cache editor...
-  pool = console
-  restat = 1
-
-build TrajectoryPlanning/edit_cache: phony TrajectoryPlanning/CMakeFiles/edit_cache.util
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target trajectoryPlanning
-
-
-#############################################
-# Order-only phony target for trajectoryPlanning
-
-build cmake_object_order_depends_target_trajectoryPlanning: phony || cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_feedback cmake_object_order_depends_target_pathPlanning cmake_object_order_depends_target_robotCommands
-
-build TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o: CXX_COMPILER__trajectoryPlanning ../TrajectoryPlanning/trajectoryPlanning.cpp || cmake_object_order_depends_target_trajectoryPlanning
-  DEP_FILE = TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o.d
-  FLAGS = -g
-  INCLUDES = -isystem /usr/include/eigen3
-  OBJECT_DIR = TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
-  OBJECT_FILE_DIR = TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target trajectoryPlanning
-
-
-#############################################
-# Link the static library TrajectoryPlanning/libtrajectoryPlanning.a
-
-build TrajectoryPlanning/libtrajectoryPlanning.a: CXX_STATIC_LIBRARY_LINKER__trajectoryPlanning TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o || Client/libclient.a Common/libcommon.a RobotCommands/librobotCommands.a TrajectoryPlanning/Feedback/libfeedback.a TrajectoryPlanning/PathPlanning/libpathPlanning.a
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = TrajectoryPlanning/libtrajectoryPlanning.a
-  TARGET_PDB = trajectoryPlanning.a.dbg
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/eon/OpenSwarm/TrajectoryPlanning/CMakeLists.txt
-# =============================================================================
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build TrajectoryPlanning/Feedback/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/Feedback && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build TrajectoryPlanning/Feedback/rebuild_cache: phony TrajectoryPlanning/Feedback/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for edit_cache
-
-build TrajectoryPlanning/Feedback/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/Feedback && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake cache editor...
-  pool = console
-  restat = 1
-
-build TrajectoryPlanning/Feedback/edit_cache: phony TrajectoryPlanning/Feedback/CMakeFiles/edit_cache.util
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target feedback
-
-
-#############################################
-# Order-only phony target for feedback
-
-build cmake_object_order_depends_target_feedback: phony || cmake_object_order_depends_target_kinematics
-
-build TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/feedback.cpp.o: CXX_COMPILER__feedback ../TrajectoryPlanning/Feedback/feedback.cpp || cmake_object_order_depends_target_feedback
-  DEP_FILE = TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/feedback.cpp.o.d
-  FLAGS = -g
-  INCLUDES = -isystem /usr/include/eigen3
-  OBJECT_DIR = TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir
-  OBJECT_FILE_DIR = TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target feedback
-
-
-#############################################
-# Link the static library TrajectoryPlanning/Feedback/libfeedback.a
-
-build TrajectoryPlanning/Feedback/libfeedback.a: CXX_STATIC_LIBRARY_LINKER__feedback TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/feedback.cpp.o || TrajectoryPlanning/Kinematics/libkinematics.a
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = TrajectoryPlanning/Feedback/libfeedback.a
-  TARGET_PDB = feedback.a.dbg
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/eon/OpenSwarm/TrajectoryPlanning/CMakeLists.txt
-# =============================================================================
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build TrajectoryPlanning/Kinematics/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/Kinematics && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build TrajectoryPlanning/Kinematics/rebuild_cache: phony TrajectoryPlanning/Kinematics/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for edit_cache
-
-build TrajectoryPlanning/Kinematics/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/Kinematics && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake cache editor...
-  pool = console
-  restat = 1
-
-build TrajectoryPlanning/Kinematics/edit_cache: phony TrajectoryPlanning/Kinematics/CMakeFiles/edit_cache.util
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target kinematics
-
-
-#############################################
-# Order-only phony target for kinematics
-
-build cmake_object_order_depends_target_kinematics: phony || cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_pathPlanning cmake_object_order_depends_target_robotCommands
-
-build TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o: CXX_COMPILER__kinematics ../TrajectoryPlanning/Kinematics/kinematics.cpp || cmake_object_order_depends_target_kinematics
-  DEP_FILE = TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o.d
-  FLAGS = -g
-  INCLUDES = -isystem /usr/include/eigen3
-  OBJECT_DIR = TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
-  OBJECT_FILE_DIR = TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target kinematics
-
-
-#############################################
-# Link the static library TrajectoryPlanning/Kinematics/libkinematics.a
-
-build TrajectoryPlanning/Kinematics/libkinematics.a: CXX_STATIC_LIBRARY_LINKER__kinematics TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o || Client/libclient.a Common/libcommon.a RobotCommands/librobotCommands.a TrajectoryPlanning/PathPlanning/libpathPlanning.a
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = TrajectoryPlanning/Kinematics/libkinematics.a
-  TARGET_PDB = kinematics.a.dbg
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/eon/OpenSwarm/TrajectoryPlanning/CMakeLists.txt
-# =============================================================================
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build TrajectoryPlanning/PathPlanning/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/PathPlanning && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build TrajectoryPlanning/PathPlanning/rebuild_cache: phony TrajectoryPlanning/PathPlanning/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for edit_cache
-
-build TrajectoryPlanning/PathPlanning/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/TrajectoryPlanning/PathPlanning && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
-  DESC = Running CMake cache editor...
-  pool = console
-  restat = 1
-
-build TrajectoryPlanning/PathPlanning/edit_cache: phony TrajectoryPlanning/PathPlanning/CMakeFiles/edit_cache.util
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target pathPlanning
-
-
-#############################################
-# Order-only phony target for pathPlanning
-
-build cmake_object_order_depends_target_pathPlanning: phony || TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
-
-build TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o: CXX_COMPILER__pathPlanning ../TrajectoryPlanning/PathPlanning/navigation.cpp || cmake_object_order_depends_target_pathPlanning
-  DEP_FILE = TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o.d
-  FLAGS = -g
-  OBJECT_DIR = TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
-  OBJECT_FILE_DIR = TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target pathPlanning
-
-
-#############################################
-# Link the static library TrajectoryPlanning/PathPlanning/libpathPlanning.a
-
-build TrajectoryPlanning/PathPlanning/libpathPlanning.a: CXX_STATIC_LIBRARY_LINKER__pathPlanning TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = TrajectoryPlanning/PathPlanning/libpathPlanning.a
-  TARGET_PDB = pathPlanning.a.dbg
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
@@ -429,7 +126,7 @@ build cmake_object_order_depends_target_common: phony || Common/CMakeFiles/commo
 
 build Common/CMakeFiles/common.dir/common.cpp.o: CXX_COMPILER__common ../Common/common.cpp || cmake_object_order_depends_target_common
   DEP_FILE = Common/CMakeFiles/common.dir/common.cpp.o.d
-  FLAGS = -g
+  FLAGS = -g   -std=gnu++17
   OBJECT_DIR = Common/CMakeFiles/common.dir
   OBJECT_FILE_DIR = Common/CMakeFiles/common.dir
 
@@ -489,8 +186,8 @@ build cmake_object_order_depends_target_arucoDetection: phony || cmake_object_or
 
 build ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o: CXX_COMPILER__arucoDetection ../ArucoTracking/arucoDetection.cpp || cmake_object_order_depends_target_arucoDetection
   DEP_FILE = ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o.d
-  FLAGS = -g
-  INCLUDES = -isystem /usr/include/eigen3 -isystem /usr/include/opencv4
+  FLAGS = -g   -std=gnu++17
+  INCLUDES = -isystem /usr/include/opencv4
   OBJECT_DIR = ArucoTracking/CMakeFiles/arucoDetection.dir
   OBJECT_FILE_DIR = ArucoTracking/CMakeFiles/arucoDetection.dir
 
@@ -519,25 +216,146 @@ build ArucoTracking/libarucoDetection.a: CXX_STATIC_LIBRARY_LINKER__arucoDetecti
 #############################################
 # Utility command for rebuild_cache
 
-build RobotCommands/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/RobotCommands && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+build SwarmControl/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
 
-build RobotCommands/rebuild_cache: phony RobotCommands/CMakeFiles/rebuild_cache.util
+build SwarmControl/rebuild_cache: phony SwarmControl/CMakeFiles/rebuild_cache.util
 
 
 #############################################
 # Utility command for edit_cache
 
-build RobotCommands/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/eon/OpenSwarm/build/RobotCommands && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+build SwarmControl/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
   DESC = Running CMake cache editor...
   pool = console
   restat = 1
 
-build RobotCommands/edit_cache: phony RobotCommands/CMakeFiles/edit_cache.util
+build SwarmControl/edit_cache: phony SwarmControl/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target swarmControl
+
+
+#############################################
+# Order-only phony target for swarmControl
+
+build cmake_object_order_depends_target_swarmControl: phony || cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_kinematics cmake_object_order_depends_target_pathPlanning cmake_object_order_depends_target_robotCommands cmake_object_order_depends_target_robotControl cmake_object_order_depends_target_trajectoryPlanning
+
+build SwarmControl/CMakeFiles/swarmControl.dir/swarm.cpp.o: CXX_COMPILER__swarmControl ../SwarmControl/swarm.cpp || cmake_object_order_depends_target_swarmControl
+  DEP_FILE = SwarmControl/CMakeFiles/swarmControl.dir/swarm.cpp.o.d
+  FLAGS = -g   -std=gnu++17
+  OBJECT_DIR = SwarmControl/CMakeFiles/swarmControl.dir
+  OBJECT_FILE_DIR = SwarmControl/CMakeFiles/swarmControl.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target swarmControl
+
+
+#############################################
+# Link the static library SwarmControl/libswarmControl.a
+
+build SwarmControl/libswarmControl.a: CXX_STATIC_LIBRARY_LINKER__swarmControl SwarmControl/CMakeFiles/swarmControl.dir/swarm.cpp.o || Common/libcommon.a SwarmControl/RobotObject/RobotCommands/Client/libclient.a SwarmControl/RobotObject/RobotCommands/librobotCommands.a SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a SwarmControl/RobotObject/librobotControl.a
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = SwarmControl/CMakeFiles/swarmControl.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = SwarmControl/libswarmControl.a
+  TARGET_PDB = swarmControl.a.dbg
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/eon/OpenSwarm/SwarmControl/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build SwarmControl/RobotObject/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/rebuild_cache: phony SwarmControl/RobotObject/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build SwarmControl/RobotObject/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/edit_cache: phony SwarmControl/RobotObject/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target robotControl
+
+
+#############################################
+# Order-only phony target for robotControl
+
+build cmake_object_order_depends_target_robotControl: phony || cmake_object_order_depends_target_client cmake_object_order_depends_target_common cmake_object_order_depends_target_kinematics cmake_object_order_depends_target_pathPlanning cmake_object_order_depends_target_robotCommands cmake_object_order_depends_target_trajectoryPlanning
+
+build SwarmControl/RobotObject/CMakeFiles/robotControl.dir/autoMR.cpp.o: CXX_COMPILER__robotControl ../SwarmControl/RobotObject/autoMR.cpp || cmake_object_order_depends_target_robotControl
+  DEP_FILE = SwarmControl/RobotObject/CMakeFiles/robotControl.dir/autoMR.cpp.o.d
+  FLAGS = -g   -std=gnu++17
+  INCLUDES = -I../SwarmControl/RobotObject/robotControl -I../SwarmControl/RobotObject/PUBLIC -I/usr/local/include/ompl-1.5 -I/usr/include/eigen3
+  OBJECT_DIR = SwarmControl/RobotObject/CMakeFiles/robotControl.dir
+  OBJECT_FILE_DIR = SwarmControl/RobotObject/CMakeFiles/robotControl.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target robotControl
+
+
+#############################################
+# Link the static library SwarmControl/RobotObject/librobotControl.a
+
+build SwarmControl/RobotObject/librobotControl.a: CXX_STATIC_LIBRARY_LINKER__robotControl SwarmControl/RobotObject/CMakeFiles/robotControl.dir/autoMR.cpp.o || Common/libcommon.a SwarmControl/RobotObject/RobotCommands/Client/libclient.a SwarmControl/RobotObject/RobotCommands/librobotCommands.a SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = SwarmControl/RobotObject/CMakeFiles/robotControl.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = SwarmControl/RobotObject/librobotControl.a
+  TARGET_PDB = robotControl.a.dbg
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/eon/OpenSwarm/SwarmControl/RobotObject/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build SwarmControl/RobotObject/RobotCommands/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/RobotCommands/rebuild_cache: phony SwarmControl/RobotObject/RobotCommands/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build SwarmControl/RobotObject/RobotCommands/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/RobotCommands/edit_cache: phony SwarmControl/RobotObject/RobotCommands/CMakeFiles/edit_cache.util
 
 # =============================================================================
 # Object build statements for STATIC_LIBRARY target robotCommands
@@ -548,11 +366,11 @@ build RobotCommands/edit_cache: phony RobotCommands/CMakeFiles/edit_cache.util
 
 build cmake_object_order_depends_target_robotCommands: phony || cmake_object_order_depends_target_client cmake_object_order_depends_target_common
 
-build RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o: CXX_COMPILER__robotCommands ../RobotCommands/sendMotorCommands.cpp || cmake_object_order_depends_target_robotCommands
-  DEP_FILE = RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o.d
-  FLAGS = -g
-  OBJECT_DIR = RobotCommands/CMakeFiles/robotCommands.dir
-  OBJECT_FILE_DIR = RobotCommands/CMakeFiles/robotCommands.dir
+build SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o: CXX_COMPILER__robotCommands ../SwarmControl/RobotObject/RobotCommands/sendRobotCommands.cpp || cmake_object_order_depends_target_robotCommands
+  DEP_FILE = SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o.d
+  FLAGS = -g   -std=gnu++17
+  OBJECT_DIR = SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir
+  OBJECT_FILE_DIR = SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir
 
 
 # =============================================================================
@@ -560,50 +378,294 @@ build RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o: CXX_CO
 
 
 #############################################
-# Link the static library RobotCommands/librobotCommands.a
+# Link the static library SwarmControl/RobotObject/RobotCommands/librobotCommands.a
 
-build RobotCommands/librobotCommands.a: CXX_STATIC_LIBRARY_LINKER__robotCommands RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o || Client/libclient.a Common/libcommon.a
+build SwarmControl/RobotObject/RobotCommands/librobotCommands.a: CXX_STATIC_LIBRARY_LINKER__robotCommands SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o || Common/libcommon.a SwarmControl/RobotObject/RobotCommands/Client/libclient.a
   LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = RobotCommands/CMakeFiles/robotCommands.dir
+  OBJECT_DIR = SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = RobotCommands/librobotCommands.a
+  TARGET_FILE = SwarmControl/RobotObject/RobotCommands/librobotCommands.a
   TARGET_PDB = robotCommands.a.dbg
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands/Client && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/RobotCommands/Client/rebuild_cache: phony SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands/Client && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/RobotCommands/Client/edit_cache: phony SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target client
+
+
+#############################################
+# Order-only phony target for client
+
+build cmake_object_order_depends_target_client: phony || SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir
+
+build SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/udpClient.cpp.o: CXX_COMPILER__client ../SwarmControl/RobotObject/RobotCommands/Client/udpClient.cpp || cmake_object_order_depends_target_client
+  DEP_FILE = SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/udpClient.cpp.o.d
+  FLAGS = -g   -std=gnu++17
+  OBJECT_DIR = SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir
+  OBJECT_FILE_DIR = SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target client
+
+
+#############################################
+# Link the static library SwarmControl/RobotObject/RobotCommands/Client/libclient.a
+
+build SwarmControl/RobotObject/RobotCommands/Client/libclient.a: CXX_STATIC_LIBRARY_LINKER__client SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/udpClient.cpp.o
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = SwarmControl/RobotObject/RobotCommands/Client/libclient.a
+  TARGET_PDB = client.a.dbg
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/eon/OpenSwarm/SwarmControl/RobotObject/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/TrajectoryPlanning && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/TrajectoryPlanning/rebuild_cache: phony SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/TrajectoryPlanning && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/TrajectoryPlanning/edit_cache: phony SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target trajectoryPlanning
+
+
+#############################################
+# Order-only phony target for trajectoryPlanning
+
+build cmake_object_order_depends_target_trajectoryPlanning: phony || cmake_object_order_depends_target_common cmake_object_order_depends_target_kinematics cmake_object_order_depends_target_pathPlanning
+
+build SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o: CXX_COMPILER__trajectoryPlanning ../SwarmControl/RobotObject/TrajectoryPlanning/trajectoryPlanning.cpp || cmake_object_order_depends_target_trajectoryPlanning
+  DEP_FILE = SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o.d
+  FLAGS = -g   -std=gnu++17
+  OBJECT_DIR = SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
+  OBJECT_FILE_DIR = SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target trajectoryPlanning
+
+
+#############################################
+# Link the static library SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a
+
+build SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a: CXX_STATIC_LIBRARY_LINKER__trajectoryPlanning SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o || Common/libcommon.a SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a
+  TARGET_PDB = trajectoryPlanning.a.dbg
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/TrajectoryPlanning/Kinematics && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/rebuild_cache: phony SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/TrajectoryPlanning/Kinematics && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/edit_cache: phony SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target kinematics
+
+
+#############################################
+# Order-only phony target for kinematics
+
+build cmake_object_order_depends_target_kinematics: phony || cmake_object_order_depends_target_common
+
+build SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o: CXX_COMPILER__kinematics ../SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/kinematics.cpp || cmake_object_order_depends_target_kinematics
+  DEP_FILE = SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o.d
+  FLAGS = -g   -std=gnu++17
+  OBJECT_DIR = SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
+  OBJECT_FILE_DIR = SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target kinematics
+
+
+#############################################
+# Link the static library SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a
+
+build SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a: CXX_STATIC_LIBRARY_LINKER__kinematics SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o || Common/libcommon.a
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a
+  TARGET_PDB = kinematics.a.dbg
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning && /usr/bin/cmake -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/rebuild_cache: phony SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning && /usr/bin/cmake-gui -S/home/eon/OpenSwarm -B/home/eon/OpenSwarm/build
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/edit_cache: phony SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target pathPlanning
+
+
+#############################################
+# Order-only phony target for pathPlanning
+
+build cmake_object_order_depends_target_pathPlanning: phony || SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+
+build SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o: CXX_COMPILER__pathPlanning ../SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/navigation.cpp || cmake_object_order_depends_target_pathPlanning
+  DEP_FILE = SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o.d
+  FLAGS = -g   -std=gnu++17
+  OBJECT_DIR = SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+  OBJECT_FILE_DIR = SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target pathPlanning
+
+
+#############################################
+# Link the static library SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a
+
+build SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a: CXX_STATIC_LIBRARY_LINKER__pathPlanning SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a
+  TARGET_PDB = pathPlanning.a.dbg
 
 # =============================================================================
 # Target aliases.
 
 build arucoDetection: phony ArucoTracking/libarucoDetection.a
 
-build client: phony Client/libclient.a
+build client: phony SwarmControl/RobotObject/RobotCommands/Client/libclient.a
 
 build common: phony Common/libcommon.a
 
-build feedback: phony TrajectoryPlanning/Feedback/libfeedback.a
-
-build kinematics: phony TrajectoryPlanning/Kinematics/libkinematics.a
+build kinematics: phony SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a
 
 build libarucoDetection.a: phony ArucoTracking/libarucoDetection.a
 
-build libclient.a: phony Client/libclient.a
+build libclient.a: phony SwarmControl/RobotObject/RobotCommands/Client/libclient.a
 
 build libcommon.a: phony Common/libcommon.a
 
-build libfeedback.a: phony TrajectoryPlanning/Feedback/libfeedback.a
+build libkinematics.a: phony SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a
 
-build libkinematics.a: phony TrajectoryPlanning/Kinematics/libkinematics.a
+build libpathPlanning.a: phony SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a
 
-build libpathPlanning.a: phony TrajectoryPlanning/PathPlanning/libpathPlanning.a
+build librobotCommands.a: phony SwarmControl/RobotObject/RobotCommands/librobotCommands.a
 
-build librobotCommands.a: phony RobotCommands/librobotCommands.a
+build librobotControl.a: phony SwarmControl/RobotObject/librobotControl.a
 
-build libtrajectoryPlanning.a: phony TrajectoryPlanning/libtrajectoryPlanning.a
+build libswarmControl.a: phony SwarmControl/libswarmControl.a
 
-build pathPlanning: phony TrajectoryPlanning/PathPlanning/libpathPlanning.a
+build libtrajectoryPlanning.a: phony SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a
 
-build robotCommands: phony RobotCommands/librobotCommands.a
+build pathPlanning: phony SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a
 
-build trajectoryPlanning: phony TrajectoryPlanning/libtrajectoryPlanning.a
+build robotCommands: phony SwarmControl/RobotObject/RobotCommands/librobotCommands.a
+
+build robotControl: phony SwarmControl/RobotObject/librobotControl.a
+
+build swarmControl: phony SwarmControl/libswarmControl.a
+
+build trajectoryPlanning: phony SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a
 
 # =============================================================================
 # Folder targets.
@@ -613,7 +675,7 @@ build trajectoryPlanning: phony TrajectoryPlanning/libtrajectoryPlanning.a
 #############################################
 # Folder: /home/eon/OpenSwarm/build
 
-build all: phony openSwarm Client/all TrajectoryPlanning/all Common/all ArucoTracking/all RobotCommands/all
+build all: phony openSwarm Common/all ArucoTracking/all SwarmControl/all
 
 # =============================================================================
 
@@ -625,13 +687,6 @@ build ArucoTracking/all: phony ArucoTracking/libarucoDetection.a
 # =============================================================================
 
 #############################################
-# Folder: /home/eon/OpenSwarm/build/Client
-
-build Client/all: phony Client/libclient.a
-
-# =============================================================================
-
-#############################################
 # Folder: /home/eon/OpenSwarm/build/Common
 
 build Common/all: phony Common/libcommon.a
@@ -639,37 +694,51 @@ build Common/all: phony Common/libcommon.a
 # =============================================================================
 
 #############################################
-# Folder: /home/eon/OpenSwarm/build/RobotCommands
+# Folder: /home/eon/OpenSwarm/build/SwarmControl
 
-build RobotCommands/all: phony RobotCommands/librobotCommands.a
-
-# =============================================================================
-
-#############################################
-# Folder: /home/eon/OpenSwarm/build/TrajectoryPlanning
-
-build TrajectoryPlanning/all: phony TrajectoryPlanning/libtrajectoryPlanning.a TrajectoryPlanning/Feedback/all TrajectoryPlanning/Kinematics/all TrajectoryPlanning/PathPlanning/all
+build SwarmControl/all: phony SwarmControl/libswarmControl.a SwarmControl/RobotObject/all
 
 # =============================================================================
 
 #############################################
-# Folder: /home/eon/OpenSwarm/build/TrajectoryPlanning/Feedback
+# Folder: /home/eon/OpenSwarm/build/SwarmControl/RobotObject
 
-build TrajectoryPlanning/Feedback/all: phony TrajectoryPlanning/Feedback/libfeedback.a
-
-# =============================================================================
-
-#############################################
-# Folder: /home/eon/OpenSwarm/build/TrajectoryPlanning/Kinematics
-
-build TrajectoryPlanning/Kinematics/all: phony TrajectoryPlanning/Kinematics/libkinematics.a
+build SwarmControl/RobotObject/all: phony SwarmControl/RobotObject/librobotControl.a SwarmControl/RobotObject/RobotCommands/all SwarmControl/RobotObject/TrajectoryPlanning/all
 
 # =============================================================================
 
 #############################################
-# Folder: /home/eon/OpenSwarm/build/TrajectoryPlanning/PathPlanning
+# Folder: /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands
 
-build TrajectoryPlanning/PathPlanning/all: phony TrajectoryPlanning/PathPlanning/libpathPlanning.a
+build SwarmControl/RobotObject/RobotCommands/all: phony SwarmControl/RobotObject/RobotCommands/librobotCommands.a SwarmControl/RobotObject/RobotCommands/Client/all
+
+# =============================================================================
+
+#############################################
+# Folder: /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands/Client
+
+build SwarmControl/RobotObject/RobotCommands/Client/all: phony SwarmControl/RobotObject/RobotCommands/Client/libclient.a
+
+# =============================================================================
+
+#############################################
+# Folder: /home/eon/OpenSwarm/build/SwarmControl/RobotObject/TrajectoryPlanning
+
+build SwarmControl/RobotObject/TrajectoryPlanning/all: phony SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/all SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/all
+
+# =============================================================================
+
+#############################################
+# Folder: /home/eon/OpenSwarm/build/SwarmControl/RobotObject/TrajectoryPlanning/Kinematics
+
+build SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/all: phony SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a
+
+# =============================================================================
+
+#############################################
+# Folder: /home/eon/OpenSwarm/build/SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning
+
+build SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/all: phony SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a
 
 # =============================================================================
 # Built-in targets
@@ -683,14 +752,14 @@ default all
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../ArucoTracking/CMakeLists.txt ../CMakeLists.txt ../Client/CMakeLists.txt ../Common/CMakeLists.txt ../RobotCommands/CMakeLists.txt ../TrajectoryPlanning/CMakeLists.txt ../TrajectoryPlanning/Feedback/CMakeLists.txt ../TrajectoryPlanning/Kinematics/CMakeLists.txt ../TrajectoryPlanning/PathPlanning/CMakeLists.txt /usr/lib/cmake/eigen3/Eigen3Config.cmake /usr/lib/cmake/eigen3/Eigen3ConfigVersion.cmake /usr/lib/cmake/eigen3/Eigen3Targets.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/FindCurses.cmake /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.16/Modules/FindPackageMessage.cmake /usr/share/cmake-3.16/Modules/FindPkgConfig.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../ArucoTracking/CMakeLists.txt ../CMakeLists.txt ../Common/CMakeLists.txt ../SwarmControl/CMakeLists.txt ../SwarmControl/RobotObject/CMakeLists.txt ../SwarmControl/RobotObject/RobotCommands/CMakeLists.txt ../SwarmControl/RobotObject/RobotCommands/Client/CMakeLists.txt ../SwarmControl/RobotObject/TrajectoryPlanning/CMakeLists.txt ../SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeLists.txt ../SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeLists.txt /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake /usr/local/share/ompl/cmake/omplConfig.cmake /usr/local/share/ompl/cmake/omplConfigVersion.cmake /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.16/Modules/FindPackageMessage.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../ArucoTracking/CMakeLists.txt ../CMakeLists.txt ../Client/CMakeLists.txt ../Common/CMakeLists.txt ../RobotCommands/CMakeLists.txt ../TrajectoryPlanning/CMakeLists.txt ../TrajectoryPlanning/Feedback/CMakeLists.txt ../TrajectoryPlanning/Kinematics/CMakeLists.txt ../TrajectoryPlanning/PathPlanning/CMakeLists.txt /usr/lib/cmake/eigen3/Eigen3Config.cmake /usr/lib/cmake/eigen3/Eigen3ConfigVersion.cmake /usr/lib/cmake/eigen3/Eigen3Targets.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/FindCurses.cmake /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.16/Modules/FindPackageMessage.cmake /usr/share/cmake-3.16/Modules/FindPkgConfig.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake: phony
+build ../ArucoTracking/CMakeLists.txt ../CMakeLists.txt ../Common/CMakeLists.txt ../SwarmControl/CMakeLists.txt ../SwarmControl/RobotObject/CMakeLists.txt ../SwarmControl/RobotObject/RobotCommands/CMakeLists.txt ../SwarmControl/RobotObject/RobotCommands/Client/CMakeLists.txt ../SwarmControl/RobotObject/TrajectoryPlanning/CMakeLists.txt ../SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeLists.txt ../SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeLists.txt /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake /usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake /usr/local/share/ompl/cmake/omplConfig.cmake /usr/local/share/ompl/cmake/omplConfigVersion.cmake /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.16/Modules/FindPackageMessage.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake: phony
 
 
 #############################################

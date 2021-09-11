@@ -1,0 +1,99 @@
+{
+  "FieldData": {
+    "Max_Input_Value_P": 11,
+    "Min_Input_Value_P": 18,
+    "Max_Output_Value_P": 10,
+    "Min_Output_Value_P": 15,
+    "Max_Input_Value_X": -1.235,
+    "Min_Input_Value_X": 1.345,
+    "Max_Output_Value_X": 190,
+    "Min_Output_Value_X": 0,
+    "Max_Input_Value_Y": 0.8,
+    "Min_Input_Value_Y": -0.81,
+    "Max_Output_Value_Y": 120,
+    "Min_Output_Value_Y": 0,
+    "Number_of_units": 2
+  },
+  "Robots": [
+    {
+      "ID": 15,
+      "RobotIP": "192.168.1.10",
+      "RobotPort": 3333,
+      "PID": {
+        "Yaw": 1,
+        "X": 1,
+        "Y": 1
+      },
+      "PrecisionMargins": {
+        "Yaw": 1,
+        "X": 1,
+        "Y": 1
+      },
+      "Wheel_Diameter_mm": 46,
+      "Wheel_To_Ceter_mm": {
+        "X": 57,
+        "Y": 57
+      },
+      "Max_RadS_RotationSpeed": {
+        "LU": 23.3,
+        "RU": 23.3,
+        "LD": 23.3,
+        "RD": 23.3
+      },
+      "Min_RadS_RotationSpeed": {
+        "LU": 10.5,
+        "RU": 10.5,
+        "LD": 10.5,
+        "RD": 10.5
+      },
+      "Viable_PWM": {
+        "MIN": 180,
+        "MAX": 255
+      },
+      "Viable_RadS_Speed": {
+        "MAX": 23.3,
+        "MIN": 10.5
+      }
+    },
+    {
+      "ID": 10,
+      "RobotIP": "192.168.1.11",
+      "RobotPort": 3333,
+      "PID": {
+        "Yaw": 1,
+        "X": 1,
+        "Y": 1
+      },
+      "PrecisionMargins": {
+        "Yaw": 1,
+        "X": 1,
+        "Y": 1
+      },
+      "Wheel_Diameter_mm": 46,
+      "Wheel_To_Ceter_mm": {
+        "X": 57,
+        "Y": 57
+      },
+      "Max_RadS_RotationSpeed": {
+        "LU": 23.3,
+        "RU": 23.3,
+        "LD": 23.3,
+        "RD": 23.3
+      },
+      "Min_RadS_RotationSpeed": {
+        "LU": 10.5,
+        "RU": 10.5,
+        "LD": 10.5,
+        "RD": 10.5
+      },
+      "Viable_PWM": {
+        "MIN": 180,
+        "MAX": 255
+      },
+      "Viable_RadS_Speed": {
+        "MAX": 23.3,
+        "MIN": 10.5
+      }
+    }
+  ]
+}

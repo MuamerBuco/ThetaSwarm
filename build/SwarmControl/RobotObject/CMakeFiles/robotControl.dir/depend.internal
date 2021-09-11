@@ -3,10 +3,33 @@
 
 SwarmControl/RobotObject/CMakeFiles/robotControl.dir/autoMR.cpp.o
  /home/eon/OpenSwarm/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/allocators.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/document.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/encodedstream.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/encodings.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/error/error.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/filereadstream.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/biginteger.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/clzll.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/diyfp.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/ieee754.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/meta.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/pow10.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/stack.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/strfunc.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/strtod.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/internal/swap.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/istreamwrapper.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/memorystream.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/msinttypes/inttypes.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/msinttypes/stdint.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/rapidjson.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/reader.h
+ /home/eon/OpenSwarm/3rdParty/rapidjson/stream.h
  /home/eon/OpenSwarm/ArucoTracking/arucoDetection.h
  /home/eon/OpenSwarm/Common/common.h
  /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/Client/udp_client_server.h
- /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendMotorCommands.h
+ /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendRobotCommands.h
  /home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/kinematics.h
  /home/eon/OpenSwarm/SwarmControl/RobotObject/autoMR.cpp
  /home/eon/OpenSwarm/SwarmControl/RobotObject/autoMR.h

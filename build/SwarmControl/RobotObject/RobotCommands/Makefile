@@ -125,32 +125,32 @@ robotCommands/fast:
 	cd /home/eon/OpenSwarm/build && $(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build
 .PHONY : robotCommands/fast
 
-sendMotorCommands.o: sendMotorCommands.cpp.o
+sendRobotCommands.o: sendRobotCommands.cpp.o
 
-.PHONY : sendMotorCommands.o
+.PHONY : sendRobotCommands.o
 
 # target to build an object file
-sendMotorCommands.cpp.o:
-	cd /home/eon/OpenSwarm/build && $(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o
-.PHONY : sendMotorCommands.cpp.o
+sendRobotCommands.cpp.o:
+	cd /home/eon/OpenSwarm/build && $(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o
+.PHONY : sendRobotCommands.cpp.o
 
-sendMotorCommands.i: sendMotorCommands.cpp.i
+sendRobotCommands.i: sendRobotCommands.cpp.i
 
-.PHONY : sendMotorCommands.i
+.PHONY : sendRobotCommands.i
 
 # target to preprocess a source file
-sendMotorCommands.cpp.i:
-	cd /home/eon/OpenSwarm/build && $(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.i
-.PHONY : sendMotorCommands.cpp.i
+sendRobotCommands.cpp.i:
+	cd /home/eon/OpenSwarm/build && $(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.i
+.PHONY : sendRobotCommands.cpp.i
 
-sendMotorCommands.s: sendMotorCommands.cpp.s
+sendRobotCommands.s: sendRobotCommands.cpp.s
 
-.PHONY : sendMotorCommands.s
+.PHONY : sendRobotCommands.s
 
 # target to generate assembly for a file
-sendMotorCommands.cpp.s:
-	cd /home/eon/OpenSwarm/build && $(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.s
-.PHONY : sendMotorCommands.cpp.s
+sendRobotCommands.cpp.s:
+	cd /home/eon/OpenSwarm/build && $(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.s
+.PHONY : sendRobotCommands.cpp.s
 
 # Help Target
 help:
@@ -161,9 +161,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... robotCommands"
-	@echo "... sendMotorCommands.o"
-	@echo "... sendMotorCommands.i"
-	@echo "... sendMotorCommands.s"
+	@echo "... sendRobotCommands.o"
+	@echo "... sendRobotCommands.i"
+	@echo "... sendRobotCommands.s"
 .PHONY : help
 
 

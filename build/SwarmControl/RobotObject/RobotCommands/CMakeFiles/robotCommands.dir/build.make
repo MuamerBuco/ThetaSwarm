@@ -57,27 +57,27 @@ include SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/prog
 # Include the compile flags for this target's objects.
 include SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/flags.make
 
-SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o: SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/flags.make
-SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o: ../SwarmControl/RobotObject/RobotCommands/sendMotorCommands.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o"
-	cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendMotorCommands.cpp
+SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o: SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/flags.make
+SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o: ../SwarmControl/RobotObject/RobotCommands/sendRobotCommands.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o"
+	cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendRobotCommands.cpp
 
-SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.i"
-	cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendMotorCommands.cpp > CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.i
+SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.i"
+	cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendRobotCommands.cpp > CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.i
 
-SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.s"
-	cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendMotorCommands.cpp -o CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.s
+SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.s"
+	cd /home/eon/OpenSwarm/build/SwarmControl/RobotObject/RobotCommands && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendRobotCommands.cpp -o CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.s
 
 # Object files for target robotCommands
 robotCommands_OBJECTS = \
-"CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o"
+"CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o"
 
 # External object files for target robotCommands
 robotCommands_EXTERNAL_OBJECTS =
 
-SwarmControl/RobotObject/RobotCommands/librobotCommands.a: SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o
+SwarmControl/RobotObject/RobotCommands/librobotCommands.a: SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o
 SwarmControl/RobotObject/RobotCommands/librobotCommands.a: SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make
 SwarmControl/RobotObject/RobotCommands/librobotCommands.a: SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library librobotCommands.a"

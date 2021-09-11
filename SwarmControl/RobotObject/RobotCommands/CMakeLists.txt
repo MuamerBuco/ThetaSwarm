@@ -1,4 +1,4 @@
-add_library(robotCommands sendMotorCommands.cpp)
+add_library(robotCommands sendRobotCommands.cpp)
 
 add_subdirectory(Client)
 

@@ -24,13 +24,13 @@ netdb.h
 stdexcept
 -
 
-/home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendMotorCommands.cpp
-sendMotorCommands.h
-/home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendMotorCommands.h
+/home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendRobotCommands.cpp
+sendRobotCommands.h
+/home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendRobotCommands.h
 ../../../Common/common.h
 /home/eon/OpenSwarm/Common/common.h
 
-/home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendMotorCommands.h
+/home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendRobotCommands.h
 Client/udp_client_server.h
 /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/Client/udp_client_server.h
 

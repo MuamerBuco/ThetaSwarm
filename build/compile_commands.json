@@ -1,55 +1,61 @@
 [
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++   -isystem /usr/include/eigen3 -isystem /usr/include/opencv4   -std=c++11 -pthread -g   -o CMakeFiles/openSwarm.dir/main.cpp.o -c /home/eon/OpenSwarm/main.cpp",
+  "command": "/usr/bin/c++   -isystem /usr/include/opencv4  -g   -std=gnu++17 -o CMakeFiles/openSwarm.dir/main.cpp.o -c /home/eon/OpenSwarm/main.cpp",
   "file": "/home/eon/OpenSwarm/main.cpp"
 },
 
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++    -g   -o Client/CMakeFiles/client.dir/udpClient.cpp.o -c /home/eon/OpenSwarm/Client/udpClient.cpp",
-  "file": "/home/eon/OpenSwarm/Client/udpClient.cpp"
-},
-
-{
-  "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++   -isystem /usr/include/eigen3  -g   -o TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o -c /home/eon/OpenSwarm/TrajectoryPlanning/trajectoryPlanning.cpp",
-  "file": "/home/eon/OpenSwarm/TrajectoryPlanning/trajectoryPlanning.cpp"
-},
-
-{
-  "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++   -isystem /usr/include/eigen3  -g   -o TrajectoryPlanning/Feedback/CMakeFiles/feedback.dir/feedback.cpp.o -c /home/eon/OpenSwarm/TrajectoryPlanning/Feedback/feedback.cpp",
-  "file": "/home/eon/OpenSwarm/TrajectoryPlanning/Feedback/feedback.cpp"
-},
-
-{
-  "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++   -isystem /usr/include/eigen3  -g   -o TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o -c /home/eon/OpenSwarm/TrajectoryPlanning/Kinematics/kinematics.cpp",
-  "file": "/home/eon/OpenSwarm/TrajectoryPlanning/Kinematics/kinematics.cpp"
-},
-
-{
-  "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++    -g   -o TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o -c /home/eon/OpenSwarm/TrajectoryPlanning/PathPlanning/navigation.cpp",
-  "file": "/home/eon/OpenSwarm/TrajectoryPlanning/PathPlanning/navigation.cpp"
-},
-
-{
-  "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++    -g   -o Common/CMakeFiles/common.dir/common.cpp.o -c /home/eon/OpenSwarm/Common/common.cpp",
+  "command": "/usr/bin/c++    -g   -std=gnu++17 -o Common/CMakeFiles/common.dir/common.cpp.o -c /home/eon/OpenSwarm/Common/common.cpp",
   "file": "/home/eon/OpenSwarm/Common/common.cpp"
 },
 
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++   -isystem /usr/include/eigen3 -isystem /usr/include/opencv4  -g   -o ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o -c /home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp",
+  "command": "/usr/bin/c++   -isystem /usr/include/opencv4  -g   -std=gnu++17 -o ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o -c /home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp",
   "file": "/home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp"
 },
 
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++    -g   -o RobotCommands/CMakeFiles/robotCommands.dir/sendMotorCommands.cpp.o -c /home/eon/OpenSwarm/RobotCommands/sendMotorCommands.cpp",
-  "file": "/home/eon/OpenSwarm/RobotCommands/sendMotorCommands.cpp"
+  "command": "/usr/bin/c++    -g   -std=gnu++17 -o SwarmControl/CMakeFiles/swarmControl.dir/swarm.cpp.o -c /home/eon/OpenSwarm/SwarmControl/swarm.cpp",
+  "file": "/home/eon/OpenSwarm/SwarmControl/swarm.cpp"
+},
+
+{
+  "directory": "/home/eon/OpenSwarm/build",
+  "command": "/usr/bin/c++   -I../SwarmControl/RobotObject/robotControl -I../SwarmControl/RobotObject/PUBLIC -I/usr/local/include/ompl-1.5 -I/usr/include/eigen3  -g   -std=gnu++17 -o SwarmControl/RobotObject/CMakeFiles/robotControl.dir/autoMR.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/autoMR.cpp",
+  "file": "/home/eon/OpenSwarm/SwarmControl/RobotObject/autoMR.cpp"
+},
+
+{
+  "directory": "/home/eon/OpenSwarm/build",
+  "command": "/usr/bin/c++    -g   -std=gnu++17 -o SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/sendRobotCommands.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendRobotCommands.cpp",
+  "file": "/home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/sendRobotCommands.cpp"
+},
+
+{
+  "directory": "/home/eon/OpenSwarm/build",
+  "command": "/usr/bin/c++    -g   -std=gnu++17 -o SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/udpClient.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/Client/udpClient.cpp",
+  "file": "/home/eon/OpenSwarm/SwarmControl/RobotObject/RobotCommands/Client/udpClient.cpp"
+},
+
+{
+  "directory": "/home/eon/OpenSwarm/build",
+  "command": "/usr/bin/c++    -g   -std=gnu++17 -o SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/trajectoryPlanning.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/trajectoryPlanning.cpp",
+  "file": "/home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/trajectoryPlanning.cpp"
+},
+
+{
+  "directory": "/home/eon/OpenSwarm/build",
+  "command": "/usr/bin/c++    -g   -std=gnu++17 -o SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/kinematics.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/kinematics.cpp",
+  "file": "/home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/kinematics.cpp"
+},
+
+{
+  "directory": "/home/eon/OpenSwarm/build",
+  "command": "/usr/bin/c++    -g   -std=gnu++17 -o SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/navigation.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/navigation.cpp",
+  "file": "/home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/navigation.cpp"
 }
 ]
