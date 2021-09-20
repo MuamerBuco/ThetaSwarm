@@ -14,12 +14,12 @@ bool autoMR::initializeRobot(int id)
 {
     loadConfig(configFile, id);
 
-    std::cout << "read the config in initialize robot" << std::endl;
+    // std::cout << "read the config in initialize robot" << std::endl;
 
     robot_data.kinematics_data.H0_R = initialize_H_0_R(robot_data.robot_configuration);
 
 
-    std::cout << "initialized HOR in initialize robot" << std::endl;
+    // std::cout << "initialized HOR in initialize robot" << std::endl;
 
 
     initializeRobotStates(id);
@@ -96,9 +96,9 @@ void autoMR::loadConfig(std::string filePath, int id)
     ifs.close();
 }
 
-int autoMR::setTrajectory(FullStateTrajectory full_trajectory)
+int autoMR::setTrajectory(FullStateTrajectory* full_trajectory)
 {
-    if( TrajectorySet->try_push(full_trajectory) ) return 1;
+    if( TrajectorySet->try_push(*full_trajectory) ) return 1;
     else return 0;
 }
 
@@ -140,9 +140,9 @@ const BucketState autoMR::getLastBucketState()
 }
 
 // push the new state to queue that thread reads from
-bool autoMR::pushNewRobotState(FullRobotState new_full_robot_state)
+bool autoMR::pushNewRobotState(FullRobotState* new_full_robot_state)
 {
-    return LatestRobotState->try_push(new_full_robot_state);
+    return LatestRobotState->try_push(*new_full_robot_state);
 }
 
 void autoMR::freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_object)
@@ -268,7 +268,7 @@ void autoMR::robot_control()
                     }
                     else {
                         std::cout << "No more trajectory points set" << std::endl;
-                        break;
+                        break; // TODO1 check where this break lands you, probably wrong
                     }
                     ///// if no more points to follow
                 }
@@ -318,7 +318,7 @@ void autoMR::resumeOperation()
 // force the robot into default state
 void autoMR::resetRobot()
 {
-    pushNewRobotState(autoMR::default_state);
+    pushNewRobotState(&default_state);
     stopRobot = 0;
 }
 

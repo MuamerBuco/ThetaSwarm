@@ -9,16 +9,20 @@ int main(int argc, char** argv)
 {
     std::thread aruco_thread(start_aruco_detection);
 
+    std::vector<int> usedIDs = {10,15};
+
     std::cout << "before starting swarm" << std::endl;
-    Swarm test_swarm;
+    Swarm test_swarm(usedIDs);
     std::cout << "starting swarm" << std::endl;
     
     while(1)
     {
-        // std::cout << "starting main while 1" << std::endl;
-        test_swarm.UpdateSwarm();
+        for(int i = 0; i < 500; i++)
+        {
+            test_swarm.UpdateSwarm();
+        }
     }
     
-    // aruco_thread.join();
+    aruco_thread.join();
 
 }

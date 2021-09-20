@@ -91,8 +91,8 @@ class autoMR
 
         FullStateTrajectory full_state_trajectory;
 
-        rigtorp::SPSCQueue<FullRobotState>* LatestRobotState;
-        rigtorp::SPSCQueue<FullStateTrajectory>* TrajectorySet;
+        std::shared_ptr< rigtorp::SPSCQueue<FullRobotState> > LatestRobotState;
+        std::shared_ptr< rigtorp::SPSCQueue<FullStateTrajectory> > TrajectorySet;
 
         // TODO mutex whenever used
         bool stopRobot = 0;
@@ -104,18 +104,19 @@ class autoMR
         autoMR(int id)
         {
             // queues the latest robot data(current pose, target pose, bucket state...) and trajectory set
-            LatestRobotState = new rigtorp::SPSCQueue<FullRobotState>(2);
-            TrajectorySet = new rigtorp::SPSCQueue<FullStateTrajectory>(2);
+            LatestRobotState = std::make_shared< rigtorp::SPSCQueue<FullRobotState> >(2);
+            TrajectorySet = std::make_shared< rigtorp::SPSCQueue<FullStateTrajectory> >(2);
 
             initializeRobot(id);
-
-            std::cout << "Initialized Robots" << std::endl;
 
             worker_thread = std::thread(&autoMR::robot_control, this);
         }
 
         // TODO add try catch because  join can throw so calling it without a try..catch from a destructor is reckless
-        ~autoMR() { worker_thread.join(); delete LatestRobotState; delete TrajectorySet; };
+        ~autoMR() 
+        { 
+            worker_thread.join(); 
+        };
 
         void getBatteryStatus();
         
@@ -125,9 +126,9 @@ class autoMR
 
         void PANIC_STOP();
 
-        int setTrajectory(FullStateTrajectory full_trajectory);
+        int setTrajectory(FullStateTrajectory* full_trajectory);
 
-        bool pushNewRobotState(FullRobotState new_full_robot_state);
+        bool pushNewRobotState(FullRobotState* new_full_robot_state);
 
     private:
 
