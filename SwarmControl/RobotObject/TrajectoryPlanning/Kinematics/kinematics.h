@@ -1,4 +1,4 @@
-#include <eigen-3.3.9/Eigen/Dense>
+#include <Eigen/Dense>
 
 using namespace Eigen;
 
@@ -38,4 +38,4 @@ struct RobotConstraints {
 };
 
 MatrixXf initialize_H_0_R(RobotConfiguration configuration);
-bool CalculateMotorSpeedVector(MatrixXf H0_R, RobotConfiguration *configuration, Vector3f control_vector, uint8_t *speeds_and_directions, int phiCurrent);
+bool CalculateSpeedCommands(MatrixXf H0_R, RobotConfiguration *configuration, Vector3f control_vector, uint8_t *speeds_and_directions, int phiCurrent);

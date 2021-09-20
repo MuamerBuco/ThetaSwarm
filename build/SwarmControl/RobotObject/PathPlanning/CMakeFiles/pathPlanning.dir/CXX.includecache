@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eon/OpenSwarm/SwarmControl/RobotObject/PathPlanning/navigation.cpp
+navigation.h
+/home/eon/OpenSwarm/SwarmControl/RobotObject/PathPlanning/navigation.h
+../../../../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+/home/eon/3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h
+string
+-
+iostream
+-
+vector
+-
+
+/home/eon/OpenSwarm/SwarmControl/RobotObject/PathPlanning/navigation.h
+Eigen/Dense
+-
+vector
+-
+

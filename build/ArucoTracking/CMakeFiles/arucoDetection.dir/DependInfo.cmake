@@ -10,13 +10,13 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/usr/include/eigen3"
+  "/usr/local/include/eigen3"
   "/usr/include/opencv4"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/eon/OpenSwarm/build/Common/CMakeFiles/common.dir/DependInfo.cmake"
+  "/home/eon/OpenSwarm/build/util/CMakeFiles/util.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

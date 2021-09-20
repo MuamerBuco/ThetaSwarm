@@ -35,7 +35,7 @@ vector
 -
 
 /home/eon/OpenSwarm/SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/navigation.h
-eigen-3.3.9/Eigen/Dense
+Eigen/Dense
 -
 vector
 -

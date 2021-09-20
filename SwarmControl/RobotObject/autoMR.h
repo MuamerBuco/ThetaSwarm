@@ -4,14 +4,14 @@
 #include "RobotCommands/sendRobotCommands.h"
 #include "TrajectoryPlanning/Kinematics/kinematics.h"
 #include "../../ArucoTracking/arucoDetection.h"
-#include "../../Common/common.h"
+#include "../../util/util.h"
 
 #include <thread>
 
 // struct holding PD controller coefficients
 struct PD_Controller_Coefficients {
 
-    int Kp_yaw = 1;;
+    int Kp_yaw = 1;
     int Kp_x = 1;
     int Kp_y = 1;
 };
@@ -20,7 +20,6 @@ struct PD_Controller_Coefficients {
 struct RobotKinematicsData {
 
     PD_Controller_Coefficients pd_coefficients;
-    // TODO check if this can be not initialized to (4,3) and still work
     Eigen::MatrixXf H0_R;
 };
 
@@ -45,13 +44,33 @@ struct BucketState {
     float extension = 0;
 };
 
+enum LEDProgram {
+    
+    NONE,
+    BLINK_RED,
+    SOLID_RED,
+    SOLID_BLUE,
+    SOLID_GREEN,
+};
+
 // struct holding LED ring state(running program)
 struct SignalLED {
-    std::string program = "none";
+
+    LEDProgram program = SOLID_BLUE;
 };
+
+struct SingleStateTrajectory {
+
+    SinglePose pose = {0, 0, 0};
+    SignalLED LED_state;
+    BucketState bucket_state;
+};
+
+typedef std::vector<SingleStateTrajectory> FullStateTrajectory;
 
 // struct holding the current robot state(pose, LED and bucket)
 struct FullRobotState {
+    
     ChassisFullState current_pose_and_id;
     ChassisFullState target_pose_and_id;
 
@@ -59,7 +78,6 @@ struct FullRobotState {
     BucketState bucket_state;
 };
 
-// TODO change private and public
 /* class defining the robot object
 *   starts a thread that does the kinematics, path planning and command sending
 *   the object data gets modified by invoking appropriate class methods from swarm control
@@ -67,10 +85,17 @@ struct FullRobotState {
 class autoMR
 {
     public:
-
         FullRobotState current_full_state;
         FullRobotState default_state;
         FullRobotState stop_state;
+
+        FullStateTrajectory full_state_trajectory;
+
+        rigtorp::SPSCQueue<FullRobotState>* LatestRobotState;
+        rigtorp::SPSCQueue<FullStateTrajectory>* TrajectorySet;
+
+        // TODO mutex whenever used
+        bool stopRobot = 0;
 
         RobotData robot_data;
 
@@ -78,15 +103,33 @@ class autoMR
 
         autoMR(int id)
         {
+            // queues the latest robot data(current pose, target pose, bucket state...) and trajectory set
+            LatestRobotState = new rigtorp::SPSCQueue<FullRobotState>(2);
+            TrajectorySet = new rigtorp::SPSCQueue<FullStateTrajectory>(2);
+
             initializeRobot(id);
+
+            std::cout << "Initialized Robots" << std::endl;
 
             worker_thread = std::thread(&autoMR::robot_control, this);
         }
 
-        // add try catch because  join can throw so calling it without a try..catch from a destructor is reckless
-        ~autoMR() { worker_thread.join(); };
+        // TODO add try catch because  join can throw so calling it without a try..catch from a destructor is reckless
+        ~autoMR() { worker_thread.join(); delete LatestRobotState; delete TrajectorySet; };
 
-    public:
+        void getBatteryStatus();
+        
+        void resetRobot();
+
+        void resumeOperation();
+
+        void PANIC_STOP();
+
+        int setTrajectory(FullStateTrajectory full_trajectory);
+
+        bool pushNewRobotState(FullRobotState new_full_robot_state);
+
+    private:
 
         std::thread worker_thread;
 
@@ -98,25 +141,25 @@ class autoMR
 
         bool ReachedTarget();
 
-        void updateCurrentFullRobotState();
+        int updateCurrentFullRobotState();
+
+        int setNextTrajectoryPoint();
+
+        int updateFullTrajectory();
 
         Eigen::Vector3f PD_Controller(Eigen::Vector3f pose_error);
+
+        int getNextTrajectory();
 
         const ChassisFullState getLastRobotPose();
 
         const SignalLED getLastLEDState();
 
         const BucketState getLastBucketState();
-
-        bool pushStateToThread(FullRobotState new_full_robot_state);
         
         void setDefaultState(FullRobotState new_default_state);
 
-        void getBatteryStatus();
-        
-        void resetRobot();
-        
-        void PANIC_STOP();
+        void freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_object);
 
         void launchWorkerThread();
 

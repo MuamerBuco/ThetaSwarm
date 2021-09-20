@@ -56,6 +56,28 @@ CMAKE_BINARY_DIR = /home/eon/OpenSwarm/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/cmake-gui -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/eon/OpenSwarm/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -67,16 +89,16 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/cmake-gui -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	/usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
+# Special rule for the target package
+package/fast: package
 
-.PHONY : edit_cache/fast
+.PHONY : package/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -124,17 +146,17 @@ openSwarm/fast:
 .PHONY : openSwarm/fast
 
 #=============================================================================
-# Target rules for targets named common
+# Target rules for targets named util
 
 # Build rule for target.
-common: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 common
-.PHONY : common
+util: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 util
+.PHONY : util
 
 # fast build rule for target.
-common/fast:
-	$(MAKE) -f Common/CMakeFiles/common.dir/build.make Common/CMakeFiles/common.dir/build
-.PHONY : common/fast
+util/fast:
+	$(MAKE) -f util/CMakeFiles/util.dir/build.make util/CMakeFiles/util.dir/build
+.PHONY : util/fast
 
 #=============================================================================
 # Target rules for targets named arucoDetection
@@ -237,7 +259,7 @@ pathPlanning: cmake_check_build_system
 
 # fast build rule for target.
 pathPlanning/fast:
-	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build
+	$(MAKE) -f SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/build.make SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/build
 .PHONY : pathPlanning/fast
 
 main.o: main.cpp.o
@@ -273,10 +295,12 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... package_source"
+	@echo "... rebuild_cache"
+	@echo "... package"
 	@echo "... openSwarm"
-	@echo "... common"
+	@echo "... util"
 	@echo "... arucoDetection"
 	@echo "... swarmControl"
 	@echo "... robotControl"

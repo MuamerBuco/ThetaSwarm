@@ -79,11 +79,9 @@ openSwarm_EXTERNAL_OBJECTS =
 
 openSwarm: CMakeFiles/openSwarm.dir/main.cpp.o
 openSwarm: CMakeFiles/openSwarm.dir/build.make
-openSwarm: Common/libcommon.a
+openSwarm: util/libutil.a
 openSwarm: ArucoTracking/libarucoDetection.a
 openSwarm: SwarmControl/libswarmControl.a
-openSwarm: /usr/lib/x86_64-linux-gnu/libcurses.so
-openSwarm: /usr/lib/x86_64-linux-gnu/libform.so
 openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.2.0
 openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.2.0
 openSwarm: /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.2.0
@@ -137,8 +135,19 @@ openSwarm: SwarmControl/RobotObject/RobotCommands/librobotCommands.a
 openSwarm: SwarmControl/RobotObject/RobotCommands/Client/libclient.a
 openSwarm: SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a
 openSwarm: SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/libkinematics.a
-openSwarm: Common/libcommon.a
-openSwarm: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/libpathPlanning.a
+openSwarm: util/libutil.a
+openSwarm: SwarmControl/PathPlanning/libpathPlanning.a
+openSwarm: /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0
+openSwarm: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
+openSwarm: /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0
+openSwarm: /usr/lib/x86_64-linux-gnu/libGLX.so
+openSwarm: /usr/lib/x86_64-linux-gnu/libOpenGL.so
+openSwarm: /usr/local/lib/libompl.so
+openSwarm: /usr/lib/x86_64-linux-gnu/libboost_serialization.so
+openSwarm: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+openSwarm: /usr/lib/x86_64-linux-gnu/libboost_system.so
+openSwarm: /usr/local/lib/libompl_app_base.so
+openSwarm: /usr/local/lib/libompl_app.so
 openSwarm: CMakeFiles/openSwarm.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable openSwarm"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/openSwarm.dir/link.txt --verbose=$(VERBOSE)

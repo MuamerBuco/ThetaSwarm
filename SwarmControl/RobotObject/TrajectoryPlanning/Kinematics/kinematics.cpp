@@ -1,6 +1,5 @@
 #include "kinematics.h"
-#include "../../../../Common/common.h"
-#include <eigen-3.3.9/Eigen/Dense>
+#include "../../../../util/util.h"
 #include <stdio.h>
 #include <iostream>
 #include <tuple>
@@ -19,7 +18,7 @@ MatrixXf initialize_H_0_R(RobotConfiguration configuration)
     float h_zero_10 = -(configuration.Wheel_To_CenterX_mm + configuration.Wheel_To_CenterY_mm) / 1000.0;
     float h_zero_20 = (configuration.Wheel_To_CenterX_mm + configuration.Wheel_To_CenterY_mm) / 1000.0;
     float h_zero_30 = (-configuration.Wheel_To_CenterX_mm - configuration.Wheel_To_CenterY_mm) / 1000.0;
-    
+
     MatrixXf h_zero(4,3);
     h_zero(0,0) = h_zero_00;
     h_zero(0,1) = 1;
@@ -34,9 +33,8 @@ MatrixXf initialize_H_0_R(RobotConfiguration configuration)
     h_zero(3,1) = 1;
     h_zero(3,2) = 1;
 
-    //printf("The wheel radius is: %f \n", wheel_radius_m);
-    //printf("The matrix scalar is: %f \n", matrix_scalar);
-    //printMatrix(&h_zero, "h_zero");
+    printf("The wheel radius is: %f \n", wheel_radius_m);
+    printf("The matrix scalar is: %f \n", matrix_scalar);
 
     return matrix_scalar * h_zero;
 }
@@ -48,7 +46,7 @@ Vector4f applySpeedConstraints(Vector4f speeds_vector, RobotConfiguration *robot
     // to extract the speed ratios to then multiply by proportional control
     auto [min_input_speed, max_input_speed] = findMaxMinAbsValues(&speeds_vector);
 
-    //std::cout << "the max speeds: " << max_input_speed << " " << min_input_speed << std::endl;
+    // std::cout << "the max speeds: " << max_input_speed << " " << min_input_speed << std::endl;
 
     Vector4f normalized_speeds(4,1);
 
@@ -68,14 +66,15 @@ Vector4f applySpeedConstraints(Vector4f speeds_vector, RobotConfiguration *robot
  {
     float unit_speed_per_pwm = robot_config->Viable_PWM_Range/robot_config->Rotation_Speed_Range;
     
-    VectorXi pwm_and_direction_vector(9,1); // preparing a buffer to send
-    pwm_and_direction_vector(0,0) = 1; // set 0th(parse) bit as 1 TODO set as something other than 1, universe bullets
+    VectorXi pwm_and_direction_vector(8,1); // preparing a buffer to send
 
     //std::cout << "The speeds vector" << speed_vector << std::endl;
 
     //std::cout << "unit_speed_per_pwm" << unit_speed_per_pwm << std::endl;
 
     Vector4f fixed_speed_vector = applySpeedConstraints(speed_vector, robot_config);
+
+    // std::cout << "applied speed constraints in kinematics in MapRadiansToPWM" << std::endl;
 
     //std::cout << "The fixed_speed_vector vector" << std::endl << fixed_speed_vector << std::endl;
     
@@ -87,19 +86,19 @@ Vector4f applySpeedConstraints(Vector4f speeds_vector, RobotConfiguration *robot
             
             //printf("The speed_in_pwm is: %f\n", speed_in_pwm);
             if(fixed_speed_vector(i,0) >= 0) {
-                pwm_and_direction_vector(i*2 + 1, 0) = speed_in_pwm;
-                pwm_and_direction_vector(i*2 + 2, 0) = 1;
+                pwm_and_direction_vector(i*2, 0) = speed_in_pwm;
+                pwm_and_direction_vector(i*2 + 1, 0) = 1;
                 //printVector(&pwm_and_direction_vector, "pwm_and_direction_vector");
             }
             else {
-                pwm_and_direction_vector(i*2 + 1, 0) = speed_in_pwm;
-                pwm_and_direction_vector(i*2 + 2, 0) = 0;
+                pwm_and_direction_vector(i*2, 0) = speed_in_pwm;
+                pwm_and_direction_vector(i*2 + 1, 0) = 0;
                 //printVector(&pwm_and_direction_vector, "pwm_and_direction_vector_else"); 
             }
         }
         else if(abs(fixed_speed_vector(i,0)) == 0) {
+            pwm_and_direction_vector(i*2, 0) = 0;
             pwm_and_direction_vector(i*2 + 1, 0) = 0;
-            pwm_and_direction_vector(i*2 + 2, 0) = 0;
         }
         else {
             printf("Assigned motor speeds are INVALID\n");
@@ -110,9 +109,9 @@ Vector4f applySpeedConstraints(Vector4f speeds_vector, RobotConfiguration *robot
 }
 
 // Calculates necessary PWM/Direction signal from the control vector, and modifies speeds_and_directions
-bool CalculateMotorSpeedVector(MatrixXf H0_R, RobotConfiguration *robot_config, Vector3f control_vector, uint8_t *speeds_and_directions, int phiCurrent)
+bool CalculateSpeedCommands(MatrixXf H0_R, RobotConfiguration *robot_config, Vector3f control_vector, uint8_t *commands_array, int phiCurrent)
 {
-    // TODO find out should phi be in rad(0,2pi) or rad(-pi, pi) or degree? consult arucoDetection.cpp for transform
+    // TODO1 find out should phi be in rad(0,2pi) or rad(-pi, pi) or degree? consult arucoDetection.cpp for transform
 
     Matrix3f rotation_matrix(3,3);
 
@@ -125,18 +124,22 @@ bool CalculateMotorSpeedVector(MatrixXf H0_R, RobotConfiguration *robot_config, 
     rotation_matrix(2,0) = 0;
     rotation_matrix(2,1) = -sin(phiCurrent);
     rotation_matrix(2,2) = cos(phiCurrent);
+
+    // std::cout << "about to calculate speed vector in kinematics" << std::endl;
     
     // speeds in radians/s of each wheel
     Vector4f speed_vector = H0_R * rotation_matrix * control_vector;
-    
-    // TODO change the creation of the parse byte, also this is a redundancy, see mapRadiansToPWM
-    speeds_and_directions[0] = 1;
+
+    // std::cout << "calculated speed vector in kinematics" << std::endl;
     
     // map speed-per-wheel(in radians) vector to pwm-and-direction-per-motor vector
     VectorXi speeds_and_directions_vector = MapRadiansToPWM(speed_vector, robot_config);
+
+    // std::cout << "mapped speed vector in kinematics" << std::endl;
     
-    for(uint8_t i = 1; i < 9; i++) {
-        speeds_and_directions[i] = speeds_and_directions_vector(i,0);
+    // fill in the mapped values to command array
+    for(uint8_t i = 0; i < 8; i++) {
+        commands_array[i + 1] = speeds_and_directions_vector(i,0);
     }
 
     return 1;

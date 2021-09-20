@@ -54,14 +54,14 @@ CMAKE_BINARY_DIR = /home/eon/OpenSwarm/build
 
 # The main recursive "all" target.
 all: CMakeFiles/openSwarm.dir/all
-all: Common/all
+all: util/all
 all: ArucoTracking/all
 all: SwarmControl/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: Common/preinstall
+preinstall: util/preinstall
 preinstall: ArucoTracking/preinstall
 preinstall: SwarmControl/preinstall
 
@@ -69,7 +69,7 @@ preinstall: SwarmControl/preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/openSwarm.dir/clean
-clean: Common/clean
+clean: util/clean
 clean: ArucoTracking/clean
 clean: SwarmControl/clean
 
@@ -94,42 +94,45 @@ ArucoTracking/clean: ArucoTracking/CMakeFiles/arucoDetection.dir/clean
 .PHONY : ArucoTracking/clean
 
 #=============================================================================
-# Directory level rules for directory Common
-
-# Recursive "all" directory target.
-Common/all: Common/CMakeFiles/common.dir/all
-
-.PHONY : Common/all
-
-# Recursive "preinstall" directory target.
-Common/preinstall:
-
-.PHONY : Common/preinstall
-
-# Recursive "clean" directory target.
-Common/clean: Common/CMakeFiles/common.dir/clean
-
-.PHONY : Common/clean
-
-#=============================================================================
 # Directory level rules for directory SwarmControl
 
 # Recursive "all" directory target.
 SwarmControl/all: SwarmControl/CMakeFiles/swarmControl.dir/all
 SwarmControl/all: SwarmControl/RobotObject/all
+SwarmControl/all: SwarmControl/PathPlanning/all
 
 .PHONY : SwarmControl/all
 
 # Recursive "preinstall" directory target.
 SwarmControl/preinstall: SwarmControl/RobotObject/preinstall
+SwarmControl/preinstall: SwarmControl/PathPlanning/preinstall
 
 .PHONY : SwarmControl/preinstall
 
 # Recursive "clean" directory target.
 SwarmControl/clean: SwarmControl/CMakeFiles/swarmControl.dir/clean
 SwarmControl/clean: SwarmControl/RobotObject/clean
+SwarmControl/clean: SwarmControl/PathPlanning/clean
 
 .PHONY : SwarmControl/clean
+
+#=============================================================================
+# Directory level rules for directory SwarmControl/PathPlanning
+
+# Recursive "all" directory target.
+SwarmControl/PathPlanning/all: SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/all
+
+.PHONY : SwarmControl/PathPlanning/all
+
+# Recursive "preinstall" directory target.
+SwarmControl/PathPlanning/preinstall:
+
+.PHONY : SwarmControl/PathPlanning/preinstall
+
+# Recursive "clean" directory target.
+SwarmControl/PathPlanning/clean: SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/clean
+
+.PHONY : SwarmControl/PathPlanning/clean
 
 #=============================================================================
 # Directory level rules for directory SwarmControl/RobotObject
@@ -198,20 +201,17 @@ SwarmControl/RobotObject/RobotCommands/Client/clean: SwarmControl/RobotObject/Ro
 # Recursive "all" directory target.
 SwarmControl/RobotObject/TrajectoryPlanning/all: SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
 SwarmControl/RobotObject/TrajectoryPlanning/all: SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/all
-SwarmControl/RobotObject/TrajectoryPlanning/all: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/all
 
 .PHONY : SwarmControl/RobotObject/TrajectoryPlanning/all
 
 # Recursive "preinstall" directory target.
 SwarmControl/RobotObject/TrajectoryPlanning/preinstall: SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/preinstall
-SwarmControl/RobotObject/TrajectoryPlanning/preinstall: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/preinstall
 
 .PHONY : SwarmControl/RobotObject/TrajectoryPlanning/preinstall
 
 # Recursive "clean" directory target.
 SwarmControl/RobotObject/TrajectoryPlanning/clean: SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/clean
 SwarmControl/RobotObject/TrajectoryPlanning/clean: SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/clean
-SwarmControl/RobotObject/TrajectoryPlanning/clean: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/clean
 
 .PHONY : SwarmControl/RobotObject/TrajectoryPlanning/clean
 
@@ -234,28 +234,27 @@ SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/clean: SwarmControl/Robot
 .PHONY : SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/clean
 
 #=============================================================================
-# Directory level rules for directory SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning
+# Directory level rules for directory util
 
 # Recursive "all" directory target.
-SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/all: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+util/all: util/CMakeFiles/util.dir/all
 
-.PHONY : SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/all
+.PHONY : util/all
 
 # Recursive "preinstall" directory target.
-SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/preinstall:
+util/preinstall:
 
-.PHONY : SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/preinstall
+.PHONY : util/preinstall
 
 # Recursive "clean" directory target.
-SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/clean: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/clean
+util/clean: util/CMakeFiles/util.dir/clean
 
-.PHONY : SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/clean
+.PHONY : util/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/openSwarm.dir
 
 # All Build rule for target.
-CMakeFiles/openSwarm.dir/all: Common/CMakeFiles/common.dir/all
 CMakeFiles/openSwarm.dir/all: ArucoTracking/CMakeFiles/arucoDetection.dir/all
 CMakeFiles/openSwarm.dir/all: SwarmControl/CMakeFiles/swarmControl.dir/all
 CMakeFiles/openSwarm.dir/all: SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all
@@ -263,10 +262,11 @@ CMakeFiles/openSwarm.dir/all: SwarmControl/RobotObject/RobotCommands/CMakeFiles/
 CMakeFiles/openSwarm.dir/all: SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/all
 CMakeFiles/openSwarm.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
 CMakeFiles/openSwarm.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
-CMakeFiles/openSwarm.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+CMakeFiles/openSwarm.dir/all: SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/all
+CMakeFiles/openSwarm.dir/all: util/CMakeFiles/util.dir/all
 	$(MAKE) -f CMakeFiles/openSwarm.dir/build.make CMakeFiles/openSwarm.dir/depend
 	$(MAKE) -f CMakeFiles/openSwarm.dir/build.make CMakeFiles/openSwarm.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=9,10 "Built target openSwarm"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=7,8 "Built target openSwarm"
 .PHONY : CMakeFiles/openSwarm.dir/all
 
 # Build rule for subdir invocation for target.
@@ -287,37 +287,37 @@ CMakeFiles/openSwarm.dir/clean:
 .PHONY : CMakeFiles/openSwarm.dir/clean
 
 #=============================================================================
-# Target rules for target Common/CMakeFiles/common.dir
+# Target rules for target util/CMakeFiles/util.dir
 
 # All Build rule for target.
-Common/CMakeFiles/common.dir/all:
-	$(MAKE) -f Common/CMakeFiles/common.dir/build.make Common/CMakeFiles/common.dir/depend
-	$(MAKE) -f Common/CMakeFiles/common.dir/build.make Common/CMakeFiles/common.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=5,6 "Built target common"
-.PHONY : Common/CMakeFiles/common.dir/all
+util/CMakeFiles/util.dir/all:
+	$(MAKE) -f util/CMakeFiles/util.dir/build.make util/CMakeFiles/util.dir/depend
+	$(MAKE) -f util/CMakeFiles/util.dir/build.make util/CMakeFiles/util.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=19,20 "Built target util"
+.PHONY : util/CMakeFiles/util.dir/all
 
 # Build rule for subdir invocation for target.
-Common/CMakeFiles/common.dir/rule: cmake_check_build_system
+util/CMakeFiles/util.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 Common/CMakeFiles/common.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 util/CMakeFiles/util.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
-.PHONY : Common/CMakeFiles/common.dir/rule
+.PHONY : util/CMakeFiles/util.dir/rule
 
 # Convenience name for target.
-common: Common/CMakeFiles/common.dir/rule
+util: util/CMakeFiles/util.dir/rule
 
-.PHONY : common
+.PHONY : util
 
 # clean rule for target.
-Common/CMakeFiles/common.dir/clean:
-	$(MAKE) -f Common/CMakeFiles/common.dir/build.make Common/CMakeFiles/common.dir/clean
-.PHONY : Common/CMakeFiles/common.dir/clean
+util/CMakeFiles/util.dir/clean:
+	$(MAKE) -f util/CMakeFiles/util.dir/build.make util/CMakeFiles/util.dir/clean
+.PHONY : util/CMakeFiles/util.dir/clean
 
 #=============================================================================
 # Target rules for target ArucoTracking/CMakeFiles/arucoDetection.dir
 
 # All Build rule for target.
-ArucoTracking/CMakeFiles/arucoDetection.dir/all: Common/CMakeFiles/common.dir/all
+ArucoTracking/CMakeFiles/arucoDetection.dir/all: util/CMakeFiles/util.dir/all
 	$(MAKE) -f ArucoTracking/CMakeFiles/arucoDetection.dir/build.make ArucoTracking/CMakeFiles/arucoDetection.dir/depend
 	$(MAKE) -f ArucoTracking/CMakeFiles/arucoDetection.dir/build.make ArucoTracking/CMakeFiles/arucoDetection.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=1,2 "Built target arucoDetection"
@@ -344,16 +344,16 @@ ArucoTracking/CMakeFiles/arucoDetection.dir/clean:
 # Target rules for target SwarmControl/CMakeFiles/swarmControl.dir
 
 # All Build rule for target.
-SwarmControl/CMakeFiles/swarmControl.dir/all: Common/CMakeFiles/common.dir/all
 SwarmControl/CMakeFiles/swarmControl.dir/all: SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all
 SwarmControl/CMakeFiles/swarmControl.dir/all: SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/all
 SwarmControl/CMakeFiles/swarmControl.dir/all: SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/all
 SwarmControl/CMakeFiles/swarmControl.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
 SwarmControl/CMakeFiles/swarmControl.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
-SwarmControl/CMakeFiles/swarmControl.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+SwarmControl/CMakeFiles/swarmControl.dir/all: SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/all
+SwarmControl/CMakeFiles/swarmControl.dir/all: util/CMakeFiles/util.dir/all
 	$(MAKE) -f SwarmControl/CMakeFiles/swarmControl.dir/build.make SwarmControl/CMakeFiles/swarmControl.dir/depend
 	$(MAKE) -f SwarmControl/CMakeFiles/swarmControl.dir/build.make SwarmControl/CMakeFiles/swarmControl.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=17,18 "Built target swarmControl"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=15,16 "Built target swarmControl"
 .PHONY : SwarmControl/CMakeFiles/swarmControl.dir/all
 
 # Build rule for subdir invocation for target.
@@ -377,20 +377,19 @@ SwarmControl/CMakeFiles/swarmControl.dir/clean:
 # Target rules for target SwarmControl/RobotObject/CMakeFiles/robotControl.dir
 
 # All Build rule for target.
-SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all: Common/CMakeFiles/common.dir/all
 SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all: SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/all
 SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all: SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/all
 SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
 SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
-SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all: util/CMakeFiles/util.dir/all
 	$(MAKE) -f SwarmControl/RobotObject/CMakeFiles/robotControl.dir/build.make SwarmControl/RobotObject/CMakeFiles/robotControl.dir/depend
 	$(MAKE) -f SwarmControl/RobotObject/CMakeFiles/robotControl.dir/build.make SwarmControl/RobotObject/CMakeFiles/robotControl.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=15,16 "Built target robotControl"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=13,14 "Built target robotControl"
 .PHONY : SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all
 
 # Build rule for subdir invocation for target.
 SwarmControl/RobotObject/CMakeFiles/robotControl.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 12
 	$(MAKE) -f CMakeFiles/Makefile2 SwarmControl/RobotObject/CMakeFiles/robotControl.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
 .PHONY : SwarmControl/RobotObject/CMakeFiles/robotControl.dir/rule
@@ -409,11 +408,11 @@ SwarmControl/RobotObject/CMakeFiles/robotControl.dir/clean:
 # Target rules for target SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir
 
 # All Build rule for target.
-SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/all: Common/CMakeFiles/common.dir/all
 SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/all: SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/all
+SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/all: util/CMakeFiles/util.dir/all
 	$(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/depend
 	$(MAKE) -f SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build.make SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=13,14 "Built target robotCommands"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=11,12 "Built target robotCommands"
 .PHONY : SwarmControl/RobotObject/RobotCommands/CMakeFiles/robotCommands.dir/all
 
 # Build rule for subdir invocation for target.
@@ -464,17 +463,16 @@ SwarmControl/RobotObject/RobotCommands/Client/CMakeFiles/client.dir/clean:
 # Target rules for target SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir
 
 # All Build rule for target.
-SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all: Common/CMakeFiles/common.dir/all
 SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
-SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all: util/CMakeFiles/util.dir/all
 	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/depend
 	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=19,20 "Built target trajectoryPlanning"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=17,18 "Built target trajectoryPlanning"
 .PHONY : SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
 
 # Build rule for subdir invocation for target.
 SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
 .PHONY : SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/rule
@@ -493,10 +491,10 @@ SwarmControl/RobotObject/TrajectoryPlanning/CMakeFiles/trajectoryPlanning.dir/cl
 # Target rules for target SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
 
 # All Build rule for target.
-SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all: Common/CMakeFiles/common.dir/all
+SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all: util/CMakeFiles/util.dir/all
 	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/depend
 	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=7,8 "Built target kinematics"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=5,6 "Built target kinematics"
 .PHONY : SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/all
 
 # Build rule for subdir invocation for target.
@@ -517,31 +515,31 @@ SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir
 .PHONY : SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeFiles/kinematics.dir/clean
 
 #=============================================================================
-# Target rules for target SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir
+# Target rules for target SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir
 
 # All Build rule for target.
-SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all:
-	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/depend
-	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=11,12 "Built target pathPlanning"
-.PHONY : SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/all:
+	$(MAKE) -f SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/build.make SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/depend
+	$(MAKE) -f SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/build.make SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eon/OpenSwarm/build/CMakeFiles --progress-num=9,10 "Built target pathPlanning"
+.PHONY : SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/all
 
 # Build rule for subdir invocation for target.
-SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/rule: cmake_check_build_system
+SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/eon/OpenSwarm/build/CMakeFiles 0
-.PHONY : SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/rule
+.PHONY : SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/rule
 
 # Convenience name for target.
-pathPlanning: SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/rule
+pathPlanning: SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/rule
 
 .PHONY : pathPlanning
 
 # clean rule for target.
-SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/clean:
-	$(MAKE) -f SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/build.make SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/clean
-.PHONY : SwarmControl/RobotObject/TrajectoryPlanning/PathPlanning/CMakeFiles/pathPlanning.dir/clean
+SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/clean:
+	$(MAKE) -f SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/build.make SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/clean
+.PHONY : SwarmControl/PathPlanning/CMakeFiles/pathPlanning.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

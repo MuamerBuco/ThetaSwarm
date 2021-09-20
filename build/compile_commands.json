@@ -1,31 +1,31 @@
 [
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++   -isystem /usr/include/opencv4  -g   -std=gnu++17 -o CMakeFiles/openSwarm.dir/main.cpp.o -c /home/eon/OpenSwarm/main.cpp",
+  "command": "/usr/bin/c++   -I/usr/local/include/ompl-1.5 -isystem /usr/include/eigen3 -isystem /usr/include/opencv4  -g   -std=gnu++17 -o CMakeFiles/openSwarm.dir/main.cpp.o -c /home/eon/OpenSwarm/main.cpp",
   "file": "/home/eon/OpenSwarm/main.cpp"
 },
 
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++    -g   -std=gnu++17 -o Common/CMakeFiles/common.dir/common.cpp.o -c /home/eon/OpenSwarm/Common/common.cpp",
-  "file": "/home/eon/OpenSwarm/Common/common.cpp"
+  "command": "/usr/bin/c++    -g   -std=gnu++17 -o util/CMakeFiles/util.dir/util.cpp.o -c /home/eon/OpenSwarm/util/util.cpp",
+  "file": "/home/eon/OpenSwarm/util/util.cpp"
 },
 
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++   -isystem /usr/include/opencv4  -g   -std=gnu++17 -o ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o -c /home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp",
+  "command": "/usr/bin/c++   -isystem /usr/include/eigen3 -isystem /usr/include/opencv4  -g   -std=gnu++17 -o ArucoTracking/CMakeFiles/arucoDetection.dir/arucoDetection.cpp.o -c /home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp",
   "file": "/home/eon/OpenSwarm/ArucoTracking/arucoDetection.cpp"
 },
 
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++    -g   -std=gnu++17 -o SwarmControl/CMakeFiles/swarmControl.dir/swarm.cpp.o -c /home/eon/OpenSwarm/SwarmControl/swarm.cpp",
+  "command": "/usr/bin/c++   -I/usr/local/include/ompl-1.5 -I/usr/include/eigen3  -g   -std=gnu++17 -o SwarmControl/CMakeFiles/swarmControl.dir/swarm.cpp.o -c /home/eon/OpenSwarm/SwarmControl/swarm.cpp",
   "file": "/home/eon/OpenSwarm/SwarmControl/swarm.cpp"
 },
 
 {
   "directory": "/home/eon/OpenSwarm/build",
-  "command": "/usr/bin/c++   -I../SwarmControl/RobotObject/robotControl -I../SwarmControl/RobotObject/PUBLIC -I/usr/local/include/ompl-1.5 -I/usr/include/eigen3  -g   -std=gnu++17 -o SwarmControl/RobotObject/CMakeFiles/robotControl.dir/autoMR.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/autoMR.cpp",
+  "command": "/usr/bin/c++   -I/usr/local/include/ompl-1.5 -I/usr/include/eigen3  -g   -std=gnu++17 -o SwarmControl/RobotObject/CMakeFiles/robotControl.dir/autoMR.cpp.o -c /home/eon/OpenSwarm/SwarmControl/RobotObject/autoMR.cpp",
   "file": "/home/eon/OpenSwarm/SwarmControl/RobotObject/autoMR.cpp"
 },
 

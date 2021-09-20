@@ -4,15 +4,16 @@
     "Min_Input_Value_P": 18,
     "Max_Output_Value_P": 10,
     "Min_Output_Value_P": 15,
-    "Max_Input_Value_X": -1.235,
-    "Min_Input_Value_X": 1.345,
+    "Max_Input_Value_X": 1.345,
+    "Min_Input_Value_X": -1.235,
     "Max_Output_Value_X": 190,
     "Min_Output_Value_X": 0,
     "Max_Input_Value_Y": 0.8,
     "Min_Input_Value_Y": -0.81,
     "Max_Output_Value_Y": 120,
     "Min_Output_Value_Y": 0,
-    "Number_of_units": 2
+    "Number_of_units": 2,
+    "VideoSource": 2
   },
   "Robots": [
     {

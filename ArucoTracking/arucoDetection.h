@@ -5,13 +5,12 @@
 #include "../3rdParty/rapidjson/document.h"
 #include "../3rdParty/rapidjson/istreamwrapper.h"
 
-#include <eigen-3.3.9/Eigen/Dense>
-//#include <eigen-3.3.9/Eigen/Geometry>
-// TODO add precompiled headers in the cmake build
+#include <Eigen/Dense>
+
 #include <vector>
 #include <fstream>
 
-struct SinglePoseVector
+struct SinglePose
 {
     float yaw = 0;
     float x = 0;
@@ -20,9 +19,9 @@ struct SinglePoseVector
 
 struct FullPoseState
 {
-    SinglePoseVector q;
-    SinglePoseVector q_dot;
-    SinglePoseVector q_dot_dot;
+    SinglePose q;
+    SinglePose q_dot;
+    SinglePose q_dot_dot;
 };
 
 struct ChassisFullState
@@ -36,8 +35,6 @@ struct AllPoseStates
     std::vector<ChassisFullState> poses;
 };
 
-AllPoseStates getAllPoseStates();
-
-Eigen::Vector3f GetCurrentPose();
+int getAllPoseStates(AllPoseStates& pose_holder);
 
 void start_aruco_detection();

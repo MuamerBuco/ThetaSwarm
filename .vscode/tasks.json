@@ -6,8 +6,8 @@
             "command": "/usr/bin/g++",
             "args": [
                 "${workspaceFolder}/**",
-                "-I/usr/include/**",
-                "-I/usr/local/include/**",
+                // "-I/usr/include/**",
+                // "-I/usr/local/include/**",
                 "-g",
                 "${file}",
                 "-o",

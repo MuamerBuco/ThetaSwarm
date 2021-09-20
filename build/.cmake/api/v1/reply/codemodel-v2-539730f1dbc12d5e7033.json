@@ -1,0 +1,290 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "util",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "util",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "ArucoTracking",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "ArucoTracking",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "SwarmControl",
+					"childIndexes" : 
+					[
+						4,
+						9
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "SwarmControl",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "SwarmControl/RobotObject",
+					"childIndexes" : 
+					[
+						5,
+						7
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "SwarmControl/RobotObject",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "SwarmControl/RobotObject/RobotCommands",
+					"childIndexes" : 
+					[
+						6
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 0,
+					"source" : "SwarmControl/RobotObject/RobotCommands",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "SwarmControl/RobotObject/RobotCommands/Client",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 0,
+					"source" : "SwarmControl/RobotObject/RobotCommands/Client",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "SwarmControl/RobotObject/TrajectoryPlanning",
+					"childIndexes" : 
+					[
+						8
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 0,
+					"source" : "SwarmControl/RobotObject/TrajectoryPlanning",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "SwarmControl/RobotObject/TrajectoryPlanning/Kinematics",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 7,
+					"projectIndex" : 0,
+					"source" : "SwarmControl/RobotObject/TrajectoryPlanning/Kinematics",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "SwarmControl/PathPlanning",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "SwarmControl/PathPlanning",
+					"targetIndexes" : 
+					[
+						4
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9
+					],
+					"name" : "openSwarm",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 2,
+					"id" : "arucoDetection::@5ad8148c91dbe96e3cde",
+					"jsonFile" : "target-arucoDetection-60646f90468dffa0956a.json",
+					"name" : "arucoDetection",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "client::@12741848976181a089d9",
+					"jsonFile" : "target-client-7d72e0eeac7318ba6f9b.json",
+					"name" : "client",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "kinematics::@6f9f1b427e11af2f5f49",
+					"jsonFile" : "target-kinematics-baf34c2aac688961b322.json",
+					"name" : "kinematics",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "openSwarm::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-openSwarm-4a5ae1403899883ba2db.json",
+					"name" : "openSwarm",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "pathPlanning::@c5cb43cc6b4ae8ac534d",
+					"jsonFile" : "target-pathPlanning-d7bfbdce995ca4e02985.json",
+					"name" : "pathPlanning",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "robotCommands::@092f264e894f1f58cf32",
+					"jsonFile" : "target-robotCommands-bb452301d1b02d2b1f5c.json",
+					"name" : "robotCommands",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "robotControl::@036c3a33cff91daa0275",
+					"jsonFile" : "target-robotControl-bf3401315bb0292fd616.json",
+					"name" : "robotControl",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "swarmControl::@4f4845002d93db8ba287",
+					"jsonFile" : "target-swarmControl-6d8b6c87ecee9c0c2e21.json",
+					"name" : "swarmControl",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "trajectoryPlanning::@d17c4c452a380da27c19",
+					"jsonFile" : "target-trajectoryPlanning-705db9343ff0709be023.json",
+					"name" : "trajectoryPlanning",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "util::@5865449b717dd869d2cd",
+					"jsonFile" : "target-util-7e746024f063eb83b360.json",
+					"name" : "util",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/eon/OpenSwarm/build",
+		"source" : "/home/eon/OpenSwarm"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}
