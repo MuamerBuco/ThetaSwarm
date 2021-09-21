@@ -33,16 +33,13 @@ MatrixXf initialize_H_0_R(RobotConfiguration configuration)
     h_zero(3,1) = 1;
     h_zero(3,2) = 1;
 
-    printf("The wheel radius is: %f \n", wheel_radius_m);
-    printf("The matrix scalar is: %f \n", matrix_scalar);
-
     return matrix_scalar * h_zero;
 }
 
 // normalize wheel speed ratio with respects to 
 Vector4f applySpeedConstraints(Vector4f speeds_vector, RobotConfiguration *robot_config)
 {   
-    // fins lowest and highest absolute values in speed vector
+    // finds lowest and highest absolute values in speed vector
     // to extract the speed ratios to then multiply by proportional control
     auto [min_input_speed, max_input_speed] = findMaxMinAbsValues(&speeds_vector);
 

@@ -13,7 +13,6 @@
 #include <queue>
 #include <chrono>
 #include <functional>
-//#include <X11/Xlib.h>
 
 using namespace Eigen;
 using namespace rigtorp;
@@ -51,10 +50,6 @@ SPSCQueue<cv::Mat> visualizationSPSCQueue(2);
 // holds the relevant field data
 FieldData field_data;
 
-// const std::string videoIP = "rtsp://192.168.1.79:4847/h264_ulaw.sdp";
-//const std::string videoPath = "rtsp://192.168.1.97:4847/h264_ulaw.sdp";
-// const std::string videoIP = "rtsp://10.237.139.214:4847/h264_ulaw.sdp";
-
 int videoPath = 2;
 
 const std::string calibrationFilePath = "../CameraCalibration/calibration1.yml";
@@ -79,7 +74,8 @@ void loadFieldData(std::string filePath)
     std::ifstream ifs(filePath);
     if ( !ifs.is_open() )
     {
-        std::cerr << "Could not open config file for reading!\n";
+        std::cerr << "Could not open config file for reading!" << std::endl;
+        throw FATAL_ERROR;
     }
 
     IStreamWrapper isw(ifs);
@@ -93,65 +89,54 @@ void loadFieldData(std::string filePath)
         const Value& field_json = document["FieldData"];
 
         ////// P
-        assert(field_json.HasMember("Max_Input_Value_P"));
         assert(field_json["Max_Input_Value_P"].IsNumber());
         field_data.Max_Input_Value_P = field_json["Max_Input_Value_P"].GetFloat();
-        std::cout << field_data.Max_Input_Value_P << std::endl;
 
-        assert(field_json.HasMember("Min_Input_Value_P"));
         assert(field_json["Min_Input_Value_P"].IsNumber());
         field_data.Min_Input_Value_P = field_json["Min_Input_Value_P"].GetFloat();
 
-        assert(field_json.HasMember("Max_Output_Value_P"));
         assert(field_json["Max_Output_Value_P"].IsNumber());
         field_data.Max_Output_Value_P = field_json["Max_Output_Value_P"].GetFloat();
 
-        assert(field_json.HasMember("Min_Output_Value_P"));
         assert(field_json["Min_Output_Value_P"].IsNumber());
         field_data.Min_Output_Value_P = field_json["Min_Output_Value_P"].GetFloat();
 
         ////// X
-        assert(field_json.HasMember("Max_Input_Value_X"));
         assert(field_json["Max_Input_Value_X"].IsNumber());
         field_data.Max_Input_Value_X = field_json["Max_Input_Value_X"].GetFloat();
 
-        assert(field_json.HasMember("Min_Input_Value_X"));
         assert(field_json["Min_Input_Value_X"].IsNumber());
         field_data.Min_Input_Value_X = field_json["Min_Input_Value_X"].GetFloat();
 
-        assert(field_json.HasMember("Max_Output_Value_X"));
         assert(field_json["Max_Output_Value_X"].IsNumber());
         field_data.Max_Output_Value_X = field_json["Max_Output_Value_X"].GetFloat();
 
-        assert(field_json.HasMember("Min_Output_Value_X"));
         assert(field_json["Min_Output_Value_X"].IsNumber());
         field_data.Min_Output_Value_X = field_json["Min_Output_Value_X"].GetFloat();
 
         ////// Y
-        assert(field_json.HasMember("Max_Input_Value_Y"));
         assert(field_json["Max_Input_Value_Y"].IsNumber());
         field_data.Max_Input_Value_Y = field_json["Max_Input_Value_Y"].GetFloat();
 
-        assert(field_json.HasMember("Min_Input_Value_Y"));
         assert(field_json["Min_Input_Value_Y"].IsNumber());
         field_data.Min_Input_Value_Y = field_json["Min_Input_Value_Y"].GetFloat();
 
-        assert(field_json.HasMember("Max_Output_Value_Y"));
         assert(field_json["Max_Output_Value_Y"].IsNumber());
         field_data.Max_Output_Value_Y = field_json["Max_Output_Value_Y"].GetFloat();
 
-        assert(field_json.HasMember("Min_Output_Value_Y"));
         assert(field_json["Min_Output_Value_Y"].IsNumber());
         field_data.Min_Output_Value_Y = field_json["Min_Output_Value_Y"].GetFloat();
 
         // number of active units
-        assert(field_json.HasMember("Number_of_units"));
         assert(field_json["Number_of_units"].IsNumber());
         field_data.Number_of_units = field_json["Number_of_units"].GetInt();
 
-        assert(field_json.HasMember("VideoSource"));
         assert(field_json["VideoSource"].IsNumber());
         field_data.VideoPath = field_json["VideoSource"].GetInt();
+    }
+    else {
+        std::cerr << "Config doesnt have FieldData member" << std::endl;
+        throw FATAL_ERROR;
     }
 
     ifs.close();
@@ -180,7 +165,14 @@ int getAllPoseStates(AllPoseStates& pose_holder)
 // open video source and start pushing frames to image SPSC queue 
 void start_capturing()
 {
-    loadFieldData(configFilePath);
+    
+    try {
+        loadFieldData(configFilePath);
+    }
+    catch(int& err){
+        std::cerr << "Failed to load field data, aborting.." << std::endl;
+        std::abort();
+    }
     
     // open video source, set internal buffer to 0
     cv::VideoCapture inputVideo;
@@ -201,7 +193,7 @@ void start_capturing()
             }
         }
         else {
-            std::cout << "No video source found! " << std::endl;
+            std::cerr << "No video source found! " << std::endl;
 
             while(!inputVideo.open(field_data.VideoPath)) {
                 std::cout << "Trying to open video source at: " << videoPath << std::endl;
@@ -214,7 +206,7 @@ void start_capturing()
 * grab frames in queue, find markers, detect poses and push poses to queue by:
 * 1. start frame capturing
 * 2. initialize aruco detection infrastructure
-* 3. in infinite loop:
+* 3. in forever loop:
 *      1. grab image, copy for visualization
 *      2. detect markers, estimate pose, draw axis on visualizing image
 *      3. transform data to x,y coordinates, yaw in {-pi,pi} and ID to per robot pose holders
@@ -304,7 +296,7 @@ void start_pose_estimation(const std::string calibrationPath)
                 //my_yaw = addOffset(my_yaw, 0);
                 //std::cout << "The yaw after mapping: " << my_yaw << std::endl;
 
-                // TODO1 check if this is degree or rad, tho probably -pi, pi
+                // TODO1 check if this is suppose to be degree or rad, tho probably -pi, pi
                 my_yaw = YRP_vector(2,0);
                 // std::cout << "The yaw saved value: " << my_yaw << std::endl;
                 
@@ -313,7 +305,7 @@ void start_pose_estimation(const std::string calibrationPath)
                 // std::cout << "The tvec 1: " << tvecs[i][1] << std::endl;
                 
                 // add pose yaw, x, y and ID
-                // map from camera space to real coordinate space
+                // map from camera space to coordinate space
                 single_pose_holder.pose_state.q.yaw = my_yaw;
                 single_pose_holder.pose_state.q.x = MapValueToRange(field_data.Min_Input_Value_X, field_data.Min_Output_Value_X, field_data.Max_Input_Value_X, field_data.Max_Output_Value_X, tvecs[i][0]);
                 single_pose_holder.pose_state.q.y = MapValueToRange(field_data.Min_Input_Value_Y, field_data.Min_Output_Value_Y, field_data.Max_Input_Value_Y, field_data.Max_Output_Value_Y, tvecs[i][1]);

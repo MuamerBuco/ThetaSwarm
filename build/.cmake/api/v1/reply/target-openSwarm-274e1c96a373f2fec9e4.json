@@ -106,6 +106,10 @@
 	"dependencies" : 
 	[
 		{
+			"backtrace" : 2,
+			"id" : "util::@5865449b717dd869d2cd"
+		},
+		{
 			"backtrace" : 3,
 			"id" : "arucoDetection::@5ad8148c91dbe96e3cde"
 		},
@@ -136,10 +140,6 @@
 		{
 			"backtrace" : 4,
 			"id" : "pathPlanning::@c5cb43cc6b4ae8ac534d"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "util::@5865449b717dd869d2cd"
 		}
 	],
 	"id" : "openSwarm::@6890427a1f51a3e7e1df",

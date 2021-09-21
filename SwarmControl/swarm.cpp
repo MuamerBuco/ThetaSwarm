@@ -20,7 +20,7 @@ void Swarm::PANIC_STOP_SWARM()
 // fills in swarm data
 void Swarm::getSwarmData()
 {
-    unsigned int counter = 0;
+    unsigned int number_of_robots = 0;
     for (auto const& x : swarm_box.ID_Unit_Map)
     {
         // access ID_FullState_Map by ID and get robot data and IDs
@@ -30,13 +30,13 @@ void Swarm::getSwarmData()
         // get battery statuses
         x.second->getBatteryStatus();
         swarm_data.battery_statuses.insert( std::make_pair(x.first, x.second->robot_data.battery_percentage) );
-        counter++;
+        number_of_robots++;
     }
 
-    swarm_data.number_of_robots = counter;
+    swarm_data.number_of_robots = number_of_robots;
 }
 
-// creates n dynamic robot objects, need to be destructed with deinitializeSwarm()
+// create robot objects and initialize all robot related data
 void Swarm::initializeSwarm()
 {
     using namespace std;
@@ -47,8 +47,6 @@ void Swarm::initializeSwarm()
     std::deque<FullPoseState> initial_vel_acc_queue(ACCEL_MEMORY_SIZE, temp_state);
     std::deque<double> initial_time_memories_map(ACCEL_MEMORY_SIZE, 0.1);
     std::chrono::_V2::system_clock::time_point initial_timer_start;
-
-    std::cout << "created variables in initialize swarm" << std::endl;
 
     // initialize robots, fill unit map with < ID, autoMR* > pairs, initialize timer, timkeeping and vel/acc maps, and initialize ID-State map
     for(int id : swarm_box.ids)

@@ -7,6 +7,7 @@
 #include "../../util/util.h"
 
 #include <thread>
+#include <stdexcept>
 
 // struct holding PD controller coefficients
 struct PD_Controller_Coefficients {
@@ -94,8 +95,7 @@ class autoMR
         std::shared_ptr< rigtorp::SPSCQueue<FullRobotState> > LatestRobotState;
         std::shared_ptr< rigtorp::SPSCQueue<FullStateTrajectory> > TrajectorySet;
 
-        // TODO mutex whenever used
-        bool stopRobot = 0;
+        std::atomic<bool> stopRobot = false;
 
         RobotData robot_data;
 
@@ -107,15 +107,36 @@ class autoMR
             LatestRobotState = std::make_shared< rigtorp::SPSCQueue<FullRobotState> >(2);
             TrajectorySet = std::make_shared< rigtorp::SPSCQueue<FullStateTrajectory> >(2);
 
-            initializeRobot(id);
+            // TODO1 for all try catch derive type from <stdexcept>
+            try {
+    
+                initializeRobot(id);
+            }
+            catch( int& err ) {
+                if(err == FATAL_ERROR){
+                    std::cerr << "Failed to access configuration, aborting..." << std::endl;
+                    std::abort();
+                }
+                else if(err == CASE_ERROR) {
+                    std::cerr << "Failed to initialize robot ID: " << id << std::endl;
+                    std::cerr << "Skipping..." << std::endl;
+                    std::exit( EXIT_FAILURE );
+                }
+            }
 
             worker_thread = std::thread(&autoMR::robot_control, this);
         }
 
-        // TODO add try catch because  join can throw so calling it without a try..catch from a destructor is reckless
         ~autoMR() 
         { 
-            worker_thread.join(); 
+            try {
+                worker_thread.join(); 
+            } 
+            catch(const std::system_error& e) {
+                std::cerr << "Failed to join autoMR worker thread" << std::endl;
+                std::exit( EXIT_FAILURE );
+            }
+            
         };
 
         void getBatteryStatus();
@@ -130,6 +151,7 @@ class autoMR
 
         bool pushNewRobotState(FullRobotState* new_full_robot_state);
 
+    
     private:
 
         std::thread worker_thread;

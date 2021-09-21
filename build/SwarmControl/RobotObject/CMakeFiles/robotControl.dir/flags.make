@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=gnu++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/local/include/ompl-1.5 -isystem /usr/local/include/eigen3 
+CXX_INCLUDES = -isystem /usr/local/include/eigen3 
 

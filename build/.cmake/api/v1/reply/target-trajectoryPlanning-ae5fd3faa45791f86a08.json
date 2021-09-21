@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "SwarmControl/RobotObject/librobotControl.a"
+			"path" : "SwarmControl/RobotObject/TrajectoryPlanning/libtrajectoryPlanning.a"
 		}
 	],
 	"backtrace" : 1,
@@ -12,13 +12,11 @@
 		"commands" : 
 		[
 			"add_library",
-			"target_link_libraries",
-			"target_include_directories"
+			"target_link_libraries"
 		],
 		"files" : 
 		[
-			"SwarmControl/RobotObject/CMakeLists.txt",
-			"SwarmControl/RobotObject/TrajectoryPlanning/Kinematics/CMakeLists.txt"
+			"SwarmControl/RobotObject/TrajectoryPlanning/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -36,21 +34,6 @@
 				"file" : 0,
 				"line" : 6,
 				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 7,
-				"parent" : 0
-			},
-			{
-				"file" : 1
-			},
-			{
-				"command" : 2,
-				"file" : 1,
-				"line" : 5,
-				"parent" : 4
 			}
 		]
 	},
@@ -69,11 +52,7 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 5,
-					"path" : "/usr/local/include/ompl-1.5"
-				},
-				{
-					"backtrace" : 5,
+					"backtrace" : 2,
 					"isSystem" : true,
 					"path" : "/usr/local/include/eigen3"
 				}
@@ -89,32 +68,20 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "robotCommands::@092f264e894f1f58cf32"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "client::@12741848976181a089d9"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "trajectoryPlanning::@d17c4c452a380da27c19"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "kinematics::@6f9f1b427e11af2f5f49"
-		},
-		{
-			"backtrace" : 2,
 			"id" : "util::@5865449b717dd869d2cd"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kinematics::@6f9f1b427e11af2f5f49"
 		}
 	],
-	"id" : "robotControl::@036c3a33cff91daa0275",
-	"name" : "robotControl",
-	"nameOnDisk" : "librobotControl.a",
+	"id" : "trajectoryPlanning::@d17c4c452a380da27c19",
+	"name" : "trajectoryPlanning",
+	"nameOnDisk" : "libtrajectoryPlanning.a",
 	"paths" : 
 	{
-		"build" : "SwarmControl/RobotObject",
-		"source" : "SwarmControl/RobotObject"
+		"build" : "SwarmControl/RobotObject/TrajectoryPlanning",
+		"source" : "SwarmControl/RobotObject/TrajectoryPlanning"
 	},
 	"sourceGroups" : 
 	[
@@ -131,7 +98,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "SwarmControl/RobotObject/autoMR.cpp",
+			"path" : "SwarmControl/RobotObject/TrajectoryPlanning/trajectoryPlanning.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

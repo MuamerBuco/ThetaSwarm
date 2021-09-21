@@ -335,6 +335,8 @@ TrajectoryPlanning/Kinematics/kinematics.h
 /home/eon/OpenSwarm/util/util.h
 thread
 -
+stdexcept
+-
 
 /home/eon/OpenSwarm/util/util.h
 iostream

@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "SwarmControl/RobotObject/RobotCommands/librobotCommands.a"
+			"path" : "SwarmControl/RobotObject/librobotControl.a"
 		}
 	],
 	"backtrace" : 1,
@@ -16,7 +16,7 @@
 		],
 		"files" : 
 		[
-			"SwarmControl/RobotObject/RobotCommands/CMakeLists.txt"
+			"SwarmControl/RobotObject/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -38,7 +38,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 5,
+				"line" : 7,
 				"parent" : 0
 			}
 		]
@@ -55,6 +55,14 @@
 					"fragment" : "-std=gnu++17"
 				}
 			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "/usr/local/include/eigen3"
+				}
+			],
 			"language" : "CXX",
 			"sourceIndexes" : 
 			[
@@ -66,20 +74,32 @@
 	[
 		{
 			"backtrace" : 2,
+			"id" : "util::@5865449b717dd869d2cd"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "robotCommands::@092f264e894f1f58cf32"
+		},
+		{
+			"backtrace" : 2,
 			"id" : "client::@12741848976181a089d9"
 		},
 		{
 			"backtrace" : 3,
-			"id" : "util::@5865449b717dd869d2cd"
+			"id" : "trajectoryPlanning::@d17c4c452a380da27c19"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "kinematics::@6f9f1b427e11af2f5f49"
 		}
 	],
-	"id" : "robotCommands::@092f264e894f1f58cf32",
-	"name" : "robotCommands",
-	"nameOnDisk" : "librobotCommands.a",
+	"id" : "robotControl::@036c3a33cff91daa0275",
+	"name" : "robotControl",
+	"nameOnDisk" : "librobotControl.a",
 	"paths" : 
 	{
-		"build" : "SwarmControl/RobotObject/RobotCommands",
-		"source" : "SwarmControl/RobotObject/RobotCommands"
+		"build" : "SwarmControl/RobotObject",
+		"source" : "SwarmControl/RobotObject"
 	},
 	"sourceGroups" : 
 	[
@@ -96,7 +116,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "SwarmControl/RobotObject/RobotCommands/sendRobotCommands.cpp",
+			"path" : "SwarmControl/RobotObject/autoMR.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

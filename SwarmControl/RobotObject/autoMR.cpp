@@ -12,15 +12,15 @@ std::string configFile = "../config.json";
 // explicitly initialize robot PD coefficients, HOR matrix and initial states
 bool autoMR::initializeRobot(int id)
 {
-    loadConfig(configFile, id);
-
-    // std::cout << "read the config in initialize robot" << std::endl;
-
+    try {
+        loadConfig(configFile, id);
+    }
+    catch( int& err ) {
+        std::cerr << "Failed to load config" << std::endl;
+        throw err;
+    }
+    
     robot_data.kinematics_data.H0_R = initialize_H_0_R(robot_data.robot_configuration);
-
-
-    // std::cout << "initialized HOR in initialize robot" << std::endl;
-
 
     initializeRobotStates(id);
 
@@ -35,7 +35,8 @@ void autoMR::loadConfig(std::string filePath, int id)
     std::ifstream ifs(filePath);
     if ( !ifs.is_open() )
     {
-        std::cerr << "Could not open config file for reading!\n";
+        std::cerr << "Could not open config file for reading" << std::endl;
+        throw FATAL_ERROR;
     }
 
     IStreamWrapper isw(ifs);
@@ -50,7 +51,7 @@ void autoMR::loadConfig(std::string filePath, int id)
         for (SizeType i = 0 ; i < robot_json.Size(); ++i)
         {
             if( robot_json[i]["ID"].GetInt() == id )
-            {
+            {   
                 robot_data.ID = robot_json[i]["ID"].GetInt();
                 robot_data.robotIP = robot_json[i]["RobotIP"].GetString();
                 robot_data.robotPort = robot_json[i]["RobotPort"].GetInt();
@@ -90,7 +91,15 @@ void autoMR::loadConfig(std::string filePath, int id)
                 robot_data.robot_configuration.Max_RadS_Speed = robot_viable_speed["MAX"].GetFloat();
                 robot_data.robot_configuration.Min_RadS_Speed = robot_viable_speed["MIN"].GetFloat();
             }
+            else {
+                std::cerr << "ID missing from config file" << std::endl;
+                throw CASE_ERROR;
+            }
         }
+    }
+    else {
+        std::cerr << "Config doesn't have Robot member" << std::endl;
+        throw FATAL_ERROR;
     }
 
     ifs.close();
@@ -149,6 +158,7 @@ void autoMR::freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_o
 {
     uint8_t shutdown[12] = {0};
     while(stopRobot){
+        msDelay(10);
         SendRobotCommands(&shutdown[0], client_object, 1);
     }
 }
@@ -312,21 +322,20 @@ void autoMR::setDefaultState(FullRobotState new_default_state)
 
 void autoMR::resumeOperation()
 {
-    stopRobot = 0;
+    stopRobot = false;
 }
 
 // force the robot into default state
 void autoMR::resetRobot()
 {
     pushNewRobotState(&default_state);
-    stopRobot = 0;
+    stopRobot = false;
 }
 
 // immediatelly stop the robot from moving
 void autoMR::PANIC_STOP()
 {
-    //add mutex
-    stopRobot = 1;
+    stopRobot = true;
 }
 
 // map different possible ranges of each variable in the control vector to the same range

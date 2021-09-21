@@ -10,6 +10,10 @@
 #include <vector>
 #include <fstream>
 
+// Error codes
+#define FATAL_ERROR 1
+#define CASE_ERROR 2
+
 struct SinglePose
 {
     float yaw = 0;

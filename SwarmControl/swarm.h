@@ -8,7 +8,7 @@
 #include <vector>
 #include <deque>
 
-// struct holding swarm data(ids, battery lvls)
+// holds swarm data(ids, battery lvls...)
 struct SwarmData {
     
     int number_of_robots = 0;
@@ -35,7 +35,10 @@ struct SwarmBox {
     std::map<int, std::deque<double> > time_memories_map;
     std::map<int, std::chrono::_V2::system_clock::time_point > timer_start_map;
 
+    // holds all FullStates accessed by ID
     std::map<int, FullRobotState> ID_FullState_Map;
+
+    // holds all pointers to robot objects, accessed by ID 
     std::map<int, std::shared_ptr<autoMR> > ID_Unit_Map;
     std::vector<int> ids;
 };
@@ -51,7 +54,7 @@ class Swarm {
         // holds all swarm data like ids, battery lvls...
         SwarmData swarm_data;
 
-        // Queue for all new setpoints
+        // queue for all new setpoints
         std::shared_ptr< rigtorp::SPSCQueue<AllFullStateTrajectories> > all_setpoints;
 
         Swarm(std::vector<int> idsVector)
@@ -62,7 +65,7 @@ class Swarm {
             // enter robot IDs
             swarm_box.ids = idsVector;
 
-            // initialize robot objects
+            // initialize robots
             initializeSwarm();
         }
 
