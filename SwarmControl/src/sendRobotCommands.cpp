@@ -1,9 +1,8 @@
 #include "sendRobotCommands.h"
-#include "../../../util/util.h"
+#include "../../util/util.h"
 
 // stream motor commands using the passed udp client, 
 // in format [parseReference,  UL-speed, UL-direction, UR-speed, UR-direction, DL-speed, DL-direction, DR-speed, DR-direction]
-// TODO1 remove comment when done
 void SendRobotCommands(uint8_t *msgRobot, std::shared_ptr<udp_client_server::udp_client> client_object, uint16_t ms_delay)
 {
     client_object->send_bytes(msgRobot, sizeof(msgRobot) + 1);

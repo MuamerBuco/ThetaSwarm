@@ -1,8 +1,8 @@
 #ifndef autoMR_H
 #define autoMR_H
 
-#include "RobotCommands/sendRobotCommands.h"
-#include "TrajectoryPlanning/Kinematics/kinematics.h"
+#include "sendRobotCommands.h"
+#include "kinematics.h"
 #include "../../ArucoTracking/arucoDetection.h"
 #include "../../util/util.h"
 

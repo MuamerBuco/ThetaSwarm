@@ -1,5 +1,5 @@
 #include "kinematics.h"
-#include "../../../../util/util.h"
+#include "../../util/util.h"
 #include <stdio.h>
 #include <iostream>
 #include <tuple>

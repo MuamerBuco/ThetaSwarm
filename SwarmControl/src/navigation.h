@@ -7,17 +7,7 @@
 #include <Eigen/Dense>
 #include <vector>
 
-#include "../RobotObject/autoMR.h"
-
-// struct WaypointSet {
-    
-//     int id;
-//     Waypoints new_waypoints;
-// };
-
-// typedef std::vector<Eigen::Vector3d> Waypoints;
-
-// typedef std::vector<WaypointSet> AllWaypoints;
+#include "autoMR.h"
 
 // An enum of supported optimal planners, alphabetical order
 enum optimalPlanner

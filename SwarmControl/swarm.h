@@ -1,8 +1,8 @@
 #ifndef Swarm_H
 #define Swarm_H
 
-#include "RobotObject/autoMR.h"
-#include "PathPlanning/navigation.h"
+#include "src/autoMR.h"
+#include "src/navigation.h"
 
 #include <map>
 #include <vector>
