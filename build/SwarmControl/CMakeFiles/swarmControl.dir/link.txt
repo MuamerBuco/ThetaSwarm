@@ -1,2 +1,0 @@
-/usr/bin/ar qc libswarmControl.a  CMakeFiles/swarmControl.dir/swarm.cpp.o
-/usr/bin/ranlib libswarmControl.a
