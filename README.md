@@ -40,6 +40,8 @@ make -j 4 # replace "4" with the number of cores on your machine
 ## Coming Soon
 
 - Trajectory splining
+- Dynamic trajectory generation
+- Obstacle avoidance
 - Automated scene setup
 - Built-in camera calibration
 - Python <-> C++ piping
