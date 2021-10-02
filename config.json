@@ -4,21 +4,31 @@
     "Min_Input_Value_P": 18,
     "Max_Output_Value_P": 10,
     "Min_Output_Value_P": 15,
-    "Max_Input_Value_X": 1.345,
-    "Min_Input_Value_X": -1.235,
+    "Max_Input_Value_X": 1.351,
+    "Min_Input_Value_X": -1.256,
     "Max_Output_Value_X": 190,
     "Min_Output_Value_X": 0,
-    "Max_Input_Value_Y": 0.8,
-    "Min_Input_Value_Y": -0.81,
+    "Max_Input_Value_Y": -0.83,
+    "Min_Input_Value_Y": 0.81,
     "Max_Output_Value_Y": 120,
     "Min_Output_Value_Y": 0,
-    "Number_of_units": 2,
-    "VideoSource": 2
+    "Number_of_units": 2 
+  },
+  "CameraSettings": {
+    "VideoSource": 2,
+    "CameraResolutionW": 1280,
+    "CameraResolutionH": 720,
+    "Contrast": 300,
+    "Brightness": -150,
+    "Saturation": 0,
+    "Gain": 500,
+    "Gamma": 0,
+    "Sharpness": 200
   },
   "Robots": [
     {
-      "ID": 15,
-      "RobotIP": "192.168.1.10",
+      "ID": 16,
+      "RobotIP": "192.168.1.65",
       "RobotPort": 3333,
       "PID": {
         "Yaw": 1,
@@ -48,12 +58,17 @@
         "RD": 10.5
       },
       "Viable_PWM": {
-        "MIN": 180,
+        "MIN": 190,
         "MAX": 255
       },
       "Viable_RadS_Speed": {
         "MAX": 23.3,
         "MIN": 10.5
+      },
+      "DefaultColor": {
+        "Red": 0,
+        "Green" : 255,
+        "Blue": 0
       }
     },
     {
@@ -94,6 +109,11 @@
       "Viable_RadS_Speed": {
         "MAX": 23.3,
         "MIN": 10.5
+      },
+      "DefaultColor": {
+        "Red": 0,
+        "Green" : 0,
+        "Blue": 255
       }
     }
   ]

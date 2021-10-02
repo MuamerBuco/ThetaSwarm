@@ -19,6 +19,7 @@ using namespace rigtorp;
 
 // struct holding field data
 struct FieldData {
+    
     float Max_Input_Value_P;
     float Min_Input_Value_P;
     float Max_Output_Value_P;
@@ -35,7 +36,21 @@ struct FieldData {
     float Min_Output_Value_Y;
 
     int Number_of_units;
+};
+
+struct CameraSettings {
+    
     int VideoPath;
+
+    int VideoWidth;
+    int VideoHeight;
+
+    float Contrast;
+    float Brightness;
+    float Saturation;
+    float Gain;
+    float Gamma;
+    float Sharpness;
 };
 
 // queues poses in a single pass
@@ -49,6 +64,7 @@ SPSCQueue<cv::Mat> visualizationSPSCQueue(2);
 
 // holds the relevant field data
 FieldData field_data;
+CameraSettings camera_settings;
 
 int videoPath = 2;
 
@@ -89,53 +105,65 @@ void loadFieldData(std::string filePath)
         const Value& field_json = document["FieldData"];
 
         ////// P
-        assert(field_json["Max_Input_Value_P"].IsNumber());
         field_data.Max_Input_Value_P = field_json["Max_Input_Value_P"].GetFloat();
 
-        assert(field_json["Min_Input_Value_P"].IsNumber());
         field_data.Min_Input_Value_P = field_json["Min_Input_Value_P"].GetFloat();
 
-        assert(field_json["Max_Output_Value_P"].IsNumber());
         field_data.Max_Output_Value_P = field_json["Max_Output_Value_P"].GetFloat();
 
-        assert(field_json["Min_Output_Value_P"].IsNumber());
         field_data.Min_Output_Value_P = field_json["Min_Output_Value_P"].GetFloat();
 
         ////// X
-        assert(field_json["Max_Input_Value_X"].IsNumber());
         field_data.Max_Input_Value_X = field_json["Max_Input_Value_X"].GetFloat();
 
-        assert(field_json["Min_Input_Value_X"].IsNumber());
         field_data.Min_Input_Value_X = field_json["Min_Input_Value_X"].GetFloat();
 
-        assert(field_json["Max_Output_Value_X"].IsNumber());
         field_data.Max_Output_Value_X = field_json["Max_Output_Value_X"].GetFloat();
 
-        assert(field_json["Min_Output_Value_X"].IsNumber());
         field_data.Min_Output_Value_X = field_json["Min_Output_Value_X"].GetFloat();
 
         ////// Y
-        assert(field_json["Max_Input_Value_Y"].IsNumber());
         field_data.Max_Input_Value_Y = field_json["Max_Input_Value_Y"].GetFloat();
 
-        assert(field_json["Min_Input_Value_Y"].IsNumber());
         field_data.Min_Input_Value_Y = field_json["Min_Input_Value_Y"].GetFloat();
 
-        assert(field_json["Max_Output_Value_Y"].IsNumber());
         field_data.Max_Output_Value_Y = field_json["Max_Output_Value_Y"].GetFloat();
 
-        assert(field_json["Min_Output_Value_Y"].IsNumber());
         field_data.Min_Output_Value_Y = field_json["Min_Output_Value_Y"].GetFloat();
 
         // number of active units
-        assert(field_json["Number_of_units"].IsNumber());
         field_data.Number_of_units = field_json["Number_of_units"].GetInt();
-
-        assert(field_json["VideoSource"].IsNumber());
-        field_data.VideoPath = field_json["VideoSource"].GetInt();
     }
     else {
         std::cerr << "Config doesnt have FieldData member" << std::endl;
+        throw FATAL_ERROR;
+    }
+
+    if (document.HasMember("CameraSettings"))
+    {
+        const Value& camera_json = document["CameraSettings"];
+
+        // camera settings
+        camera_settings.VideoPath = camera_json["VideoSource"].GetInt();
+
+        camera_settings.VideoWidth = camera_json["CameraResolutionW"].GetInt();
+
+        camera_settings.VideoHeight = camera_json["CameraResolutionH"].GetInt();
+
+        camera_settings.Contrast = camera_json["Contrast"].GetFloat();
+
+        camera_settings.Brightness = camera_json["Brightness"].GetFloat();
+
+        camera_settings.Saturation = camera_json["Saturation"].GetFloat();
+
+        camera_settings.Gain = camera_json["Gain"].GetFloat();
+
+        camera_settings.Gamma = camera_json["Gamma"].GetFloat();
+
+        camera_settings.Sharpness = camera_json["Sharpness"].GetFloat();
+    }
+    else {
+        std::cerr << "Config doesnt have Camera Settings member" << std::endl;
         throw FATAL_ERROR;
     }
 
@@ -159,7 +187,6 @@ int getAllPoseStates(AllPoseStates& pose_holder)
         return 1;
     }
     else return 0;
-    
 }
 
 // open video source and start pushing frames to image SPSC queue 
@@ -176,8 +203,8 @@ void start_capturing()
     
     // open video source, set internal buffer to 0
     cv::VideoCapture inputVideo;
-    inputVideo.set(cv::CAP_PROP_BUFFERSIZE, 0);
-    inputVideo.open(field_data.VideoPath);
+
+    inputVideo.open(camera_settings.VideoPath);
     
     cv::Mat InputImage;
 
@@ -187,6 +214,21 @@ void start_capturing()
     while(1) {
         // if the input is opened, read image and push to buffer
         if(inputVideo.isOpened()) {
+            
+            // Set internal buffer to 0
+            inputVideo.set(cv::CAP_PROP_BUFFERSIZE, 1);
+
+            // Set camera parameters
+            inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, camera_settings.VideoWidth);
+            inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, camera_settings.VideoHeight);
+
+            inputVideo.set(cv::CAP_PROP_CONTRAST, camera_settings.Contrast);
+            inputVideo.set(cv::CAP_PROP_BRIGHTNESS, camera_settings.Brightness);
+            inputVideo.set(cv::CAP_PROP_SATURATION, camera_settings.Saturation);
+            inputVideo.set(cv::CAP_PROP_GAIN, camera_settings.Gain);
+            inputVideo.set(cv::CAP_PROP_GAMMA, camera_settings.Gamma);
+            inputVideo.set(cv::CAP_PROP_SHARPNESS, camera_settings.Sharpness);
+
             while(inputVideo.read(InputImage)) {
                 
                 imageSPSCQueue.try_push(InputImage);
@@ -195,7 +237,7 @@ void start_capturing()
         else {
             std::cerr << "No video source found! " << std::endl;
 
-            while(!inputVideo.open(field_data.VideoPath)) {
+            while(!inputVideo.open(camera_settings.VideoPath)) {
                 std::cout << "Trying to open video source at: " << videoPath << std::endl;
             }
         }
@@ -222,6 +264,7 @@ void start_pose_estimation(const std::string calibrationPath)
     // detected IDs with Corners
     std::vector<int> ids;
     std::vector<std::vector<cv::Point2f>> corners;
+    // TODO maybe remove reserves
     ids.reserve(field_data.Number_of_units);
     corners.reserve(field_data.Number_of_units);
 
@@ -238,11 +281,17 @@ void start_pose_estimation(const std::string calibrationPath)
 
     // define parameters of the dictionary to be detected
     cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+    cv::Ptr<cv::aruco::DetectorParameters> params = cv::aruco::DetectorParameters::create();
+
     Matrix3f new_rotations(3,3);
     float my_yaw;
+
+    // #metrics
+    int avgTime = 0;
+    #define AVG_NUM_CYCLES 200
     
     while(1) {
-        for(int test1 = 0; test1 < 200; test1++)
+        for(int test1 = 0; test1 < AVG_NUM_CYCLES; test1++)
         { //#metrics
         auto start1 = std::chrono::system_clock::now(); //#metrics
 
@@ -252,13 +301,13 @@ void start_pose_estimation(const std::string calibrationPath)
         currentImage = *imageSPSCQueue.front();
         //currentImage = currentImage(cv::Rect(500,500,100,100));
         imageCopyVisualize = currentImage;
+
+        // params->cornerRefinementMethod = cv::aruco::CORNER_REFINE_CONTOUR;
+        // params->adaptiveThreshConstant = true;
         
-        cv::aruco::detectMarkers(currentImage, dictionary, corners, ids);
+        cv::aruco::detectMarkers(currentImage, dictionary, corners, ids, params);
 
         // std::cout << "Number of detected markers " << ids.size() << std::endl;
-
-        // msDelay(1); //#delay
-
 
         if (ids.size() > 0) {
             
@@ -284,19 +333,9 @@ void start_pose_estimation(const std::string calibrationPath)
                     }
                 }
 
-                // TODO1 clean up this shit
-
                 // transform rotation matrix to yaw, pitch. roll (in that order)
                 Vector3f YRP_vector = new_rotations.eulerAngles(2, 2, 2);
-                //std::cout << "The yaw before mapping: " << YRP_vector(0,0) << std::endl;
-                //my_yaw = static_cast<int>( MapValueToRange(0, -180, 3.14, 180, YRP_vector(0,0)) );
-                //my_yaw = static_cast<int>( MapValueToRange(0, 0, 3.14, 360, YRP_vector(1,0)) );
-
-                //std::cout << "The yaw raw value: " << YRP_vector(2,0) << std::endl;
-                //my_yaw = addOffset(my_yaw, 0);
-                //std::cout << "The yaw after mapping: " << my_yaw << std::endl;
-
-                // TODO1 check if this is suppose to be degree or rad, tho probably -pi, pi
+             
                 my_yaw = YRP_vector(2,0);
                 // std::cout << "The yaw saved value: " << my_yaw << std::endl;
                 
@@ -311,29 +350,21 @@ void start_pose_estimation(const std::string calibrationPath)
                 single_pose_holder.pose_state.q.y = MapValueToRange(field_data.Min_Input_Value_Y, field_data.Min_Output_Value_Y, field_data.Max_Input_Value_Y, field_data.Max_Output_Value_Y, tvecs[i][1]);
                 single_pose_holder.id = ids[i];
                 pose_holder.poses.push_back(single_pose_holder);
-
-
-
-                // std::cout << "In aruco: the newly found value for y: " << single_pose_holder.pose_state.q.y << std::endl;
-                // std::cout << "In aruco: field data Max_Output_Value_Y: " << field_data.Max_Output_Value_Y << std::endl;
-                // std::cout << "In aruco: the pushed id: " << single_pose_holder.id << std::endl;
                 
-                //std::cout << "rvecs: " << std::endl;
+                // std::cout << "rvecs: " << std::endl;
                 // for (auto vec : rvecs)
                 //    std::cout << vec << std::endl;
          
-                //std::cout << "tvecs: " << std::endl; 
+                // std::cout << "tvecs: " << std::endl; 
                 // for (auto vec : tvecs)
                 //     std::cout << vec << std::endl;
             }
             // push vectored tvecs, rvecs and ids to queue if queue is not full
             posesSPSCQueue.try_push(pose_holder);
 
-            // #testing for drawn axis stability, only push visualized frames that contain markers if queue isnt full
-            visualizationSPSCQueue.try_push(imageCopyVisualize);
-
             // pop current set of tvecs and rvecs
             pose_holder.poses.clear();
+            // msDelay(500);
         }
         else {
             //std::cout << "No markers detected!" << std::endl;
@@ -348,8 +379,14 @@ void start_pose_estimation(const std::string calibrationPath)
         auto end1 = std::chrono::system_clock::now(); //#metrics
         auto elapsed1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count(); //#metrics
         // std::cout << "The first part took: " << elapsed1  << std::endl; //#metrics
+        avgTime += elapsed1; // #metrics
+
 
         } // for 100 #metrics
+        std::cout << "The avg time per pass is: " << avgTime/AVG_NUM_CYCLES  << std::endl; //#metrics
+        std::cout << "The avg fps is: " << 1000/(avgTime/AVG_NUM_CYCLES)  << std::endl; //#metrics
+        avgTime = 0;
+
     }
     capture_thread.join();
 }

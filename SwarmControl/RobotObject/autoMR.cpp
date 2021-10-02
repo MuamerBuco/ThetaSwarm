@@ -7,6 +7,17 @@ using namespace Eigen;
 
 #define MAX_FAIL_COUNT 20
 
+uint8_t DIRECTION_ARRAY[6][8] = {
+    {255, 1 ,255, 1 ,255, 1 ,255, 1}, // Move Forward
+    {255, 0 ,255, 0 ,255, 0 ,255, 0}, // Move Backward
+
+    {255, 1 ,255, 0 ,255, 1 ,255, 0}, //Rotate Right
+    {255, 0 ,255, 1 ,255, 0 ,255, 1}, // Rotate Left
+
+    {255, 1 ,255, 0 ,255, 0 ,255, 1}, //Move Right
+    {255, 0 ,254, 1 ,255, 1 ,255, 0} // Move Left
+};
+
 std::string configFile = "../config.json";
 
 // explicitly initialize robot PD coefficients, HOR matrix and initial states
@@ -24,11 +35,14 @@ bool autoMR::initializeRobot(int id)
 
     initializeRobotStates(id);
 
+    // initialize UDP client
+    robot_client = std::make_shared<udp_client_server::udp_client>(robot_data.robotIP, robot_data.robotPort);
+
     return 1;
 }
 
 // grab the robot configuration data from the config file
-void autoMR::loadConfig(std::string filePath, int id)
+bool autoMR::loadConfig(std::string filePath, int id)
 {
     using namespace rapidjson;
 
@@ -90,19 +104,27 @@ void autoMR::loadConfig(std::string filePath, int id)
                 const Value& robot_viable_speed = robot_json[i]["Viable_RadS_Speed"];
                 robot_data.robot_configuration.Max_RadS_Speed = robot_viable_speed["MAX"].GetFloat();
                 robot_data.robot_configuration.Min_RadS_Speed = robot_viable_speed["MIN"].GetFloat();
-            }
-            else {
-                std::cerr << "ID missing from config file" << std::endl;
-                throw CASE_ERROR;
+
+                const Value& default_color = robot_json[i]["DefaultColor"];
+                robot_data.default_color.r = default_color["Red"].GetInt();
+                robot_data.default_color.g = default_color["Green"].GetInt();
+                robot_data.default_color.b = default_color["Blue"].GetInt();
+
+                return 1;
             }
         }
+
+        ifs.close();
+        std::cerr << "ID missing from config file" << std::endl;
+        throw CASE_ERROR;
     }
     else {
+        ifs.close();
         std::cerr << "Config doesn't have Robot member" << std::endl;
         throw FATAL_ERROR;
     }
 
-    ifs.close();
+    return 0;
 }
 
 int autoMR::setTrajectory(FullStateTrajectory* full_trajectory)
@@ -163,6 +185,79 @@ void autoMR::freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_o
     }
 }
 
+/* **
+* run in a preset direction, at set speed, for set duration
+* 0 => Move Forward
+* 1 => Move Backward
+* 2 => Rotate Right
+* 3 => Rotate Left
+* 4 => Move Right
+* 5 => Move Left ** */
+void autoMR::setCustomDirection(uint8_t direction, uint8_t speed, int ms_delay)
+{
+    uint8_t tx_buffer[9] = {0};
+
+    tx_buffer[0] = CUSTOM_MOVE;
+
+    for (int i = 0; i < 8; i++) 
+    {
+        tx_buffer[i+1] = *(DIRECTION_ARRAY[direction] + i);
+        if(i % 2 == 0) tx_buffer[i+1] = speed;
+    }
+
+    SendRobotCommandsForMs(&tx_buffer[0], ms_delay, 2, robot_client);
+}
+
+/* **
+* set custom program, or a single LED
+* switch_case = [0]; index = [1]; red = [2]; green = [3]; blue = [4]; ms_delay = [5]; 
+* TODO1 write modes
+*/
+void autoMR::setCustomColor(uint8_t index, RGBColor my_color, CustomLEDprograms mode, uint8_t ms_delay)
+{
+    uint8_t tx_buffer[7];
+
+    tx_buffer[0] = CUSTOM_LED;
+
+    tx_buffer[1] = mode;
+    tx_buffer[2] = index;
+
+    tx_buffer[3] = my_color.r;
+    tx_buffer[4] = my_color.g;
+    tx_buffer[5] = my_color.b;
+
+    tx_buffer[6] = ms_delay;
+
+    // resend a few times
+    for(int i = 0; i < 5; i ++)
+    {
+        SendRobotCommands(&tx_buffer[0], robot_client, 1);
+    }
+}
+
+// set custom tilt and extension of bucket
+void autoMR::setCustomBucket(uint8_t tilt, uint8_t extend)
+{
+    uint8_t tx_buffer[3];
+
+    tx_buffer[0] = CUSTOM_BUCKET;
+
+    tx_buffer[1] = tilt;
+    tx_buffer[2] = extend;
+
+    // resend a few times
+    for(int i = 0; i < 5; i ++)
+    {
+        SendRobotCommands(&tx_buffer[0], robot_client, 1);
+    }
+}
+
+// light up the robot in its default color
+void autoMR::selfIdentify()
+{
+    this->setCustomColor(0, robot_data.default_color, BLINK_ONCE, 0);
+}
+
 /* checks each pose parameter
 * if any parameter is within bounds of precision margin remove it from error calculations
 * if any is outside the margins of precision return false
@@ -171,19 +266,19 @@ bool autoMR::ReachedTarget()
 {
     if( abs(current_full_state.current_pose_and_id.pose_state.q.yaw - current_full_state.target_pose_and_id.pose_state.q.yaw) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw)
     {
-        current_full_state.current_pose_and_id.pose_state.q.yaw = current_full_state.target_pose_and_id.pose_state.q.yaw; 
+        //current_full_state.current_pose_and_id.pose_state.q.yaw = current_full_state.target_pose_and_id.pose_state.q.yaw; 
     }
     else return 0;
 
     if( abs(current_full_state.current_pose_and_id.pose_state.q.x - current_full_state.target_pose_and_id.pose_state.q.x) <= robot_data.robot_constraints.Target_Precision_Margin_X )
     {
-        current_full_state.current_pose_and_id.pose_state.q.x = current_full_state.target_pose_and_id.pose_state.q.x;
+        //current_full_state.current_pose_and_id.pose_state.q.x = current_full_state.target_pose_and_id.pose_state.q.x;
     }
     else return 0;
 
     if( abs(current_full_state.current_pose_and_id.pose_state.q.y- current_full_state.target_pose_and_id.pose_state.q.y) <= robot_data.robot_constraints.Target_Precision_Margin_Y )
     {
-        current_full_state.current_pose_and_id.pose_state.q.y = current_full_state.target_pose_and_id.pose_state.q.y;
+        //current_full_state.current_pose_and_id.pose_state.q.y = current_full_state.target_pose_and_id.pose_state.q.y;
     }
     else return 0;
         
@@ -249,13 +344,18 @@ int autoMR::setNextTrajectoryPoint()
 // function that the thread runs for robot control
 void autoMR::robot_control()
 {
-    auto robot_client = std::make_shared<udp_client_server::udp_client>(robot_data.robotIP, robot_data.robotPort);
+    // auto robot_client = std::make_shared<udp_client_server::udp_client>(robot_data.robotIP, robot_data.robotPort);
     
     FullRobotState state_holder;
     Vector3f pose_error;
     Vector3f q_dot;
-    int currentPhi;
+    float currentPhi;
     uint8_t robot_command_array[12] = {0};
+
+    // TESTING FEEDBACK
+    current_full_state.target_pose_and_id.pose_state.q.yaw = 0;
+    current_full_state.target_pose_and_id.pose_state.q.x = 190/2;
+    current_full_state.target_pose_and_id.pose_state.q.y = 130/2;
 
     unsigned int fail_count = 0;
 
@@ -267,7 +367,7 @@ void autoMR::robot_control()
             // update to latest state
             if( updateCurrentFullRobotState() ) 
             {
-                std::cout << "Updated current full robot state" << std::endl;
+                // std::cout << "Updated current full robot state" << std::endl;
                 // check if the current setpoint is reached, if it is set a new one
                 if( ReachedTarget() )
                 {
@@ -284,20 +384,30 @@ void autoMR::robot_control()
                 }
 
                 // calculate error between target and current
-                pose_error(0,0) = current_full_state.current_pose_and_id.pose_state.q.yaw - current_full_state.target_pose_and_id.pose_state.q.yaw; 
+                // pose_error(0,0) = current_full_state.current_pose_and_id.pose_state.q.yaw - current_full_state.target_pose_and_id.pose_state.q.yaw; 
                 pose_error(1,0) = current_full_state.current_pose_and_id.pose_state.q.x - current_full_state.target_pose_and_id.pose_state.q.x;
-                pose_error(2,0) = current_full_state.current_pose_and_id.pose_state.q.y - current_full_state.target_pose_and_id.pose_state.q.y;
+                // pose_error(2,0) = current_full_state.current_pose_and_id.pose_state.q.y - current_full_state.target_pose_and_id.pose_state.q.y;
+
+                // std::cout << "The pose error vector: \n" << pose_error << std::endl;
+
+                std::cout << "Current X: " << current_full_state.current_pose_and_id.pose_state.q.x << std::endl;
+                std::cout << "Current Y: " << current_full_state.current_pose_and_id.pose_state.q.y << std::endl;
 
                 q_dot = PD_Controller(pose_error);
 
+                std::cout << "The input control vector q_dot: \n" << q_dot << std::endl;
+
+
                 // TODO1 scale yaw into the proper value range here or in arucoDetection, depending on the format requirements
                 currentPhi = current_full_state.current_pose_and_id.pose_state.q.yaw;
+
+                std::cout << "The current passed phi: " << currentPhi << std::endl;
                 
                 // TODO2 create a parsing model for engineering and getter functionality
                 if( CalculateSpeedCommands(robot_data.kinematics_data.H0_R, &robot_data.robot_configuration, q_dot, &robot_command_array[0], currentPhi) )
                 {
                     // add first parse bit, leave as 1 for now
-                    robot_command_array[0] = 1;
+                    robot_command_array[0] = STANDARD_MODE;
 
                     // set bucket and LED, TODO1 format properly
                     robot_command_array[9] = current_full_state.bucket_state.extension;
@@ -344,7 +454,7 @@ Vector3f ScaleToEqualRange(Vector3f control_input)
 {
     control_input(0,0) = MapValueToRange( -180, -100, 180, 100, control_input(0,0) );
     control_input(1,0) = MapValueToRange( -190, -100, 190, 100, control_input(1,0) );
-    control_input(2,0) = MapValueToRange( -120, 100, 120, -100, control_input(2,0) );
+    control_input(2,0) = MapValueToRange( -130, -100, 130, 100, control_input(2,0) );
 
     return control_input;
 }
@@ -381,6 +491,6 @@ int autoMR::updateCurrentFullRobotState()
 
 void autoMR::getBatteryStatus()
 {
-    float battery_status = 1; // TODO2 make sendRequestCommand() to get the battery reading from the robot
+    float battery_status = 1;
     robot_data.battery_percentage = battery_status;
 }

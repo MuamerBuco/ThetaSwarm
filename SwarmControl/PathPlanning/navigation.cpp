@@ -284,7 +284,7 @@ SingleStateTrajectory normalizeSingleStatePose(SingleStateTrajectory single_stat
 {
     single_state.pose.x = MapValueToRange(MIN_X, -1, MAX_X, 1, single_state.pose.x);
     single_state.pose.y = MapValueToRange(MIN_Y, -1, MAX_Y, 1, single_state.pose.y);
-    single_state.pose.yaw = MapValueToRange(MIN_YAW, -3.14, MAX_YAW, 3.14, single_state.pose.yaw);
+    //single_state.pose.yaw = MapValueToRange(MIN_YAW, -3.14, MAX_YAW, 3.14, single_state.pose.yaw);
 
     return single_state;
 }
@@ -294,7 +294,7 @@ SingleStateTrajectory denormalizeSingleStatePose(SingleStateTrajectory single_st
 {
     single_state.pose.x = MapValueToRange(-1, MIN_X, 1, MAX_X, single_state.pose.x);
     single_state.pose.y = MapValueToRange(-1, MIN_Y, 1, MAX_Y, single_state.pose.y);
-    single_state.pose.yaw = MapValueToRange(-3.14, MIN_YAW, 3.14, MAX_YAW, single_state.pose.yaw);
+    //single_state.pose.yaw = MapValueToRange(-3.14, MIN_YAW, 3.14, MAX_YAW, single_state.pose.yaw);
 
     return single_state;
 }
@@ -319,7 +319,7 @@ int makeTrajectory(FullStateTrajectory& out_trajectory, FullStateTrajectory new_
     }
     else {
         std::cout << "New setpoint list is empty " << std::endl;
-        return -1;;
+        return -1;
     }
     
     double runTime;
@@ -336,6 +336,9 @@ int makeTrajectory(FullStateTrajectory& out_trajectory, FullStateTrajectory new_
     {
         // set waypoint window
         new_single_setpoint = new_setpoints.at(i) ;
+
+        // std::cout << "The setpoint x before normalizing: " << new_single_setpoint.pose.x << std::endl;
+        // std::cout << "The setpoint y before normalizing: " << new_single_setpoint.pose.y << std::endl;
 
         SingleStateTrajectory previous_single_setpoint;
 
@@ -376,6 +379,9 @@ int makeTrajectory(FullStateTrajectory& out_trajectory, FullStateTrajectory new_
         // Convert pose values to match the set bounds. aka transform coordinate space to trajectory space
         previous_single_setpoint = normalizeSingleStatePose(previous_single_setpoint);
         new_single_setpoint = normalizeSingleStatePose(new_single_setpoint);
+
+        // std::cout << "The setpoint x after normalizing: " << new_single_setpoint.pose.x << std::endl;
+        // std::cout << "The setpoint y after normalizing: " << new_single_setpoint.pose.y << std::endl;
 
         // set previous waypoint as start
         start->setX(previous_single_setpoint.pose.x);
@@ -444,7 +450,7 @@ int makeTrajectory(FullStateTrajectory& out_trajectory, FullStateTrajectory new_
             }
         }
         else {
-            // std::cout << "No trajectory found!" << std::endl;
+            std::cout << "No trajectory found!" << std::endl;
             return 0; // returns the initial current state which is set to 0
         }
         // embed the bucket and LED commands in the appropriate spot in the final trajectory holder 1 check if set to right point

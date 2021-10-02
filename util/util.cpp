@@ -33,8 +33,8 @@ std::tuple<float, float> findMaxMinAbsValues(Vector4f *speeds_vector)
 float MapValueToRange(float in_min, float out_min, float in_max, float out_max, float input)
 {
 
-    if(input > in_max) input = in_max;
-    if(input < in_min) input = in_min;
+    // if(input > in_max) input = in_max;
+    // if(input < in_min) input = in_min;
 
     // std::cout << "///////////////////////////////" << std::endl;
     
@@ -44,10 +44,11 @@ float MapValueToRange(float in_min, float out_min, float in_max, float out_max, 
     // std::cout << "The out_max: " << out_max << std::endl;
     // std::cout << "The input: " << input << std::endl;
 
-    // std::cout << "///////////////////////////////" << std::endl;
-
     float slope = 1.0 * (out_max - out_min) / (in_max - in_min);
     float output = out_min + slope * (input - in_min);
+
+    // std::cout << "The output: " << output << std::endl;
+    // std::cout << "///////////////////////////////" << std::endl;
 
     return output;
 }

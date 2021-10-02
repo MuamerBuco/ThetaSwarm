@@ -604,3 +604,251 @@ make[1]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
 
 
 
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_aef43/fast && make[1]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_aef43.dir/build.make CMakeFiles/cmTC_aef43.dir/build
+make[2]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_aef43.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_aef43.dir/src.c.o   -c /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_aef43
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aef43.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    CMakeFiles/cmTC_aef43.dir/src.c.o  -o cmTC_aef43 
+/usr/bin/ld: CMakeFiles/cmTC_aef43.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_aef43.dir/build.make:87: cmTC_aef43] Error 1
+make[2]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_aef43/fast] Error 2
+make[1]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_11fe5/fast && make[1]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_11fe5.dir/build.make CMakeFiles/cmTC_11fe5.dir/build
+make[2]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_11fe5.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_11fe5.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_11fe5
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_11fe5.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_11fe5.dir/CheckFunctionExists.c.o  -o cmTC_11fe5  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_11fe5.dir/build.make:87: cmTC_11fe5] Error 1
+make[2]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_11fe5/fast] Error 2
+make[1]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+
+
+
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_de7f0/fast && make[1]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_de7f0.dir/build.make CMakeFiles/cmTC_de7f0.dir/build
+make[2]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_de7f0.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_de7f0.dir/src.c.o   -c /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_de7f0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_de7f0.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    CMakeFiles/cmTC_de7f0.dir/src.c.o  -o cmTC_de7f0 
+/usr/bin/ld: CMakeFiles/cmTC_de7f0.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_de7f0.dir/build.make:87: cmTC_de7f0] Error 1
+make[2]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_de7f0/fast] Error 2
+make[1]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_29f84/fast && make[1]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_29f84.dir/build.make CMakeFiles/cmTC_29f84.dir/build
+make[2]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_29f84.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_29f84.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_29f84
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_29f84.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_29f84.dir/CheckFunctionExists.c.o  -o cmTC_29f84  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_29f84.dir/build.make:87: cmTC_29f84] Error 1
+make[2]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_29f84/fast] Error 2
+make[1]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+
+
+
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_0ab67/fast && make[1]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_0ab67.dir/build.make CMakeFiles/cmTC_0ab67.dir/build
+make[2]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0ab67.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_0ab67.dir/src.c.o   -c /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_0ab67
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0ab67.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    CMakeFiles/cmTC_0ab67.dir/src.c.o  -o cmTC_0ab67 
+/usr/bin/ld: CMakeFiles/cmTC_0ab67.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_0ab67.dir/build.make:87: cmTC_0ab67] Error 1
+make[2]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_0ab67/fast] Error 2
+make[1]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5e915/fast && make[1]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_5e915.dir/build.make CMakeFiles/cmTC_5e915.dir/build
+make[2]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5e915.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_5e915.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_5e915
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5e915.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_5e915.dir/CheckFunctionExists.c.o  -o cmTC_5e915  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_5e915.dir/build.make:87: cmTC_5e915] Error 1
+make[2]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_5e915/fast] Error 2
+make[1]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+
+
+
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_a3336/fast && make[1]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_a3336.dir/build.make CMakeFiles/cmTC_a3336.dir/build
+make[2]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a3336.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_a3336.dir/src.c.o   -c /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_a3336
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a3336.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    CMakeFiles/cmTC_a3336.dir/src.c.o  -o cmTC_a3336 
+/usr/bin/ld: CMakeFiles/cmTC_a3336.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_a3336.dir/build.make:87: cmTC_a3336] Error 1
+make[2]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_a3336/fast] Error 2
+make[1]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_7bfa7/fast && make[1]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_7bfa7.dir/build.make CMakeFiles/cmTC_7bfa7.dir/build
+make[2]: Entering directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7bfa7.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_7bfa7.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7bfa7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7bfa7.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_7bfa7.dir/CheckFunctionExists.c.o  -o cmTC_7bfa7  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_7bfa7.dir/build.make:87: cmTC_7bfa7] Error 1
+make[2]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_7bfa7/fast] Error 2
+make[1]: Leaving directory '/home/eon/OpenSwarm/build/CMakeFiles/CMakeTmp'
+
+
+

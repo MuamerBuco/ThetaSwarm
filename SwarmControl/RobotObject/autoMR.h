@@ -9,6 +9,14 @@
 #include <thread>
 #include <stdexcept>
 
+typedef enum command_modes {
+    STANDARD_MODE = 1,
+    CUSTOM_MOVE = 2,
+    CUSTOM_LED = 3,
+    CUSTOM_BUCKET = 4
+
+} command_modes;
+
 // struct holding PD controller coefficients
 struct PD_Controller_Coefficients {
 
@@ -24,6 +32,13 @@ struct RobotKinematicsData {
     Eigen::MatrixXf H0_R;
 };
 
+struct RGBColor {
+
+    uint8_t r = 0;
+    uint8_t g = 0;
+    uint8_t b = 0;
+};
+
 // struct holding data about the robot(ID, battery, kinematics data, configuration data, client data )
 struct RobotData {
     
@@ -31,6 +46,8 @@ struct RobotData {
 
     std::string robotIP = "192.168.1.999";
     int robotPort = 0;
+
+    RGBColor default_color;
 
     RobotConstraints robot_constraints;
     RobotConfiguration robot_configuration;
@@ -52,6 +69,16 @@ enum LEDProgram {
     SOLID_RED,
     SOLID_BLUE,
     SOLID_GREEN,
+};
+
+enum CustomLEDprograms {
+	SET_SINGLE_PIXEL = 1,
+	SET_ALL_PIXELS = 2,
+	RAINBOW = 3,
+	THEATER_CHASE = 4,
+	FADE_IN_OUT = 5,
+    BLINK_ONCE = 6,
+    BLINK_N_TIMES = 7
 };
 
 // struct holding LED ring state(running program)
@@ -94,6 +121,7 @@ class autoMR
 
         std::shared_ptr< rigtorp::SPSCQueue<FullRobotState> > LatestRobotState;
         std::shared_ptr< rigtorp::SPSCQueue<FullStateTrajectory> > TrajectorySet;
+        std::shared_ptr< udp_client_server::udp_client > robot_client;
 
         std::atomic<bool> stopRobot = false;
 
@@ -151,6 +179,14 @@ class autoMR
 
         bool pushNewRobotState(FullRobotState* new_full_robot_state);
 
+        void setCustomDirection(uint8_t direction, uint8_t speed, int ms_delay);
+
+        void setCustomColor(uint8_t index, RGBColor my_color, CustomLEDprograms mode, uint8_t ms_delay);
+
+        void setCustomBucket(uint8_t tilt, uint8_t extend);
+
+        void selfIdentify();
+
     
     private:
 
@@ -158,7 +194,7 @@ class autoMR
 
         bool initializeRobot(int id);
 
-        void loadConfig(std::string filePath, int id);
+        bool loadConfig(std::string filePath, int id);
 
         void initializeRobotStates(int id);
 

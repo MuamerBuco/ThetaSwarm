@@ -45,7 +45,7 @@ void Swarm::initializeSwarm()
 
     // create vel/acc queue and timer queue with size of ACCEL_MEMORY_SIZE
     std::deque<FullPoseState> initial_vel_acc_queue(ACCEL_MEMORY_SIZE, temp_state);
-    std::deque<double> initial_time_memories_map(ACCEL_MEMORY_SIZE, 0.1);
+    std::deque<double> initial_time_memories_queue(ACCEL_MEMORY_SIZE, 0.1);
     std::chrono::_V2::system_clock::time_point initial_timer_start;
 
     // initialize robots, fill unit map with < ID, autoMR* > pairs, initialize timer, timkeeping and vel/acc maps, and initialize ID-State map
@@ -58,7 +58,7 @@ void Swarm::initializeSwarm()
         
         // initialize metric related data
         swarm_box.q_memory_map.insert( make_pair(id, initial_vel_acc_queue) );
-        swarm_box.time_memories_map.insert( make_pair(id, initial_time_memories_map) );
+        swarm_box.time_memories_map.insert( make_pair(id, initial_time_memories_queue) );
         swarm_box.timer_start_map.insert( make_pair(id, initial_timer_start) );
     }
 
@@ -163,7 +163,7 @@ SinglePose Swarm::getVelocity(int id, SinglePose new_q)
 
     // std::cout << "The old value for x: " << state_holder.at(0).q.x << std::endl;
 
-    std::cout << "The new difference between last entry in q and new value for x: " << new_q.x << std::endl;
+    // std::cout << "The new difference between last entry in q and new value for x: " << new_q.x << std::endl;
 
     // average previous [ACCEL_MEMORY_SIZE] number of position differences
     for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
@@ -177,7 +177,7 @@ SinglePose Swarm::getVelocity(int id, SinglePose new_q)
 
     // std::cout << "The new summed value for x_dot: " << temp.x << std::endl;
 
-    std::cout << "The new averaged value for x_dot: " << new_q.x/ACCEL_MEMORY_SIZE << std::endl;
+    // std::cout << "The new averaged value for x_dot: " << new_q.x/ACCEL_MEMORY_SIZE << std::endl;
 
 
     // reduce by one, one datapoint of velocity is difference between 2 datapoints of position, 
@@ -276,7 +276,7 @@ int Swarm::generateAndPushAllTrajectories()
         for(auto single_trajectory : new_trajectories_map)
         {
             FullStateTrajectory new_trajectory;
-            if( generateTrajectory(new_trajectory, single_trajectory.second, "BITstar") )
+            if( generateTrajectory(new_trajectory, single_trajectory.second, "RRTstar") )
             {
                 // push new trajectory to robot
                 swarm_box.ID_Unit_Map.find(single_trajectory.first)->second->setTrajectory(&new_trajectory);
