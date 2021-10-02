@@ -62,11 +62,9 @@ SPSCQueue<cv::Mat> imageSPSCQueue(2);
 // queues images to be visualized
 SPSCQueue<cv::Mat> visualizationSPSCQueue(2);
 
-// holds the relevant field data
+// holds the relevant field and camera data
 FieldData field_data;
 CameraSettings camera_settings;
-
-int videoPath = 2;
 
 const std::string calibrationFilePath = "../CameraCalibration/calibration1.yml";
 const std::string configFilePath = "../config.json";
@@ -238,7 +236,7 @@ void start_capturing()
             std::cerr << "No video source found! " << std::endl;
 
             while(!inputVideo.open(camera_settings.VideoPath)) {
-                std::cout << "Trying to open video source at: " << videoPath << std::endl;
+                std::cout << "Trying to open video source at: " << camera_settings.VideoPath << std::endl;
             }
         }
     }
@@ -264,7 +262,7 @@ void start_pose_estimation(const std::string calibrationPath)
     // detected IDs with Corners
     std::vector<int> ids;
     std::vector<std::vector<cv::Point2f>> corners;
-    // TODO maybe remove reserves
+    // TODO1 maybe remove reserves
     ids.reserve(field_data.Number_of_units);
     corners.reserve(field_data.Number_of_units);
 

@@ -11,9 +11,9 @@
 
 typedef enum command_modes {
     STANDARD_MODE = 1,
-    CUSTOM_MOVE = 2,
-    CUSTOM_LED = 3,
-    CUSTOM_BUCKET = 4
+    CUSTOM_MOVE,
+    CUSTOM_LED,
+    CUSTOM_BUCKET
 
 } command_modes;
 
@@ -73,12 +73,12 @@ enum LEDProgram {
 
 enum CustomLEDprograms {
 	SET_SINGLE_PIXEL = 1,
-	SET_ALL_PIXELS = 2,
-	RAINBOW = 3,
-	THEATER_CHASE = 4,
-	FADE_IN_OUT = 5,
-    BLINK_ONCE = 6,
-    BLINK_N_TIMES = 7
+	SET_ALL_PIXELS,
+	RAINBOW,
+	THEATER_CHASE,
+	FADE_IN_OUT,
+    BLINK_ONCE,
+    BLINK_N_TIMES
 };
 
 // struct holding LED ring state(running program)

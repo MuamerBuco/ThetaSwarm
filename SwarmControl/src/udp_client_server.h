@@ -58,5 +58,4 @@ private:
 };
 
 } // namespace udp_client_server
-#endif
-// SNAP_UDP_CLIENT_SERVER_H
+#endif // SNAP_UDP_CLIENT_SERVER_H

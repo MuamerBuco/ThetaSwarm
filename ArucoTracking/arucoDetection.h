@@ -1,3 +1,6 @@
+#ifndef ARUCO_TRACKING_H
+#define ARUCO_TRACKING_H
+
 // include 3rd party libs
 #include "../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
 #include "../3rdParty/rapidjson/filereadstream.h"
@@ -42,3 +45,5 @@ struct AllPoseStates
 int getAllPoseStates(AllPoseStates& pose_holder);
 
 void start_aruco_detection();
+
+#endif //ARUCO_TRACKING_H

@@ -2,11 +2,6 @@
 
 #define ACCEL_MEMORY_SIZE 2
 
-// TODO1 write speed, acceleration tests, derive practical limits
-
-// convenience variable
-FullPoseState temp_state;
-
 // stops the entire swarm
 void Swarm::PANIC_STOP_SWARM()
 {
@@ -42,6 +37,7 @@ void Swarm::initializeSwarm()
     using namespace std;
     
     FullRobotState initial_state;
+    FullPoseState temp_state;
 
     // create vel/acc queue and timer queue with size of ACCEL_MEMORY_SIZE
     std::deque<FullPoseState> initial_vel_acc_queue(ACCEL_MEMORY_SIZE, temp_state);
@@ -68,6 +64,7 @@ void Swarm::initializeSwarm()
 void Swarm::addRobotToSwarm(int id)
 {
     FullRobotState initial_state;
+    FullPoseState temp_state;
 
     // create vel/acc queue and timer queue with size of ACCEL_MEMORY_SIZE
     std::deque<FullPoseState> initial_vel_acc_queue(ACCEL_MEMORY_SIZE, temp_state);
@@ -325,6 +322,7 @@ bool Swarm::UpdateSwarm()
 {
     AllPoseStates allPoses;
     FullRobotState FullStateHolder;
+    FullPoseState temp_state;
 
     if( getAllPoseStates(allPoses) )
     {

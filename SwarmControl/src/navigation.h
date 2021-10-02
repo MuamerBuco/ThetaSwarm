@@ -1,3 +1,6 @@
+#ifndef ROBOT_NAVIGATION_H
+#define ROBOT_NAVIGATION_H
+
 #include <ompl/base/spaces/RealVectorStateSpace.h>
 #include <ompl/base/spaces/SE2StateSpace.h>
 #include <ompl/base/SpaceInformation.h>
@@ -89,3 +92,5 @@ class ClearanceObjective : public ompl::base::StateCostIntegralObjective
                 std::numeric_limits<double>::min()));
         }
 };
+
+#endif //ROBOT_NAVIGATION_H
