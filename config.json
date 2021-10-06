@@ -1,18 +1,18 @@
 {
   "FieldData": {
-    "Max_Input_Value_P": 11,
-    "Min_Input_Value_P": 18,
-    "Max_Output_Value_P": 10,
-    "Min_Output_Value_P": 15,
-    "Max_Input_Value_X": 1.351,
-    "Min_Input_Value_X": -1.256,
+    "Max_Input_Value_P": 3.15,
+    "Min_Input_Value_P": -3.15,
+    "Max_Output_Value_P": 360,
+    "Min_Output_Value_P": 0,
+    "Max_Input_Value_X": 1.36,
+    "Min_Input_Value_X": -1.31,
     "Max_Output_Value_X": 190,
     "Min_Output_Value_X": 0,
-    "Max_Input_Value_Y": -0.83,
-    "Min_Input_Value_Y": 0.81,
-    "Max_Output_Value_Y": 120,
+    "Max_Input_Value_Y": -0.81,
+    "Min_Input_Value_Y": 0.84,
+    "Max_Output_Value_Y": 130,
     "Min_Output_Value_Y": 0,
-    "Number_of_units": 2 
+    "Number_of_units": 5
   },
   "CameraSettings": {
     "VideoSource": 2,
@@ -28,7 +28,7 @@
   "Robots": [
     {
       "ID": 16,
-      "RobotIP": "192.168.1.65",
+      "RobotIP": "192.168.1.76",
       "RobotPort": 3333,
       "PID": {
         "Yaw": 1,
@@ -36,9 +36,9 @@
         "Y": 1
       },
       "PrecisionMargins": {
-        "Yaw": 1,
-        "X": 1,
-        "Y": 1
+        "Yaw": 5,
+        "X": 5,
+        "Y": 5
       },
       "Wheel_Diameter_mm": 46,
       "Wheel_To_Ceter_mm": {
@@ -72,7 +72,7 @@
       }
     },
     {
-      "ID": 10,
+      "ID": 15,
       "RobotIP": "192.168.1.11",
       "RobotPort": 3333,
       "PID": {

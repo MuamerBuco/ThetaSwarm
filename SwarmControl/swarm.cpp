@@ -321,7 +321,7 @@ bool Swarm::idExists(int id)
 bool Swarm::UpdateSwarm()
 {
     AllPoseStates allPoses;
-    FullRobotState FullStateHolder;
+    FullRobotState current_full_state;
     FullPoseState temp_state;
 
     if( getAllPoseStates(allPoses) )
@@ -342,17 +342,17 @@ bool Swarm::UpdateSwarm()
                 // TODO1 rethink the velocity and acceleration calculations, maybe remove averaging 
 
                 // calculate new speed based on new position (cm/s)
-                FullStateHolder.current_pose_and_id = pose;
-                FullStateHolder.current_pose_and_id.pose_state.q_dot = (getVelocity(id, temp_state.q) / timekeeper) / 100;
-                temp_state.q_dot = FullStateHolder.current_pose_and_id.pose_state.q_dot;
-                // std::cout << "got the velocity: " << FullStateHolder.current_pose_and_id.pose_state.q_dot.x << std::endl;
+                current_full_state.pose_and_id = pose;
+                current_full_state.pose_and_id.pose_state.q_dot = (getVelocity(id, temp_state.q) / timekeeper) / 100;
+                temp_state.q_dot = current_full_state.pose_and_id.pose_state.q_dot;
+                // std::cout << "got the velocity: " << FullStateHolder.current_pose_and_id.pose_and_id.pose_state.q_dot.x << std::endl;
 
                 // std::cout << "The timekeeper(in ms): " << timekeeper << std::endl;
 
                 // calculate new acceleration based on new speed (cm/s2)
-                FullStateHolder.current_pose_and_id.pose_state.q_dot_dot = (getAcceleration(id, temp_state.q_dot) / timekeeper) / 100;
-                temp_state.q_dot_dot = FullStateHolder.current_pose_and_id.pose_state.q_dot_dot;
-                // std::cout << "got the accel: " << FullStateHolder.current_pose_and_id.pose_state.q_dot_dot.x << std::endl;
+                current_full_state.pose_and_id.pose_state.q_dot_dot = (getAcceleration(id, temp_state.q_dot) / timekeeper) / 100;
+                temp_state.q_dot_dot = current_full_state.pose_and_id.pose_state.q_dot_dot;
+                // std::cout << "got the accel: " << current_full_state.pose_and_id.pose_state.q_dot_dot.x << std::endl;
 
                 // remove oldest entry in memory
                 swarm_box.q_memory_map.find(id)->second.pop_back();
@@ -361,7 +361,7 @@ bool Swarm::UpdateSwarm()
                 swarm_box.q_memory_map.find(id)->second.push_front(temp_state);
 
                 // place the proper (full state / ID) pair in ID-State map
-                swarm_box.ID_FullState_Map.find(id)->second = FullStateHolder;
+                swarm_box.ID_FullState_Map.find(id)->second = current_full_state;
 
                 // push new state to the robot
                 bool temp = swarm_box.ID_Unit_Map.find(id)->second->pushNewRobotState( &swarm_box.ID_FullState_Map.find(id)->second );

@@ -13,7 +13,13 @@ void msDelay(uint16_t milliseconds)
 void PrintBuffer(uint8_t *buffer)
 {
     std::cout << "Buffer contents: " << std::endl;
-    std::cout << *buffer << std::endl;
+
+    for(int i = 0; i < sizeof(buffer); i++)
+    {
+        std::cout << unsigned(*buffer++) << " ";
+    }
+
+    std::cout << std::endl;
 }
 
 std::tuple<float, float> findMaxMinAbsValues(Vector4f *speeds_vector)

@@ -137,37 +137,37 @@ int autoMR::setTrajectory(FullStateTrajectory* full_trajectory)
 void autoMR::initializeRobotStates(int id)
 {
     ///////////////// current state
-    current_full_state.current_pose_and_id.id = id;
+    current_full_state.pose_and_id.id = id;
 
-    current_full_state.target_pose_and_id.id = id;
+    target_full_state.pose_and_id.id = id;
 
     ///////////////////////////// default state
-    default_state.current_pose_and_id.id = id;
+    default_state.pose_and_id.id = id;
 
-    default_state.target_pose_and_id.id = id;
+    default_state.pose_and_id.id = id;
 
     //////////////////////////////// stop state
-    stop_state.current_pose_and_id.id = id;
+    stop_state.pose_and_id.id = id;
 
-    stop_state.target_pose_and_id.id = id;
+    stop_state.pose_and_id.id = id;
 }
 
 // get the last recorded robot pose
 const ChassisFullState autoMR::getLastRobotPose()
 {
-    return current_full_state.current_pose_and_id;
+    return current_full_state.pose_and_id;
 }
 
 // get the last recorded LED state
 const SignalLED autoMR::getLastLEDState()
 {
-    return current_full_state.LED_state;
+    // return current_full_state.LED_state;
 }
 
 // get the last recorded bucket state
 const BucketState autoMR::getLastBucketState()
 {
-    return current_full_state.bucket_state;
+    // return current_full_state.bucket_state;
 }
 
 // push the new state to queue that thread reads from
@@ -179,6 +179,10 @@ bool autoMR::pushNewRobotState(FullRobotState* new_full_robot_state)
 void autoMR::freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_object)
 {
     uint8_t shutdown[12] = {0};
+    shutdown[0] = 1;
+
+    stopRobot = true;
+
     while(stopRobot){
         msDelay(10);
         SendRobotCommands(&shutdown[0], client_object, 1);
@@ -264,23 +268,36 @@ void autoMR::selfIdentify()
 * if all parameters are within margins, return true */
 bool autoMR::ReachedTarget()
 {
-    if( abs(current_full_state.current_pose_and_id.pose_state.q.yaw - current_full_state.target_pose_and_id.pose_state.q.yaw) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw)
+    // if( abs(current_full_state.pose_and_id.pose_state.q.yaw - target_full_state.pose_and_id.pose_state.q.yaw) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw)
+    // {
+    //     //current_full_state.pose_and_id.pose_state.q.yaw = target_full_state.pose_and_id.pose_state.q.yaw; 
+    // }
+    // else return 0;
+
+    // std::cout << "Im inside reachedTarget!" << std::endl;
+
+    // std::cout << "The current x is: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
+    // std::cout << "The target x is: " << target_full_state.pose_and_id.pose_state.q.x << std::endl;
+
+    // std::cout << "The current y is: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
+    // std::cout << "The target y is: " << target_full_state.pose_and_id.pose_state.q.y << std::endl;
+
+    // std::cout << "The result for x is: " << current_full_state.pose_and_id.pose_state.q.x - target_full_state.pose_and_id.pose_state.q.x << std::endl;
+    // std::cout << "The result for y is: " << current_full_state.pose_and_id.pose_state.q.y - target_full_state.pose_and_id.pose_state.q.y << std::endl;
+
+    if( abs(current_full_state.pose_and_id.pose_state.q.x - target_full_state.pose_and_id.pose_state.q.x) <= robot_data.robot_constraints.Target_Precision_Margin_X )
     {
-        //current_full_state.current_pose_and_id.pose_state.q.yaw = current_full_state.target_pose_and_id.pose_state.q.yaw; 
+        //current_full_state.pose_and_id.pose_state.q.x = target_full_state.pose_and_id.pose_state.q.x;
+        std::cout << "Im happy with X" << std::endl;
     }
     else return 0;
 
-    if( abs(current_full_state.current_pose_and_id.pose_state.q.x - current_full_state.target_pose_and_id.pose_state.q.x) <= robot_data.robot_constraints.Target_Precision_Margin_X )
-    {
-        //current_full_state.current_pose_and_id.pose_state.q.x = current_full_state.target_pose_and_id.pose_state.q.x;
-    }
-    else return 0;
-
-    if( abs(current_full_state.current_pose_and_id.pose_state.q.y- current_full_state.target_pose_and_id.pose_state.q.y) <= robot_data.robot_constraints.Target_Precision_Margin_Y )
-    {
-        //current_full_state.current_pose_and_id.pose_state.q.y = current_full_state.target_pose_and_id.pose_state.q.y;
-    }
-    else return 0;
+    // if( abs(current_full_state.pose_and_id.pose_state.q.y- target_full_state.pose_and_id.pose_state.q.y) <= robot_data.robot_constraints.Target_Precision_Margin_Y )
+    // {
+    //     //current_full_state.pose_and_id.pose_state.q.y = target_full_state.pose_and_id.pose_state.q.y;
+    //     std::cout << "Im happy with Y" << std::endl;
+    // }
+    // else return 0;
         
     return 1;
 }
@@ -307,9 +324,9 @@ int autoMR::updateFullTrajectory()
         SingleStateTrajectory temp_single_state = full_state_trajectory.back() ;
         full_state_trajectory.pop_back();
 
-        current_full_state.target_pose_and_id.pose_state.q.x = temp_single_state.pose.x;
-        current_full_state.target_pose_and_id.pose_state.q.y = temp_single_state.pose.y;
-        current_full_state.target_pose_and_id.pose_state.q.yaw = temp_single_state.pose.yaw;
+        target_full_state.pose_and_id.pose_state.q.x = temp_single_state.pose.x;
+        target_full_state.pose_and_id.pose_state.q.y = temp_single_state.pose.y;
+        target_full_state.pose_and_id.pose_state.q.yaw = temp_single_state.pose.yaw;
         
         current_full_state.bucket_state = temp_single_state.bucket_state;
         current_full_state.LED_state = temp_single_state.LED_state;
@@ -330,7 +347,7 @@ int autoMR::setNextTrajectoryPoint()
     else {
         if( getNextTrajectory() )
         {
-            std::cout << "got new trajecotory" << std::endl;
+            std::cout << "got new trajectory" << std::endl;
             if( updateFullTrajectory() ) return 1;
             else return 0;
         }
@@ -351,13 +368,17 @@ void autoMR::robot_control()
     Vector3f q_dot;
     float currentPhi;
     uint8_t robot_command_array[12] = {0};
-
-    // TESTING FEEDBACK
-    current_full_state.target_pose_and_id.pose_state.q.yaw = 0;
-    current_full_state.target_pose_and_id.pose_state.q.x = 190/2;
-    current_full_state.target_pose_and_id.pose_state.q.y = 130/2;
+    uint8_t speeds_and_directions_array[8] = {0};
+    // memset(robot_command_array, 0, 12*sizeof(robot_command_array));
 
     unsigned int fail_count = 0;
+
+
+    // TESTING FEEDBACK
+    target_full_state.pose_and_id.pose_state.q.yaw = 0;
+    target_full_state.pose_and_id.pose_state.q.x = 190/2;
+    target_full_state.pose_and_id.pose_state.q.y = 130/2;
+
 
     while(1)
     {
@@ -371,6 +392,7 @@ void autoMR::robot_control()
                 // check if the current setpoint is reached, if it is set a new one
                 if( ReachedTarget() )
                 {
+                    std::cout << "Reached target!!" << std::endl;
                     if( setNextTrajectoryPoint() )
                     {
                         std::cout << "got new trajecotory" << std::endl;
@@ -384,38 +406,45 @@ void autoMR::robot_control()
                 }
 
                 // calculate error between target and current
-                // pose_error(0,0) = current_full_state.current_pose_and_id.pose_state.q.yaw - current_full_state.target_pose_and_id.pose_state.q.yaw; 
-                pose_error(1,0) = current_full_state.current_pose_and_id.pose_state.q.x - current_full_state.target_pose_and_id.pose_state.q.x;
-                // pose_error(2,0) = current_full_state.current_pose_and_id.pose_state.q.y - current_full_state.target_pose_and_id.pose_state.q.y;
+                // pose_error(0,0) = current_full_state.pose_and_id.pose_state.q.yaw - target_full_state.pose_and_id.pose_state.q.yaw; 
+                pose_error(1,0) = current_full_state.pose_and_id.pose_state.q.x - target_full_state.pose_and_id.pose_state.q.x;
+                // pose_error(2,0) = current_full_state.pose_and_id.pose_state.q.y - target_full_state.pose_and_id.pose_state.q.y;
 
-                // std::cout << "The pose error vector: \n" << pose_error << std::endl;
+                std::cout << "The pose error vector: \n" << pose_error << std::endl;
 
-                std::cout << "Current X: " << current_full_state.current_pose_and_id.pose_state.q.x << std::endl;
-                std::cout << "Current Y: " << current_full_state.current_pose_and_id.pose_state.q.y << std::endl;
+                std::cout << std::endl << std::endl;
+                std::cout << "Current X: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
+                std::cout << "Current Y: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
 
                 q_dot = PD_Controller(pose_error);
 
-                std::cout << "The input control vector q_dot: \n" << q_dot << std::endl;
+                // std::cout << "The input control vector q_dot: \n" << q_dot << std::endl;
 
 
-                // TODO1 scale yaw into the proper value range here or in arucoDetection, depending on the format requirements
-                currentPhi = current_full_state.current_pose_and_id.pose_state.q.yaw;
+                currentPhi = current_full_state.pose_and_id.pose_state.q.yaw;
 
                 std::cout << "The current passed phi: " << currentPhi << std::endl;
-                
+
+                // add first parse bit, leave as 1 for now
+                // robot_command_array[0] = STANDARD_MODE;
+                robot_command_array[0] = CUSTOM_MOVE;
+
                 // TODO2 create a parsing model for engineering and getter functionality
-                if( CalculateSpeedCommands(robot_data.kinematics_data.H0_R, &robot_data.robot_configuration, q_dot, &robot_command_array[0], currentPhi) )
+                if( CalculateSpeedCommands(robot_data.kinematics_data.H0_R, &robot_data.robot_configuration, q_dot, &speeds_and_directions_array[0], currentPhi) )
                 {
-                    // add first parse bit, leave as 1 for now
-                    robot_command_array[0] = STANDARD_MODE;
+                    // TODO1 switch to smth more elegant
+                    for(int i = 0; i < 8; i++)
+                    {
+                        robot_command_array[i + 1] = speeds_and_directions_array[i];
+                    }
 
                     // set bucket and LED, TODO1 format properly
                     robot_command_array[9] = current_full_state.bucket_state.extension;
                     robot_command_array[10] = current_full_state.bucket_state.tilt;
                     robot_command_array[11] = current_full_state.LED_state.program;
+                    //PrintBuffer(&robot_command_array[0]);
 
                     SendRobotCommands(&robot_command_array[0], robot_client, 1); // TODO1 maybe remove 1ms delay
-                    //PrintBuffer(&speeds_and_directions[0]);
                 }
             }
         }

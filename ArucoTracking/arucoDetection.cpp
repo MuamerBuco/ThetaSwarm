@@ -17,6 +17,11 @@
 using namespace Eigen;
 using namespace rigtorp;
 
+#define TOP_LEFT 0
+#define TOP_RIGHT 1
+#define BOTTOM_RIGHT 2
+#define BOTTOM_LEFT 3
+
 // struct holding field data
 struct FieldData {
     
@@ -104,29 +109,20 @@ void loadFieldData(std::string filePath)
 
         ////// P
         field_data.Max_Input_Value_P = field_json["Max_Input_Value_P"].GetFloat();
-
         field_data.Min_Input_Value_P = field_json["Min_Input_Value_P"].GetFloat();
-
         field_data.Max_Output_Value_P = field_json["Max_Output_Value_P"].GetFloat();
-
         field_data.Min_Output_Value_P = field_json["Min_Output_Value_P"].GetFloat();
 
         ////// X
         field_data.Max_Input_Value_X = field_json["Max_Input_Value_X"].GetFloat();
-
         field_data.Min_Input_Value_X = field_json["Min_Input_Value_X"].GetFloat();
-
         field_data.Max_Output_Value_X = field_json["Max_Output_Value_X"].GetFloat();
-
         field_data.Min_Output_Value_X = field_json["Min_Output_Value_X"].GetFloat();
 
         ////// Y
         field_data.Max_Input_Value_Y = field_json["Max_Input_Value_Y"].GetFloat();
-
         field_data.Min_Input_Value_Y = field_json["Min_Input_Value_Y"].GetFloat();
-
         field_data.Max_Output_Value_Y = field_json["Max_Output_Value_Y"].GetFloat();
-
         field_data.Min_Output_Value_Y = field_json["Min_Output_Value_Y"].GetFloat();
 
         // number of active units
@@ -143,21 +139,13 @@ void loadFieldData(std::string filePath)
 
         // camera settings
         camera_settings.VideoPath = camera_json["VideoSource"].GetInt();
-
         camera_settings.VideoWidth = camera_json["CameraResolutionW"].GetInt();
-
         camera_settings.VideoHeight = camera_json["CameraResolutionH"].GetInt();
-
         camera_settings.Contrast = camera_json["Contrast"].GetFloat();
-
         camera_settings.Brightness = camera_json["Brightness"].GetFloat();
-
         camera_settings.Saturation = camera_json["Saturation"].GetFloat();
-
         camera_settings.Gain = camera_json["Gain"].GetFloat();
-
         camera_settings.Gamma = camera_json["Gamma"].GetFloat();
-
         camera_settings.Sharpness = camera_json["Sharpness"].GetFloat();
     }
     else {
@@ -305,57 +293,95 @@ void start_pose_estimation(const std::string calibrationPath)
         
         cv::aruco::detectMarkers(currentImage, dictionary, corners, ids, params);
 
+        cv::aruco::drawDetectedMarkers(imageCopyVisualize, corners, ids);
+
         // std::cout << "Number of detected markers " << ids.size() << std::endl;
 
         if (ids.size() > 0) {
             
             std::vector<cv::Vec3d> rvecs, tvecs;
             cv::aruco::estimatePoseSingleMarkers(corners, 0.05, cameraMatrix, distCoeffs, rvecs, tvecs);
-
-            cv::aruco::drawDetectedMarkers(imageCopyVisualize, corners, ids);
             
             // draw axis and corners for each marker
             for(int i=0; i<ids.size(); i++) {
+
+                // find marker center point in pixel space
+                float top_left_x = corners.at(i).at(TOP_LEFT).x;
+                float top_left_y = corners.at(i).at(TOP_LEFT).y;
+
+                // float top_right_x = corners.at(i).at(TOP_RIGHT).x;
+                // float top_right_y = corners.at(i).at(TOP_RIGHT).y;
+
+                // float bottom_left_x = corners.at(i).at(BOTTOM_LEFT).x;
+                // float bottom_left_y = corners.at(i).at(BOTTOM_LEFT).y;
+
+                float bottom_right_x = corners.at(i).at(BOTTOM_RIGHT).x;
+                float bottom_right_y = corners.at(i).at(BOTTOM_RIGHT).y;
+
+                float half_size_x = (top_left_x - bottom_right_x) / 2;
+                float half_size_y = (top_left_y - bottom_right_y) / 2;
+
+                float center_x = top_left_x + half_size_x;
+                float center_y = top_left_y + half_size_y;
                 
+                // find x difference between corner and center
+                float center_to_top_left_x = top_left_x - center_x;
+                float center_to_top_left_y = top_left_y - center_y;
+
+                // normalize distance to 0-1
+                float max_distance = sqrt( (half_size_x*half_size_x) + (half_size_y*half_size_y) );
+
+                float normalized_center_to_top_left_x = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_x);
+                // float normalized_center_to_top_left_y = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_y);
+
+                // get angle of rotation(yaw)
+                float new_yaw = acos(normalized_center_to_top_left_x);
+
+                // get y distance to determine quadrant
+                int y_sign = getSign(center_to_top_left_y);
+
+                // set quadrant sign
+                new_yaw = new_yaw * y_sign;
+
+                // output yaw and position for this marker
+                // std::cout << "The new yaw(-PI,PI) is: " << new_yaw << std::endl;
+                // std::cout << "The new center(in pixel space) X:" << center_x << std::endl;
+                // std::cout << "The new center(in pixel space) Y:" << center_y << std::endl;
+
+                // std::cout << "////////////////////////////////////////" << std::endl;
+                
+                // msDelay(500);
+
                 // #testing
-                cv::aruco::drawAxis(imageCopyVisualize, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
+                //cv::aruco::drawAxis(imageCopyVisualize, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
 
                 // transform compact rodrigues representation to rotation matrix
-                cv::Mat rot_mat = cv::Mat::zeros(3, 3, CV_64F);
-                cv::Rodrigues(rvecs[i], rot_mat);
+                // cv::Mat rot_mat = cv::Mat::zeros(3, 3, CV_64F);
+                // cv::Rodrigues(rvecs[i], rot_mat);
 
                 // move from mat to Eigen matrix
-                for(int i = 0; i < 3; i++) {
-                    for(int j = 0; j < 3; j++) {
-                        new_rotations(i,j) = rot_mat.at<double>(i,j);
-                    }
-                }
+                // for(int i = 0; i < 3; i++) {
+                //     for(int j = 0; j < 3; j++) {
+                //         new_rotations(i,j) = rot_mat.at<double>(i,j);
+                //     }
+                // }
 
                 // transform rotation matrix to yaw, pitch. roll (in that order)
-                Vector3f YRP_vector = new_rotations.eulerAngles(2, 2, 2);
-             
-                my_yaw = YRP_vector(2,0);
-                // std::cout << "The yaw saved value: " << my_yaw << std::endl;
-                
-
-                // std::cout << "The tvec 0: " << tvecs[i][0] << std::endl;
-                // std::cout << "The tvec 1: " << tvecs[i][1] << std::endl;
+                // Vector3f YRP_vector = new_rotations.eulerAngles(2, 2, 2);
+                // my_yaw = YRP_vector(2,0);
                 
                 // add pose yaw, x, y and ID
                 // map from camera space to coordinate space
-                single_pose_holder.pose_state.q.yaw = my_yaw;
+                // single_pose_holder.pose_state.q.yaw = my_yaw;
+                // single_pose_holder.id = ids[i];
+                // pose_holder.poses.push_back(single_pose_holder);
+
+                single_pose_holder.pose_state.q.yaw = new_yaw;
                 single_pose_holder.pose_state.q.x = MapValueToRange(field_data.Min_Input_Value_X, field_data.Min_Output_Value_X, field_data.Max_Input_Value_X, field_data.Max_Output_Value_X, tvecs[i][0]);
                 single_pose_holder.pose_state.q.y = MapValueToRange(field_data.Min_Input_Value_Y, field_data.Min_Output_Value_Y, field_data.Max_Input_Value_Y, field_data.Max_Output_Value_Y, tvecs[i][1]);
                 single_pose_holder.id = ids[i];
                 pose_holder.poses.push_back(single_pose_holder);
                 
-                // std::cout << "rvecs: " << std::endl;
-                // for (auto vec : rvecs)
-                //    std::cout << vec << std::endl;
-         
-                // std::cout << "tvecs: " << std::endl; 
-                // for (auto vec : tvecs)
-                //     std::cout << vec << std::endl;
             }
             // push vectored tvecs, rvecs and ids to queue if queue is not full
             posesSPSCQueue.try_push(pose_holder);

@@ -108,7 +108,6 @@ Vector4f applySpeedConstraints(Vector4f speeds_vector, RobotConfiguration *robot
 // Calculates necessary PWM/Direction signal from the control vector, and modifies speeds_and_directions
 bool CalculateSpeedCommands(MatrixXf H0_R, RobotConfiguration *robot_config, Vector3f control_vector, uint8_t *commands_array, int phiCurrent)
 {
-    // TODO1 find out should phi be in rad(0,2pi) or rad(-pi, pi) or degree? consult arucoDetection.cpp for transform
     Matrix3f rotation_matrix(3,3);
 
     rotation_matrix(0,0) = 1;
@@ -131,12 +130,12 @@ bool CalculateSpeedCommands(MatrixXf H0_R, RobotConfiguration *robot_config, Vec
     // map speed-per-wheel(in radians) vector to pwm-and-direction-per-motor vector
     VectorXi speeds_and_directions_vector = MapRadiansToPWM(speed_vector, robot_config);
 
-    std::cout << "The speeds and directions vector \n" << speeds_and_directions_vector << std::endl;
+    // std::cout << "The speeds and directions vector \n" << speeds_and_directions_vector << std::endl;
 
     // std::cout << "mapped speed vector in kinematics" << std::endl;
     
     // fill in the mapped values to command array
-    for(uint8_t i = 0; i < 8; i++) {
+    for(int i = 0; i < 8; i++) {
         commands_array[i + 1] = speeds_and_directions_vector(i,0);
     }
 

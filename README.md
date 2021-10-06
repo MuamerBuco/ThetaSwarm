@@ -5,7 +5,7 @@ OpenSwarm is an Open Source Robotic Hardware/Software research platform. This ap
 This system is meant to offer fully abstracted access to hardware, to be leveraged by custom control algorithms and learning systems.
 
 
-# Still Under Construction....
+# Still Under Development....
 
  
 ## Requirements

@@ -99,8 +99,7 @@ typedef std::vector<SingleStateTrajectory> FullStateTrajectory;
 // struct holding the current robot state(pose, LED and bucket)
 struct FullRobotState {
     
-    ChassisFullState current_pose_and_id;
-    ChassisFullState target_pose_and_id;
+    ChassisFullState pose_and_id;
 
     SignalLED LED_state;
     BucketState bucket_state;
@@ -114,6 +113,8 @@ class autoMR
 {
     public:
         FullRobotState current_full_state;
+        FullRobotState target_full_state;
+
         FullRobotState default_state;
         FullRobotState stop_state;
 
