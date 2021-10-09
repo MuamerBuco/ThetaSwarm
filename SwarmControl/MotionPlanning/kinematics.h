@@ -15,23 +15,13 @@ struct RobotConfiguration {
     float Wheel_To_CenterX_mm;
     float Wheel_To_CenterY_mm;
 
-    float Max_RadS_RotationSpeed_LU; 
-    float Max_RadS_RotationSpeed_RU;
-    float Max_RadS_RotationSpeed_LD;
-    float Max_RadS_RotationSpeed_RD;
-
-    float Min_RadS_RotationSpeed_LU;
-    float Min_RadS_RotationSpeed_RU;
-    float Min_RadS_RotationSpeed_LD;
-    float Min_RadS_RotationSpeed_RD;
-
     int Max_Viable_PWM; 
     int Min_Viable_PWM;
 
     float Max_RadS_Speed; 
     float Min_RadS_Speed;
 
-    float Rotation_Speed_Range = (Max_RadS_RotationSpeed_LU - Min_RadS_RotationSpeed_LU);
+    float Rotation_Speed_Range = (Max_RadS_Speed - Min_RadS_Speed);
     int Viable_PWM_Range = (Max_Viable_PWM - Min_Viable_PWM);
 };
 

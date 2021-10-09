@@ -9,6 +9,7 @@
 #include <stdexcept>
 
 enum command_modes {
+
     STANDARD_MODE = 1,
     CUSTOM_MOVE,
     CUSTOM_LED,
@@ -50,6 +51,8 @@ struct RobotData {
     RobotConstraints robot_constraints;
     RobotConfiguration robot_configuration;
     RobotKinematicsData kinematics_data;
+
+    FieldData robot_field_data;
 
     float battery_percentage;
 };
@@ -136,7 +139,6 @@ class autoMR
         void setCustomBucket(uint8_t tilt, uint8_t extend);
 
         void selfIdentify();
-
     
     private:
 
@@ -148,6 +150,8 @@ class autoMR
 
         void initializeRobotStates(int id);
 
+        void setFieldData();
+
         bool ReachedTarget();
 
         int updateCurrentFullRobotState();
@@ -157,6 +161,8 @@ class autoMR
         int updateFullTrajectory();
 
         Vector3f getPoseError();
+
+        Vector3f ScaleToEqualRange(Vector3f control_input);
 
         Eigen::Vector3f PD_Controller(Eigen::Vector3f const &pose_error);
 

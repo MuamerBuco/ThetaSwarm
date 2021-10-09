@@ -1,12 +1,12 @@
 #ifndef SWARM_H
 #define SWARM_H
 
-#include "RobotControl/autoMR.h"
-#include "MotionPlanning/navigation.h"
-
 #include <map>
 #include <vector>
 #include <deque>
+
+#include "RobotControl/autoMR.h"
+#include "MotionPlanning/navigation.h"
 
 // holds swarm data(ids, battery lvls...)
 struct SwarmData {

@@ -27,9 +27,10 @@ bool autoMR::initializeRobot(int id)
 {
     try {
         loadConfig(configFile, id);
+        setFieldData();
     }
     catch( int& err ) {
-        std::cerr << "Failed to load config" << std::endl;
+        std::cerr << "Failed to load config!" << std::endl;
         throw err;
     }
     
@@ -86,18 +87,6 @@ bool autoMR::loadConfig(std::string filePath, int id)
                 const Value& robot_wheel_to_center = robot_json[i]["Wheel_To_Ceter_mm"];
                 robot_data.robot_configuration.Wheel_To_CenterX_mm = robot_wheel_to_center["X"].GetFloat();
                 robot_data.robot_configuration.Wheel_To_CenterY_mm = robot_wheel_to_center["Y"].GetFloat();
-                
-                const Value& robot_max_rot_speed = robot_json[i]["Max_RadS_RotationSpeed"];
-                robot_data.robot_configuration.Max_RadS_RotationSpeed_LU = robot_max_rot_speed["LU"].GetFloat(); 
-                robot_data.robot_configuration.Max_RadS_RotationSpeed_RU = robot_max_rot_speed["RU"].GetFloat();
-                robot_data.robot_configuration.Max_RadS_RotationSpeed_LD = robot_max_rot_speed["LD"].GetFloat();
-                robot_data.robot_configuration.Max_RadS_RotationSpeed_RD = robot_max_rot_speed["RD"].GetFloat();
-
-                const Value& robot_min_rot_speed = robot_json[i]["Min_RadS_RotationSpeed"];
-                robot_data.robot_configuration.Min_RadS_RotationSpeed_LU = robot_min_rot_speed["LU"].GetFloat(); 
-                robot_data.robot_configuration.Min_RadS_RotationSpeed_RU = robot_min_rot_speed["RU"].GetFloat();
-                robot_data.robot_configuration.Min_RadS_RotationSpeed_LD = robot_min_rot_speed["LD"].GetFloat();
-                robot_data.robot_configuration.Min_RadS_RotationSpeed_RD = robot_min_rot_speed["RD"].GetFloat();
 
                 const Value& robot_viable_pwm = robot_json[i]["Viable_PWM"];
                 robot_data.robot_configuration.Max_Viable_PWM = robot_viable_pwm["MAX"].GetInt();
@@ -273,19 +262,19 @@ bool autoMR::ReachedTarget()
 {
     if( abs(current_full_state.pose_and_id.pose_state.q.yaw - target_full_state.pose_and_id.pose_state.q.yaw) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw )
     {
-        std::cout << "Im happy with Yaw" << std::endl;
+        // std::cout << "Im happy with Yaw" << std::endl;
     }
     else return 0;
 
     if( abs(current_full_state.pose_and_id.pose_state.q.x - target_full_state.pose_and_id.pose_state.q.x) <= robot_data.robot_constraints.Target_Precision_Margin_X )
     {
-        std::cout << "Im happy with X" << std::endl;
+        // std::cout << "Im happy with X" << std::endl;
     }
     else return 0;
 
     if( abs(current_full_state.pose_and_id.pose_state.q.y - target_full_state.pose_and_id.pose_state.q.y) <= robot_data.robot_constraints.Target_Precision_Margin_Y )
     {
-        std::cout << "Im happy with Y" << std::endl;
+        // std::cout << "Im happy with Y" << std::endl;
     }
     else return 0;
         
@@ -311,7 +300,7 @@ int autoMR::updateFullTrajectory()
 {
     if( !full_state_trajectory.empty() )
     {
-        SingleStateTrajectory temp_single_state = full_state_trajectory.back() ;
+        SingleStateTrajectory temp_single_state = full_state_trajectory.back();
         full_state_trajectory.pop_back();
 
         target_full_state.pose_and_id.pose_state.q.x = temp_single_state.pose.x;
@@ -450,6 +439,18 @@ void autoMR::setDefaultState(FullRobotState const &new_default_state)
     default_state = new_default_state;
 }
 
+// get the field data loaded by aruco
+void autoMR::setFieldData()
+{
+    try{
+        robot_data.robot_field_data = getFieldData();
+    }
+    catch(int& err){
+        throw err;
+    }
+    
+}
+
 void autoMR::resumeOperation()
 {
     stopRobot = false;
@@ -469,12 +470,11 @@ void autoMR::PANIC_STOP()
 }
 
 // map different possible ranges of each variable in the control vector to the same range
-// TODO1 draw min/max from config field data
-Vector3f ScaleToEqualRange(Vector3f control_input)
+Vector3f autoMR::ScaleToEqualRange(Vector3f control_input)
 {
-    control_input(0,0) = MapValueToRange( -3.93, MIN_NORM_SPEED, 2.36, MAX_NORM_SPEED, control_input(0,0) );
-    control_input(1,0) = MapValueToRange( -190, MIN_NORM_SPEED, 190, MAX_NORM_SPEED, control_input(1,0) );
-    control_input(2,0) = MapValueToRange( -130, MIN_NORM_SPEED, 130, MAX_NORM_SPEED, control_input(2,0) );
+    control_input(0,0) = MapValueToRange( robot_data.robot_field_data.Min_Output_Value_P, MIN_NORM_SPEED, robot_data.robot_field_data.Max_Output_Value_P, MAX_NORM_SPEED, control_input(0,0) );
+    control_input(1,0) = MapValueToRange( -robot_data.robot_field_data.Max_Output_Value_X, MIN_NORM_SPEED, robot_data.robot_field_data.Max_Output_Value_X, MAX_NORM_SPEED, control_input(1,0) );
+    control_input(2,0) = MapValueToRange( -robot_data.robot_field_data.Max_Output_Value_Y, MIN_NORM_SPEED, robot_data.robot_field_data.Max_Output_Value_Y, MAX_NORM_SPEED, control_input(2,0) );
 
     return control_input;
 }
@@ -485,7 +485,7 @@ Vector3f autoMR::PD_Controller(Vector3f const &pose_error)
 {
     Vector3f control_input = ScaleToEqualRange(pose_error);
 
-    // TODO1 introduce speed control as ---- control_input(n, 0) * speed_n ---- after data becomes available 
+    // TODO2 introduce speed control as ---- control_input(n, 0) * speed_n ---- after data becomes available 
     control_input(0,0) = robot_data.kinematics_data.pd_coefficients.Kp_yaw * control_input(0,0);
     control_input(1,0) = robot_data.kinematics_data.pd_coefficients.Kp_x * control_input(1,0);
     control_input(2,0) = robot_data.kinematics_data.pd_coefficients.Kp_y * control_input(2,0);

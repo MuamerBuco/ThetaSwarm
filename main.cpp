@@ -7,6 +7,7 @@
 int main(int argc, char** argv)
 {
     std::thread aruco_thread(start_aruco_detection);
+    msDelay(200);
 
     std::vector<int> usedIDs = {15, 16};
 

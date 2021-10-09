@@ -28,41 +28,9 @@ using namespace rigtorp;
 
 #define PI 3.14159265
 
-// struct holding field data
-struct FieldData {
-    
-    float Max_Input_Value_P;
-    float Min_Input_Value_P;
-    float Max_Output_Value_P;
-    float Min_Output_Value_P;
-
-    float Max_Input_Value_X;
-    float Min_Input_Value_X;
-    float Max_Output_Value_X;
-    float Min_Output_Value_X;
-
-    float Max_Input_Value_Y;
-    float Min_Input_Value_Y;
-    float Max_Output_Value_Y;
-    float Min_Output_Value_Y;
-
-    int Number_of_units;
-};
-
-struct CameraSettings {
-    
-    int VideoPath;
-
-    int VideoWidth;
-    int VideoHeight;
-
-    float Contrast;
-    float Brightness;
-    float Saturation;
-    float Gain;
-    float Gamma;
-    float Sharpness;
-};
+// holds the relevant field and camera data
+FieldData field_data;
+CameraSettings camera_settings;
 
 // queues poses in a single pass
 SPSCQueue<AllPoseStates> posesSPSCQueue(2);
@@ -72,10 +40,6 @@ SPSCQueue<cv::Mat> imageSPSCQueue(2);
 
 // queues images to be visualized
 SPSCQueue<cv::Mat> visualizationSPSCQueue(2);
-
-// holds the relevant field and camera data
-FieldData field_data;
-CameraSettings camera_settings;
 
 const std::string calibrationFilePath = "../CameraCalibration/calibration1.yml";
 const std::string configFilePath = "../config.json";
@@ -133,6 +97,8 @@ void loadFieldData(std::string filePath)
 
         // number of active units
         field_data.Number_of_units = field_json["Number_of_units"].GetInt();
+
+        field_data.dataLoaded = true;
     }
     else {
         std::cerr << "Config doesnt have FieldData member" << std::endl;
@@ -155,7 +121,7 @@ void loadFieldData(std::string filePath)
         camera_settings.Sharpness = camera_json["Sharpness"].GetFloat();
     }
     else {
-        std::cerr << "Config doesnt have Camera Settings member" << std::endl;
+        std::cerr << "Config doesnt have CameraSettings member" << std::endl;
         throw FATAL_ERROR;
     }
 
@@ -181,6 +147,13 @@ int getAllPoseStates(AllPoseStates& pose_holder)
     else return 0;
 }
 
+// return the field data if the data was loaded properly, throw FATAL_ERROR if not
+FieldData getFieldData()
+{
+    if(field_data.dataLoaded) return field_data;
+    else throw FATAL_ERROR;
+}
+
 // open video source and start pushing frames to image SPSC queue 
 void start_capturing()
 {
@@ -189,7 +162,7 @@ void start_capturing()
         loadFieldData(configFilePath);
     }
     catch(int& err){
-        std::cerr << "Failed to load field data, aborting.." << std::endl;
+        std::cerr << "Failed to load field data from config, aborting.." << std::endl;
         std::abort();
     }
     
@@ -348,40 +321,9 @@ void start_pose_estimation(const std::string calibrationPath)
                 new_yaw = (new_yaw * y_sign) - 0.78539; // rotated by 45 to match the drawn X(red) axis
                 // float yaw_deg = new_yaw * (180.0/3.14159265);
                 // std::cout << "The degree value of entered yaw: " << yaw_deg << std::endl;
-
-
-                // output yaw and position for this marker
-                // std::cout << "The new yaw(-PI,PI) is: " << new_yaw << std::endl;
-                // std::cout << "The new center(in pixel space) X:" << center_x << std::endl;
-                // std::cout << "The new center(in pixel space) Y:" << center_y << std::endl;
-
-                // std::cout << "////////////////////////////////////////" << std::endl;
                 
                 // msDelay(500);
-
-                // #testing
                 cv::aruco::drawAxis(imageCopyVisualize, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
-
-                // transform compact rodrigues representation to rotation matrix
-                // cv::Mat rot_mat = cv::Mat::zeros(3, 3, CV_64F);
-                // cv::Rodrigues(rvecs[i], rot_mat);
-
-                // move from mat to Eigen matrix
-                // for(int i = 0; i < 3; i++) {
-                //     for(int j = 0; j < 3; j++) {
-                //         new_rotations(i,j) = rot_mat.at<double>(i,j);
-                //     }
-                // }
-
-                // transform rotation matrix to yaw, pitch. roll (in that order)
-                // Vector3f YRP_vector = new_rotations.eulerAngles(2, 2, 2);
-                // my_yaw = YRP_vector(2,0);
-                
-                // add pose yaw, x, y and ID
-                // map from camera space to coordinate space
-                // single_pose_holder.pose_state.q.yaw = my_yaw;
-                // single_pose_holder.id = ids[i];
-                // pose_holder.poses.push_back(single_pose_holder);
 
                 single_pose_holder.pose_state.q.yaw = new_yaw;
                 single_pose_holder.pose_state.q.x = MapValueToRange(field_data.Min_Input_Value_X, field_data.Min_Output_Value_X, field_data.Max_Input_Value_X, field_data.Max_Output_Value_X, tvecs[i][0]);
@@ -413,7 +355,7 @@ void start_pose_estimation(const std::string calibrationPath)
         avgTime += elapsed1; // #metrics
 
 
-        } // for 100 #metrics
+        } // for 200 #metrics
         std::cout << "The avg time per pass is: " << avgTime/AVG_NUM_CYCLES  << std::endl; //#metrics
         std::cout << "The avg fps is: " << 1000/(avgTime/AVG_NUM_CYCLES)  << std::endl; //#metrics
         avgTime = 0;

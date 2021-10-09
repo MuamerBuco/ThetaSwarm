@@ -2,8 +2,8 @@
   "FieldData": {
     "Max_Input_Value_P": 3.15,
     "Min_Input_Value_P": -3.15,
-    "Max_Output_Value_P": 360,
-    "Min_Output_Value_P": 0,
+    "Max_Output_Value_P": 2.36,
+    "Min_Output_Value_P": -3.93,
     "Max_Input_Value_X": 1.36,
     "Min_Input_Value_X": -1.31,
     "Max_Output_Value_X": 190,
@@ -45,18 +45,6 @@
         "X": 57,
         "Y": 57
       },
-      "Max_RadS_RotationSpeed": {
-        "LU": 23.3,
-        "RU": 23.3,
-        "LD": 23.3,
-        "RD": 23.3
-      },
-      "Min_RadS_RotationSpeed": {
-        "LU": 10.5,
-        "RU": 10.5,
-        "LD": 10.5,
-        "RD": 10.5
-      },
       "Viable_PWM": {
         "MIN": 150,
         "MAX": 255
@@ -89,18 +77,6 @@
       "Wheel_To_Ceter_mm": {
         "X": 57,
         "Y": 57
-      },
-      "Max_RadS_RotationSpeed": {
-        "LU": 23.3,
-        "RU": 23.3,
-        "LD": 23.3,
-        "RD": 23.3
-      },
-      "Min_RadS_RotationSpeed": {
-        "LU": 10.5,
-        "RU": 10.5,
-        "LD": 10.5,
-        "RD": 10.5
       },
       "Viable_PWM": {
         "MIN": 150,

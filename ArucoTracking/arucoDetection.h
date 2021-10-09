@@ -10,12 +10,8 @@
 
 #include "../util/util.h"
 
-// Error codes
-#define FATAL_ERROR 1
-#define CASE_ERROR 2
-
 int getAllPoseStates(AllPoseStates& pose_holder);
-
+FieldData getFieldData();
 void start_aruco_detection();
 
 #endif //ARUCO_TRACKING_H
