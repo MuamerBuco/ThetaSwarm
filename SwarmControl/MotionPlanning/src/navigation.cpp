@@ -14,12 +14,11 @@
 
 // For std::make_shared
 #include <memory>
-
 #include <fstream>
 
-#include "navigation.h"
-#include "../../util/util.h"
-// #include "../../3rdParty/SPSCQueue/include/rigtorp/SPSCQueue.h"
+#include "../../../util/util.h"
+
+#include "../navigation.h"
 
 #define RUN_TIME 1.0
 #define PLANNER_USED "BITstar"
@@ -27,14 +26,13 @@
 #define TRAJECTORY_FILE_PATH "path.txt"
 #define LOG_LEVEL 1
 
-#define MIN_YAW 0
+#define MAX_YAW 360
 #define MAX_X 190
 #define MAX_Y 130
 
-#define MAX_YAW 360
+#define MIN_YAW 0
 #define MIN_X 0
 #define MIN_Y 0
-
 
 using namespace Eigen;
 namespace ob = ompl::base;

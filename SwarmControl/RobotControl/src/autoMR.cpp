@@ -1,7 +1,8 @@
-#include "autoMR.h"
+#include "../autoMR.h"
 
 #include <cmath>
 #include <vector>
+#include <fstream>
 
 using namespace Eigen;
 
@@ -137,17 +138,17 @@ int autoMR::setTrajectory(FullStateTrajectory const &full_trajectory)
 // set initial states to be used
 void autoMR::initializeRobotStates(int id)
 {
-    ///////////////// current state
+    // current state
     current_full_state.pose_and_id.id = id;
 
     target_full_state.pose_and_id.id = id;
 
-    ///////////////////////////// default state
+    // default state
     default_state.pose_and_id.id = id;
 
     default_state.pose_and_id.id = id;
 
-    //////////////////////////////// stop state
+    // stop state
     stop_state.pose_and_id.id = id;
 
     stop_state.pose_and_id.id = id;
@@ -171,12 +172,13 @@ const BucketState autoMR::getLastBucketState()
     return current_full_state.bucket_state;
 }
 
-// push the new state to queue that thread reads from
+// push the new full robot state state to queue that robot thread reads from
 bool autoMR::pushNewRobotState(FullRobotState const  &new_full_robot_state)
 {
     return LatestRobotState->try_push(new_full_robot_state);
 }
 
+// stop all movement untill the stopRobot flag gets reset
 void autoMR::freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_object)
 {
     uint8_t shutdown[12] = {0};
@@ -269,36 +271,23 @@ void autoMR::selfIdentify()
 * if all parameters are within margins, return true */
 bool autoMR::ReachedTarget()
 {
-    // if( abs(current_full_state.pose_and_id.pose_state.q.yaw - target_full_state.pose_and_id.pose_state.q.yaw) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw)
-    // {
-    //     //current_full_state.pose_and_id.pose_state.q.yaw = target_full_state.pose_and_id.pose_state.q.yaw; 
-    // }
-    // else return 0;
-
-    // std::cout << "Im inside reachedTarget!" << std::endl;
-
-    // std::cout << "The current x is: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
-    // std::cout << "The target x is: " << target_full_state.pose_and_id.pose_state.q.x << std::endl;
-
-    // std::cout << "The current y is: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
-    // std::cout << "The target y is: " << target_full_state.pose_and_id.pose_state.q.y << std::endl;
-
-    // std::cout << "The result for x is: " << current_full_state.pose_and_id.pose_state.q.x - target_full_state.pose_and_id.pose_state.q.x << std::endl;
-    // std::cout << "The result for y is: " << current_full_state.pose_and_id.pose_state.q.y - target_full_state.pose_and_id.pose_state.q.y << std::endl;
+    if( abs(current_full_state.pose_and_id.pose_state.q.yaw - target_full_state.pose_and_id.pose_state.q.yaw) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw )
+    {
+        std::cout << "Im happy with Yaw" << std::endl;
+    }
+    else return 0;
 
     if( abs(current_full_state.pose_and_id.pose_state.q.x - target_full_state.pose_and_id.pose_state.q.x) <= robot_data.robot_constraints.Target_Precision_Margin_X )
     {
-        //current_full_state.pose_and_id.pose_state.q.x = target_full_state.pose_and_id.pose_state.q.x;
         std::cout << "Im happy with X" << std::endl;
     }
     else return 0;
 
-    // if( abs(current_full_state.pose_and_id.pose_state.q.y- target_full_state.pose_and_id.pose_state.q.y) <= robot_data.robot_constraints.Target_Precision_Margin_Y )
-    // {
-    //     //current_full_state.pose_and_id.pose_state.q.y = target_full_state.pose_and_id.pose_state.q.y;
-    //     std::cout << "Im happy with Y" << std::endl;
-    // }
-    // else return 0;
+    if( abs(current_full_state.pose_and_id.pose_state.q.y - target_full_state.pose_and_id.pose_state.q.y) <= robot_data.robot_constraints.Target_Precision_Margin_Y )
+    {
+        std::cout << "Im happy with Y" << std::endl;
+    }
+    else return 0;
         
     return 1;
 }
@@ -359,6 +348,23 @@ int autoMR::setNextTrajectoryPoint()
     }
 }
 
+Vector3f autoMR::getPoseError()
+{
+    Vector3f pose_error;
+
+    // calculate error between target and current
+    pose_error(0,0) = target_full_state.pose_and_id.pose_state.q.yaw - current_full_state.pose_and_id.pose_state.q.yaw; 
+    pose_error(1,0) = target_full_state.pose_and_id.pose_state.q.x - current_full_state.pose_and_id.pose_state.q.x;
+    pose_error(2,0) = target_full_state.pose_and_id.pose_state.q.y - current_full_state.pose_and_id.pose_state.q.y;
+
+    // clamp to 0 if within margins to avoid destabilizing
+    if( abs(pose_error(0,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw) pose_error(0,0) = 0;
+    if( abs(pose_error(1,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_X) pose_error(1,0) = 0;
+    if( abs(pose_error(2,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_Y) pose_error(2,0) = 0;
+
+    return pose_error;
+}
+
 // function that the thread runs for robot control
 void autoMR::robot_control()
 {    
@@ -367,15 +373,12 @@ void autoMR::robot_control()
     Vector3f q_dot;
     float currentPhi = 0;
     uint8_t robot_command_array[12] = {0};
-    // uint8_t speeds_and_directions_array[8] = {0};
-    // memset(robot_command_array, 0, 12*sizeof(robot_command_array));
-
     unsigned int fail_count = 0;
 
     // TESTING FEEDBACK
-    target_full_state.pose_and_id.pose_state.q.yaw = 0;
-    target_full_state.pose_and_id.pose_state.q.x = 190/2;
-    target_full_state.pose_and_id.pose_state.q.y = 130/2;
+    target_full_state.pose_and_id.pose_state.q.yaw = 2;
+    target_full_state.pose_and_id.pose_state.q.x = 150;
+    target_full_state.pose_and_id.pose_state.q.y = 20;
 
     while(1)
     {
@@ -400,30 +403,19 @@ void autoMR::robot_control()
                     ///// if no more points to follow
                 }
 
-                // calculate error between target and current
-                // pose_error(0,0) = current_full_state.pose_and_id.pose_state.q.yaw - target_full_state.pose_and_id.pose_state.q.yaw; 
-                pose_error(1,0) = current_full_state.pose_and_id.pose_state.q.x - target_full_state.pose_and_id.pose_state.q.x;
-                // pose_error(2,0) = current_full_state.pose_and_id.pose_state.q.y - target_full_state.pose_and_id.pose_state.q.y;
+                pose_error = getPoseError();
 
-                // std::cout << "The pose error vector: \n" << pose_error << std::endl;
-
-                // std::cout << std::endl << std::endl;
-                std::cout << "Current X: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
-                std::cout << "Current Y: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
+                // std::cout << "Current X: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
+                // std::cout << "Current Y: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
 
                 q_dot = PD_Controller(pose_error);
 
-                // #Testing
-                q_dot(0) = 0;
-                q_dot(1) = 100;
-                q_dot(2) = 0; 
-
-                // std::cout << "The input control vector q_dot: \n" << q_dot << std::endl;
+                // std::cout << "The pose error vector: \n" << q_dot << std::endl;
 
                 currentPhi = current_full_state.pose_and_id.pose_state.q.yaw;
                 // currentPhi += 0.01;
 
-                std::cout << "The current passed phi: " << currentPhi << std::endl;
+                // std::cout << "The current passed phi: " << currentPhi << std::endl;
 
                 // add first parse bit, leave as 1 for now
                 // robot_command_array[0] = STANDARD_MODE;
@@ -431,8 +423,6 @@ void autoMR::robot_control()
 
                 // TODO2 create a parsing model for engineering and getter functionality
                 VectorXi motor_commands = CalculateSpeedCommands(robot_data.kinematics_data.H0_R, robot_data.robot_configuration, q_dot, currentPhi);
-                std::cout << "The speed commands: " << std::endl;
-                std::cout << motor_commands << std::endl;
             
                 // TODO1 switch to smth more elegant
                 for(int i = 0; i < 8; i++)
@@ -482,7 +472,7 @@ void autoMR::PANIC_STOP()
 // TODO1 draw min/max from config field data
 Vector3f ScaleToEqualRange(Vector3f control_input)
 {
-    control_input(0,0) = MapValueToRange( -180, MIN_NORM_SPEED, 180, MAX_NORM_SPEED, control_input(0,0) );
+    control_input(0,0) = MapValueToRange( -3.93, MIN_NORM_SPEED, 2.36, MAX_NORM_SPEED, control_input(0,0) );
     control_input(1,0) = MapValueToRange( -190, MIN_NORM_SPEED, 190, MAX_NORM_SPEED, control_input(1,0) );
     control_input(2,0) = MapValueToRange( -130, MIN_NORM_SPEED, 130, MAX_NORM_SPEED, control_input(2,0) );
 
@@ -495,14 +485,10 @@ Vector3f autoMR::PD_Controller(Vector3f const &pose_error)
 {
     Vector3f control_input = ScaleToEqualRange(pose_error);
 
-    //std::cout << "The after scale input is: " << std::endl << control_input << std::endl;
-
     // TODO1 introduce speed control as ---- control_input(n, 0) * speed_n ---- after data becomes available 
     control_input(0,0) = robot_data.kinematics_data.pd_coefficients.Kp_yaw * control_input(0,0);
     control_input(1,0) = robot_data.kinematics_data.pd_coefficients.Kp_x * control_input(1,0);
     control_input(2,0) = robot_data.kinematics_data.pd_coefficients.Kp_y * control_input(2,0);
-
-    //std::cout << "The after scale and P input is: " << std::endl << control_input << std::endl;
 
     return control_input;
 }

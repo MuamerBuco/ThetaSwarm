@@ -7,11 +7,6 @@
 #include <ompl/base/objectives/PathLengthOptimizationObjective.h>
 #include <ompl/base/objectives/StateCostIntegralObjective.h>
 
-#include <Eigen/Dense>
-#include <vector>
-
-#include "autoMR.h"
-
 // An enum of supported optimal planners, alphabetical order
 enum optimalPlanner
 {

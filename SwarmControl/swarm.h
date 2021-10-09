@@ -1,8 +1,8 @@
-#ifndef Swarm_H
-#define Swarm_H
+#ifndef SWARM_H
+#define SWARM_H
 
-#include "src/autoMR.h"
-#include "src/navigation.h"
+#include "RobotControl/autoMR.h"
+#include "MotionPlanning/navigation.h"
 
 #include <map>
 #include <vector>
@@ -121,4 +121,4 @@ class Swarm {
         SinglePose getAcceleration(int id, SinglePose new_q_dot);
 };
 
-#endif // Swarm_H
+#endif // SWARM_H

@@ -8,14 +8,14 @@
     "Min_Input_Value_X": -1.31,
     "Max_Output_Value_X": 190,
     "Min_Output_Value_X": 0,
-    "Max_Input_Value_Y": -0.81,
-    "Min_Input_Value_Y": 0.84,
+    "Max_Input_Value_Y": 0.81,
+    "Min_Input_Value_Y": -0.84,
     "Max_Output_Value_Y": 130,
     "Min_Output_Value_Y": 0,
     "Number_of_units": 5
   },
   "CameraSettings": {
-    "VideoSource": 2,
+    "VideoSource": 0,
     "CameraResolutionW": 1280,
     "CameraResolutionH": 720,
     "Contrast": 300,
@@ -36,7 +36,7 @@
         "Y": 1
       },
       "PrecisionMargins": {
-        "Yaw": 5,
+        "Yaw": 0.3,
         "X": 5,
         "Y": 5
       },

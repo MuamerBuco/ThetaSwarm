@@ -1,5 +1,6 @@
 add_library( swarmControl swarm.cpp )
 
-add_subdirectory(src)
+add_subdirectory(RobotControl)
+add_subdirectory(MotionPlanning)
 
-target_link_libraries(swarmControl PUBLIC robotObject)
+target_link_libraries(swarmControl PUBLIC robotControl motionPlanning)

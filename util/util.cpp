@@ -14,7 +14,7 @@ void PrintBuffer(uint8_t *buffer)
 {
     std::cout << "Buffer contents: " << std::endl;
 
-    for(int i = 0; i < 9; i++)
+    for(int i = 0; i < 12; i++)
     {
         std::cout << unsigned(*buffer++) << " ";
     }
@@ -38,7 +38,7 @@ float findMaxAbsValue(Vector4f const &speeds_vector)
 
     for (auto it = Eigen::begin(speeds_vector); it != Eigen::end(speeds_vector); ++it) 
     {
-        if( max_value < *it) max_value = *it;
+        if( max_value < abs(*it) ) max_value = abs(*it);
     }
 
     return max_value;
@@ -47,23 +47,8 @@ float findMaxAbsValue(Vector4f const &speeds_vector)
 // map value to range, crop if out of range
 float MapValueToRange(float in_min, float out_min, float in_max, float out_max, float input)
 {
-
-    // if(input > in_max) input = in_max;
-    // if(input < in_min) input = in_min;
-
-    // std::cout << "///////////////////////////////" << std::endl;
-    
-    // std::cout << "The in_min: " << in_min << std::endl;
-    // std::cout << "The in_max: " << in_max << std::endl;
-    // std::cout << "The out_min: " << out_min << std::endl;
-    // std::cout << "The out_max: " << out_max << std::endl;
-    // std::cout << "The input: " << input << std::endl;
-
     float slope = 1.0 * (out_max - out_min) / (in_max - in_min);
     float output = out_min + slope * (input - in_min);
-
-    // std::cout << "The output: " << output << std::endl;
-    // std::cout << "///////////////////////////////" << std::endl;
 
     return output;
 }

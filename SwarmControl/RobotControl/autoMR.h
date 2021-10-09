@@ -2,20 +2,18 @@
 #define autoMR_H
 
 #include "sendRobotCommands.h"
-#include "kinematics.h"
+#include "../MotionPlanning/kinematics.h"
 #include "../../ArucoTracking/arucoDetection.h"
-#include "../../util/util.h"
 
 #include <thread>
 #include <stdexcept>
 
-typedef enum command_modes {
+enum command_modes {
     STANDARD_MODE = 1,
     CUSTOM_MOVE,
     CUSTOM_LED,
     CUSTOM_BUCKET
-
-} command_modes;
+};
 
 // struct holding PD controller coefficients
 struct PD_Controller_Coefficients {
@@ -54,55 +52,6 @@ struct RobotData {
     RobotKinematicsData kinematics_data;
 
     float battery_percentage;
-};
-
-// struct holding bucket state(tilt, extension)
-struct BucketState {
-    float tilt = 0;
-    float extension = 0;
-};
-
-enum LEDProgram {
-    
-    NONE,
-    BLINK_RED,
-    SOLID_RED,
-    SOLID_BLUE,
-    SOLID_GREEN,
-};
-
-enum CustomLEDprograms {
-	SET_SINGLE_PIXEL = 1,
-	SET_ALL_PIXELS,
-	RAINBOW,
-	THEATER_CHASE,
-	FADE_IN_OUT,
-    BLINK_ONCE,
-    BLINK_N_TIMES
-};
-
-// struct holding LED ring state(running program)
-struct SignalLED {
-
-    LEDProgram program = SOLID_BLUE;
-};
-
-struct SingleStateTrajectory {
-
-    SinglePose pose = {0, 0, 0};
-    SignalLED LED_state;
-    BucketState bucket_state;
-};
-
-typedef std::vector<SingleStateTrajectory> FullStateTrajectory;
-
-// struct holding the current robot state(pose, LED and bucket)
-struct FullRobotState {
-    
-    ChassisFullState pose_and_id;
-
-    SignalLED LED_state;
-    BucketState bucket_state;
 };
 
 /* class defining the robot object
@@ -206,6 +155,8 @@ class autoMR
         int setNextTrajectoryPoint();
 
         int updateFullTrajectory();
+
+        Vector3f getPoseError();
 
         Eigen::Vector3f PD_Controller(Eigen::Vector3f const &pose_error);
 

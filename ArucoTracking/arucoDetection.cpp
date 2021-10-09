@@ -5,7 +5,11 @@
 #include <opencv2/calib3d/calib3d.hpp>
 
 #include "arucoDetection.h"
-#include "../util/util.h"
+
+#include <Eigen/Dense>
+
+#include <vector>
+#include <fstream>
 
 #include <iostream>
 #include <thread>
@@ -335,15 +339,15 @@ void start_pose_estimation(const std::string calibrationPath)
                 // float normalized_center_to_top_left_y = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_y);
 
                 // get angle of rotation(yaw)
-                float new_yaw = acos(normalized_center_to_top_left_x); //+ (2*PI - 0.785); // rotated by 45 to match the drawn X(red) axis
+                float new_yaw = acos(normalized_center_to_top_left_x);
 
                 // get y distance to determine quadrant
                 int y_sign = getSign(center_to_top_left_y);
 
                 // set quadrant sign
-                new_yaw = (new_yaw * y_sign);
-                float yaw_deg = new_yaw * (180.0/3.14159265);
-                std::cout << "The degree value of entered yaw: " << yaw_deg << std::endl;
+                new_yaw = (new_yaw * y_sign) - 0.78539; // rotated by 45 to match the drawn X(red) axis
+                // float yaw_deg = new_yaw * (180.0/3.14159265);
+                // std::cout << "The degree value of entered yaw: " << yaw_deg << std::endl;
 
 
                 // output yaw and position for this marker
@@ -439,8 +443,6 @@ void start_aruco_detection()
     std::thread estimation_thread(start_pose_estimation, calibrationFilePath);
     std::thread visualization_thread(start_visualization);
     
-    //std::cout << "we got past the thread joins" << std::endl;
-
     estimation_thread.join();
     visualization_thread.join();
 }

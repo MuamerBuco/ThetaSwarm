@@ -1,5 +1,5 @@
-#include "sendRobotCommands.h"
-#include "../../util/util.h"
+#include "../sendRobotCommands.h"
+#include "../../../util/util.h"
 
 // stream motor commands using the passed udp client, 
 // in format [parseReference,  UL-speed, UL-direction, UR-speed, UR-direction, DL-speed, DL-direction, DR-speed, DR-direction]
