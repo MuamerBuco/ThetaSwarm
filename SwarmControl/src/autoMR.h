@@ -176,9 +176,9 @@ class autoMR
 
         void PANIC_STOP();
 
-        int setTrajectory(FullStateTrajectory* full_trajectory);
+        int setTrajectory(FullStateTrajectory const &full_trajectory);
 
-        bool pushNewRobotState(FullRobotState* new_full_robot_state);
+        bool pushNewRobotState(FullRobotState const &new_full_robot_state);
 
         void setCustomDirection(uint8_t direction, uint8_t speed, int ms_delay);
 
@@ -207,7 +207,7 @@ class autoMR
 
         int updateFullTrajectory();
 
-        Eigen::Vector3f PD_Controller(Eigen::Vector3f pose_error);
+        Eigen::Vector3f PD_Controller(Eigen::Vector3f const &pose_error);
 
         int getNextTrajectory();
 
@@ -217,7 +217,7 @@ class autoMR
 
         const BucketState getLastBucketState();
         
-        void setDefaultState(FullRobotState new_default_state);
+        void setDefaultState(FullRobotState const &new_default_state);
 
         void freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_object);
 

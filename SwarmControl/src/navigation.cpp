@@ -300,7 +300,7 @@ SingleStateTrajectory denormalizeSingleStatePose(SingleStateTrajectory single_st
 }
 
 // takes in a vector holding waypoints, returns FullTrajectory holding full path
-int makeTrajectory(FullStateTrajectory& out_trajectory, FullStateTrajectory new_setpoints, std::string plannerName = PLANNER_USED)
+int makeTrajectory(FullStateTrajectory& out_trajectory, FullStateTrajectory const &new_setpoints, std::string plannerName = PLANNER_USED)
 {
     // TODO2 input current position when starting from an unknown point
     SingleStateTrajectory new_single_setpoint;

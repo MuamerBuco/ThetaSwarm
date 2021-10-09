@@ -14,7 +14,7 @@ void PrintBuffer(uint8_t *buffer)
 {
     std::cout << "Buffer contents: " << std::endl;
 
-    for(int i = 0; i < sizeof(buffer); i++)
+    for(int i = 0; i < 9; i++)
     {
         std::cout << unsigned(*buffer++) << " ";
     }
@@ -22,17 +22,26 @@ void PrintBuffer(uint8_t *buffer)
     std::cout << std::endl;
 }
 
-std::tuple<float, float> findMaxMinAbsValues(Vector4f *speeds_vector)
+namespace Eigen 
 {
-    Vector4f speeds_vector_copy = *speeds_vector;
+    auto begin(Vector4f const &m) { return m.data(); }
 
-    for(int i = 0; i < speeds_vector_copy.size(); i++) {
-        speeds_vector_copy(i,0) = abs(speeds_vector_copy(i,0));
+    auto end(Vector4f const &m) { return m.data()+m.size(); }
+}
+
+
+float findMaxAbsValue(Vector4f const &speeds_vector)
+{
+    Vector4f *iter = NULL;
+
+    float max_value = 0;
+
+    for (auto it = Eigen::begin(speeds_vector); it != Eigen::end(speeds_vector); ++it) 
+    {
+        if( max_value < *it) max_value = *it;
     }
 
-    std::sort(speeds_vector_copy.data(), speeds_vector_copy.data() + speeds_vector_copy.size());
-
-    return { speeds_vector_copy[0], speeds_vector_copy[3] };
+    return max_value;
 }
 
 // map value to range, crop if out of range

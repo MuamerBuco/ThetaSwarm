@@ -7,6 +7,7 @@ using namespace Eigen;
 
 #define MAX_FAIL_COUNT 20
 
+// MANUAL TESTING
 uint8_t DIRECTION_ARRAY[6][8] = {
     {255, 1 ,255, 1 ,255, 1 ,255, 1}, // Move Forward
     {255, 0 ,255, 0 ,255, 0 ,255, 0}, // Move Backward
@@ -127,9 +128,9 @@ bool autoMR::loadConfig(std::string filePath, int id)
     return 0;
 }
 
-int autoMR::setTrajectory(FullStateTrajectory* full_trajectory)
+int autoMR::setTrajectory(FullStateTrajectory const &full_trajectory)
 {
-    if( TrajectorySet->try_push(*full_trajectory) ) return 1;
+    if( TrajectorySet->try_push(full_trajectory) ) return 1;
     else return 0;
 }
 
@@ -161,19 +162,19 @@ const ChassisFullState autoMR::getLastRobotPose()
 // get the last recorded LED state
 const SignalLED autoMR::getLastLEDState()
 {
-    // return current_full_state.LED_state;
+    return current_full_state.LED_state;
 }
 
 // get the last recorded bucket state
 const BucketState autoMR::getLastBucketState()
 {
-    // return current_full_state.bucket_state;
+    return current_full_state.bucket_state;
 }
 
 // push the new state to queue that thread reads from
-bool autoMR::pushNewRobotState(FullRobotState* new_full_robot_state)
+bool autoMR::pushNewRobotState(FullRobotState const  &new_full_robot_state)
 {
-    return LatestRobotState->try_push(*new_full_robot_state);
+    return LatestRobotState->try_push(new_full_robot_state);
 }
 
 void autoMR::freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_object)
@@ -360,35 +361,29 @@ int autoMR::setNextTrajectoryPoint()
 
 // function that the thread runs for robot control
 void autoMR::robot_control()
-{
-    // auto robot_client = std::make_shared<udp_client_server::udp_client>(robot_data.robotIP, robot_data.robotPort);
-    
+{    
     FullRobotState state_holder;
     Vector3f pose_error;
     Vector3f q_dot;
-    float currentPhi;
+    float currentPhi = 0;
     uint8_t robot_command_array[12] = {0};
-    uint8_t speeds_and_directions_array[8] = {0};
+    // uint8_t speeds_and_directions_array[8] = {0};
     // memset(robot_command_array, 0, 12*sizeof(robot_command_array));
 
     unsigned int fail_count = 0;
-
 
     // TESTING FEEDBACK
     target_full_state.pose_and_id.pose_state.q.yaw = 0;
     target_full_state.pose_and_id.pose_state.q.x = 190/2;
     target_full_state.pose_and_id.pose_state.q.y = 130/2;
 
-
     while(1)
     {
         while( !stopRobot )
         {
-            // msDelay(5); //#delay
             // update to latest state
             if( updateCurrentFullRobotState() ) 
             {
-                // std::cout << "Updated current full robot state" << std::endl;
                 // check if the current setpoint is reached, if it is set a new one
                 if( ReachedTarget() )
                 {
@@ -410,18 +405,23 @@ void autoMR::robot_control()
                 pose_error(1,0) = current_full_state.pose_and_id.pose_state.q.x - target_full_state.pose_and_id.pose_state.q.x;
                 // pose_error(2,0) = current_full_state.pose_and_id.pose_state.q.y - target_full_state.pose_and_id.pose_state.q.y;
 
-                std::cout << "The pose error vector: \n" << pose_error << std::endl;
+                // std::cout << "The pose error vector: \n" << pose_error << std::endl;
 
-                std::cout << std::endl << std::endl;
+                // std::cout << std::endl << std::endl;
                 std::cout << "Current X: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
                 std::cout << "Current Y: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
 
                 q_dot = PD_Controller(pose_error);
 
+                // #Testing
+                q_dot(0) = 0;
+                q_dot(1) = 100;
+                q_dot(2) = 0; 
+
                 // std::cout << "The input control vector q_dot: \n" << q_dot << std::endl;
 
-
                 currentPhi = current_full_state.pose_and_id.pose_state.q.yaw;
+                // currentPhi += 0.01;
 
                 std::cout << "The current passed phi: " << currentPhi << std::endl;
 
@@ -430,22 +430,23 @@ void autoMR::robot_control()
                 robot_command_array[0] = CUSTOM_MOVE;
 
                 // TODO2 create a parsing model for engineering and getter functionality
-                if( CalculateSpeedCommands(robot_data.kinematics_data.H0_R, &robot_data.robot_configuration, q_dot, &speeds_and_directions_array[0], currentPhi) )
+                VectorXi motor_commands = CalculateSpeedCommands(robot_data.kinematics_data.H0_R, robot_data.robot_configuration, q_dot, currentPhi);
+                std::cout << "The speed commands: " << std::endl;
+                std::cout << motor_commands << std::endl;
+            
+                // TODO1 switch to smth more elegant
+                for(int i = 0; i < 8; i++)
                 {
-                    // TODO1 switch to smth more elegant
-                    for(int i = 0; i < 8; i++)
-                    {
-                        robot_command_array[i + 1] = speeds_and_directions_array[i];
-                    }
-
-                    // set bucket and LED, TODO1 format properly
-                    robot_command_array[9] = current_full_state.bucket_state.extension;
-                    robot_command_array[10] = current_full_state.bucket_state.tilt;
-                    robot_command_array[11] = current_full_state.LED_state.program;
-                    //PrintBuffer(&robot_command_array[0]);
-
-                    SendRobotCommands(&robot_command_array[0], robot_client, 1); // TODO1 maybe remove 1ms delay
+                    robot_command_array[i + 1] = motor_commands(i);
                 }
+
+                // set bucket and LED, TODO1 format properly
+                robot_command_array[9] = current_full_state.bucket_state.extension;
+                robot_command_array[10] = current_full_state.bucket_state.tilt;
+                robot_command_array[11] = current_full_state.LED_state.program;
+                // PrintBuffer(&robot_command_array[0]);
+
+                SendRobotCommands(&robot_command_array[0], robot_client, 1); // TODO1 maybe remove 1ms delay
             }
         }
         
@@ -454,7 +455,7 @@ void autoMR::robot_control()
 }
 
 // set what it means for the robot to go into default state
-void autoMR::setDefaultState(FullRobotState new_default_state)
+void autoMR::setDefaultState(FullRobotState const &new_default_state)
 {
     default_state = new_default_state;
 }
@@ -467,7 +468,7 @@ void autoMR::resumeOperation()
 // force the robot into default state
 void autoMR::resetRobot()
 {
-    pushNewRobotState(&default_state);
+    pushNewRobotState(default_state);
     stopRobot = false;
 }
 
@@ -478,19 +479,19 @@ void autoMR::PANIC_STOP()
 }
 
 // map different possible ranges of each variable in the control vector to the same range
-// TODO1 make the input and output range settable/dynamic
+// TODO1 draw min/max from config field data
 Vector3f ScaleToEqualRange(Vector3f control_input)
 {
-    control_input(0,0) = MapValueToRange( -180, -100, 180, 100, control_input(0,0) );
-    control_input(1,0) = MapValueToRange( -190, -100, 190, 100, control_input(1,0) );
-    control_input(2,0) = MapValueToRange( -130, -100, 130, 100, control_input(2,0) );
+    control_input(0,0) = MapValueToRange( -180, MIN_NORM_SPEED, 180, MAX_NORM_SPEED, control_input(0,0) );
+    control_input(1,0) = MapValueToRange( -190, MIN_NORM_SPEED, 190, MAX_NORM_SPEED, control_input(1,0) );
+    control_input(2,0) = MapValueToRange( -130, MIN_NORM_SPEED, 130, MAX_NORM_SPEED, control_input(2,0) );
 
     return control_input;
 }
 
 // for now implement only Proportional controller
 // TODO2 implement derivative control
-Vector3f autoMR::PD_Controller(Vector3f pose_error)
+Vector3f autoMR::PD_Controller(Vector3f const &pose_error)
 {
     Vector3f control_input = ScaleToEqualRange(pose_error);
 

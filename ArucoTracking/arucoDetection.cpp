@@ -22,6 +22,8 @@ using namespace rigtorp;
 #define BOTTOM_RIGHT 2
 #define BOTTOM_LEFT 3
 
+#define PI 3.14159265
+
 // struct holding field data
 struct FieldData {
     
@@ -283,9 +285,7 @@ void start_pose_estimation(const std::string calibrationPath)
 
         while (!imageSPSCQueue.front());
 
-        // #testing
         currentImage = *imageSPSCQueue.front();
-        //currentImage = currentImage(cv::Rect(500,500,100,100));
         imageCopyVisualize = currentImage;
 
         // params->cornerRefinementMethod = cv::aruco::CORNER_REFINE_CONTOUR;
@@ -335,13 +335,16 @@ void start_pose_estimation(const std::string calibrationPath)
                 // float normalized_center_to_top_left_y = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_y);
 
                 // get angle of rotation(yaw)
-                float new_yaw = acos(normalized_center_to_top_left_x);
+                float new_yaw = acos(normalized_center_to_top_left_x); //+ (2*PI - 0.785); // rotated by 45 to match the drawn X(red) axis
 
                 // get y distance to determine quadrant
                 int y_sign = getSign(center_to_top_left_y);
 
                 // set quadrant sign
-                new_yaw = new_yaw * y_sign;
+                new_yaw = (new_yaw * y_sign);
+                float yaw_deg = new_yaw * (180.0/3.14159265);
+                std::cout << "The degree value of entered yaw: " << yaw_deg << std::endl;
+
 
                 // output yaw and position for this marker
                 // std::cout << "The new yaw(-PI,PI) is: " << new_yaw << std::endl;
@@ -353,7 +356,7 @@ void start_pose_estimation(const std::string calibrationPath)
                 // msDelay(500);
 
                 // #testing
-                //cv::aruco::drawAxis(imageCopyVisualize, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
+                cv::aruco::drawAxis(imageCopyVisualize, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
 
                 // transform compact rodrigues representation to rotation matrix
                 // cv::Mat rot_mat = cv::Mat::zeros(3, 3, CV_64F);

@@ -106,7 +106,7 @@ class Swarm {
 
         int getAllNewSetpoints(AllFullStateTrajectories& all_new_setpoints);
 
-        int generateTrajectory(FullStateTrajectory& output_trajectory, FullStateTrajectory input_states, std::string planner);
+        int generateTrajectory(FullStateTrajectory& output_trajectory, FullStateTrajectory const &input_states, std::string planner);
 
         int generateAndPushAllTrajectories();
 

@@ -270,38 +270,36 @@ int Swarm::generateAndPushAllTrajectories()
     AllFullStateTrajectories new_trajectories_map;
     if( getAllNewSetpoints(new_trajectories_map) )
     {
+        FullStateTrajectory new_trajectory;
         for(auto single_trajectory : new_trajectories_map)
         {
-            FullStateTrajectory new_trajectory;
             if( generateTrajectory(new_trajectory, single_trajectory.second, "RRTstar") )
             {
                 // push new trajectory to robot
-                swarm_box.ID_Unit_Map.find(single_trajectory.first)->second->setTrajectory(&new_trajectory);
+                swarm_box.ID_Unit_Map.find(single_trajectory.first)->second->setTrajectory(new_trajectory);
             }
             else {
-                std::cout << "Couldn't generate trajectory for ID: " << single_trajectory.first << std::endl;
+                std::cerr << "Couldn't generate trajectory for ID: " << single_trajectory.first << std::endl;
             }
         }
         return 1;
     }
     else {
-        // std::cout << "No new setpoints recognized" << std::endl;
+        // std::cerr << "No new setpoints recognized" << std::endl;
         return 0;
     }
 }
 
 // Generate trajectory for inputs_states set of setpoints
-int Swarm::generateTrajectory(FullStateTrajectory& output_trajectory, FullStateTrajectory input_states, std::string planner)
+int Swarm::generateTrajectory(FullStateTrajectory& output_trajectory, FullStateTrajectory const  &input_states, std::string planner)
 {
     // if trajectory created succesfuly, write it to output trajectory
-    FullStateTrajectory temp_trajectory;
-    if( makeTrajectory( temp_trajectory, input_states, planner) )
+    if( makeTrajectory( output_trajectory, input_states, planner) )
     {
-        output_trajectory = temp_trajectory;
         return 1;
     }
     else {
-        // std::cout << "Couldn't generate trajectory" << std::endl;
+        std::cerr << "Couldn't generate trajectory" << std::endl;
         return 0;
     }
 }
@@ -364,7 +362,7 @@ bool Swarm::UpdateSwarm()
                 swarm_box.ID_FullState_Map.find(id)->second = current_full_state;
 
                 // push new state to the robot
-                bool temp = swarm_box.ID_Unit_Map.find(id)->second->pushNewRobotState( &swarm_box.ID_FullState_Map.find(id)->second );
+                bool temp = swarm_box.ID_Unit_Map.find(id)->second->pushNewRobotState( swarm_box.ID_FullState_Map.find(id)->second );
             }
 
             // generate and push all trajectories if any new setpoints are found, non blocking

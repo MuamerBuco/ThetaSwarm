@@ -35,7 +35,7 @@ enum planningObjective
     OBJECTIVE_WEIGHTEDCOMBO
 };
 
-int makeTrajectory(FullStateTrajectory& out_trajectory, FullStateTrajectory waypoints, std::string plannerName);
+int makeTrajectory(FullStateTrajectory &out_trajectory, FullStateTrajectory const &waypoints, std::string plannerName);
 
 // Temporary "collision checker", currently always works
 class ValidityChecker : public ompl::base::StateValidityChecker

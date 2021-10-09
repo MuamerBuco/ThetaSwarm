@@ -1,4 +1,3 @@
-// #include "ArucoTracking/arucoDetection.h"
 #include "SwarmControl/swarm.h"
 
 #include <iostream>

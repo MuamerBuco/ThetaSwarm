@@ -5,6 +5,9 @@
 
 using namespace Eigen;
 
+#define MIN_NORM_SPEED -100.0
+#define MAX_NORM_SPEED 100.0
+
 // struct holding robot configuration data
 struct RobotConfiguration {
 
@@ -40,7 +43,7 @@ struct RobotConstraints {
     float Target_Precision_Margin_Y;
 };
 
-MatrixXf initialize_H_0_R(RobotConfiguration configuration);
-bool CalculateSpeedCommands(MatrixXf H0_R, RobotConfiguration *configuration, Vector3f control_vector, uint8_t *speeds_and_directions, int phiCurrent);
+MatrixXf initialize_H_0_R(RobotConfiguration const &configuration);
+VectorXi CalculateSpeedCommands(MatrixXf const &H0_R, RobotConfiguration const &robot_config, Vector3f const &control_vector, float phiCurrent);
 
 #endif //ROBOT_KINEMATICS_H
