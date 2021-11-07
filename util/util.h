@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <Eigen/Dense>
+#include <atomic> 
 
 // Error codes
 #define FATAL_ERROR 1
@@ -96,7 +97,8 @@ enum CustomLEDprograms {
 	THEATER_CHASE,
 	FADE_IN_OUT,
     BLINK_ONCE,
-    BLINK_N_TIMES
+    BLINK_N_TIMES,
+    Number_of_LED_programes,
 };
 
 // struct holding LED ring state(running program)

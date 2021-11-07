@@ -8,7 +8,7 @@ using namespace Eigen;
 
 #define MAX_FAIL_COUNT 20
 
-// MANUAL TESTING
+// HARDWARE TESTING
 uint8_t DIRECTION_ARRAY[6][8] = {
     {255, 1 ,255, 1 ,255, 1 ,255, 1}, // Move Forward
     {255, 0 ,255, 0 ,255, 0 ,255, 0}, // Move Backward
@@ -17,7 +17,7 @@ uint8_t DIRECTION_ARRAY[6][8] = {
     {255, 0 ,255, 1 ,255, 0 ,255, 1}, // Rotate Left
 
     {255, 1 ,255, 0 ,255, 0 ,255, 1}, //Move Right
-    {255, 0 ,254, 1 ,255, 1 ,255, 0} // Move Left
+    {255, 0 ,255, 1 ,255, 1 ,255, 0} // Move Left
 };
 
 std::string configFile = "../config.json";
@@ -101,6 +101,12 @@ bool autoMR::loadConfig(std::string filePath, int id)
                 robot_data.default_color.g = default_color["Green"].GetInt();
                 robot_data.default_color.b = default_color["Blue"].GetInt();
 
+                const Value& bucket_constraints = robot_json[i]["BucketConstraints"];
+                robot_data.robot_configuration.Max_Bucket_Tilt = bucket_constraints["MaxTilt"].GetFloat();
+                robot_data.robot_configuration.Min_Bucket_Tilt = bucket_constraints["MinTilt"].GetFloat();
+                robot_data.robot_configuration.Max_Bucket_Extend = bucket_constraints["MaxExtend"].GetFloat();
+                robot_data.robot_configuration.Min_Bucket_Extend = bucket_constraints["MinExtend"].GetFloat();
+
                 return 1;
             }
         }
@@ -161,6 +167,12 @@ const BucketState autoMR::getLastBucketState()
     return current_full_state.bucket_state;
 }
 
+// get robot configuration
+RobotConfiguration autoMR::getRobotConfig()
+{
+    return robot_data.robot_configuration;
+}
+
 // push the new full robot state state to queue that robot thread reads from
 bool autoMR::pushNewRobotState(FullRobotState const  &new_full_robot_state)
 {
@@ -189,7 +201,7 @@ void autoMR::freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_o
 * 3 => Rotate Left
 * 4 => Move Right
 * 5 => Move Left ** */
-void autoMR::setCustomDirection(uint8_t direction, uint8_t speed, int ms_delay)
+void autoMR::setCustomDirection(uint8_t direction, uint8_t speed, int duration)
 {
     uint8_t tx_buffer[9] = {0};
 
@@ -201,15 +213,15 @@ void autoMR::setCustomDirection(uint8_t direction, uint8_t speed, int ms_delay)
         if(i % 2 == 0) tx_buffer[i+1] = speed;
     }
 
-    SendRobotCommandsForMs(&tx_buffer[0], ms_delay, 2, robot_client);
+    SendRobotCommandsForMs(&tx_buffer[0], duration, 2, robot_client);
 }
 
 /* **
 * set custom program, or a single LED
-* switch_case = [0]; index = [1]; red = [2]; green = [3]; blue = [4]; ms_delay = [5]; 
-* TODO1 write modes
-*/
-void autoMR::setCustomColor(uint8_t index, RGBColor my_color, CustomLEDprograms mode, uint8_t ms_delay)
+* If mode == 0(SET_SINGLE_PIXEL) use index and colors(0-255)
+* If mode == (SET_SINGLE_PIXEL) use colors(0-255)
+* If mode == program that uses timing(Rainbow, Theatre) use ms_delay */
+void autoMR::setCustomColor(uint8_t index, RGBColor my_color, int mode, uint8_t ms_delay)
 {
     uint8_t tx_buffer[7];
 
@@ -419,7 +431,6 @@ void autoMR::robot_control()
                     robot_command_array[i + 1] = motor_commands(i);
                 }
 
-                // set bucket and LED, TODO1 format properly
                 robot_command_array[9] = current_full_state.bucket_state.extension;
                 robot_command_array[10] = current_full_state.bucket_state.tilt;
                 robot_command_array[11] = current_full_state.LED_state.program;

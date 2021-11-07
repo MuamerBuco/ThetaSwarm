@@ -5,6 +5,7 @@
 #include <opencv2/calib3d/calib3d.hpp>
 
 #include "arucoDetection.h"
+// #include "../Metrics/metrics.h"
 
 #include <Eigen/Dense>
 
@@ -193,10 +194,14 @@ void start_capturing()
             inputVideo.set(cv::CAP_PROP_GAIN, camera_settings.Gain);
             inputVideo.set(cv::CAP_PROP_GAMMA, camera_settings.Gamma);
             inputVideo.set(cv::CAP_PROP_SHARPNESS, camera_settings.Sharpness);
+            inputVideo.set(cv::CAP_PROP_FPS, 120);
+
+            int counter = 0;
 
             while(inputVideo.read(InputImage)) {
-                
+                if(counter > 480) std::cout << "Just did a 480 pushes" << std::endl, counter = 0;
                 imageSPSCQueue.try_push(InputImage);
+                counter++;
             }
         }
         else {
@@ -229,7 +234,7 @@ void start_pose_estimation(const std::string calibrationPath)
     // detected IDs with Corners
     std::vector<int> ids;
     std::vector<std::vector<cv::Point2f>> corners;
-    // TODO1 maybe remove reserves
+
     ids.reserve(field_data.Number_of_units);
     corners.reserve(field_data.Number_of_units);
 
@@ -241,6 +246,15 @@ void start_pose_estimation(const std::string calibrationPath)
     ChassisFullState single_pose_holder;
     AllPoseStates pose_holder;
 
+    typedef std::chrono::milliseconds ms;
+    std::chrono::duration<double> time_for_latest_pass;
+    float framerate_counter = 0.1;
+    float framesuccess_counter = 0.1;
+
+    float totalElapsed = 0;
+
+    // std::thread aruco_metrics = std::thread(&launchArucoMetrics);
+
     // camera parameters are read from calibrationFileName
     readCameraParameters(&cameraMatrix, &distCoeffs, calibrationPath);
 
@@ -250,117 +264,123 @@ void start_pose_estimation(const std::string calibrationPath)
 
     Matrix3f new_rotations(3,3);
     float my_yaw;
-
-    // #metrics
-    int avgTime = 0;
-    #define AVG_NUM_CYCLES 200
     
     while(1) {
-        for(int test1 = 0; test1 < AVG_NUM_CYCLES; test1++)
-        { //#metrics
-        auto start1 = std::chrono::system_clock::now(); //#metrics
+        while(totalElapsed < 1000)
+        {
+            // start frame timer
+            auto timer_start = std::chrono::system_clock::now();
 
-        while (!imageSPSCQueue.front());
+            // wait for camera to push frame, store it in variable
+            while (!imageSPSCQueue.front());
+            currentImage = *imageSPSCQueue.front();
 
-        currentImage = *imageSPSCQueue.front();
-        imageCopyVisualize = currentImage;
-
-        // params->cornerRefinementMethod = cv::aruco::CORNER_REFINE_CONTOUR;
-        // params->adaptiveThreshConstant = true;
-        
-        cv::aruco::detectMarkers(currentImage, dictionary, corners, ids, params);
-
-        cv::aruco::drawDetectedMarkers(imageCopyVisualize, corners, ids);
-
-        // std::cout << "Number of detected markers " << ids.size() << std::endl;
-
-        if (ids.size() > 0) {
+            // params->cornerRefinementMethod = cv::aruco::CORNER_REFINE_CONTOUR;
+            // params->adaptiveThreshConstant = true;
             
-            std::vector<cv::Vec3d> rvecs, tvecs;
-            cv::aruco::estimatePoseSingleMarkers(corners, 0.05, cameraMatrix, distCoeffs, rvecs, tvecs);
-            
-            // draw axis and corners for each marker
-            for(int i=0; i<ids.size(); i++) {
+            cv::aruco::detectMarkers(currentImage, dictionary, corners, ids, params);
+            cv::aruco::drawDetectedMarkers(currentImage, corners, ids);
 
-                // find marker center point in pixel space
-                float top_left_x = corners.at(i).at(TOP_LEFT).x;
-                float top_left_y = corners.at(i).at(TOP_LEFT).y;
+            // std::cout << "Number of detected markers " << ids.size() << std::endl;
 
-                // float top_right_x = corners.at(i).at(TOP_RIGHT).x;
-                // float top_right_y = corners.at(i).at(TOP_RIGHT).y;
-
-                // float bottom_left_x = corners.at(i).at(BOTTOM_LEFT).x;
-                // float bottom_left_y = corners.at(i).at(BOTTOM_LEFT).y;
-
-                float bottom_right_x = corners.at(i).at(BOTTOM_RIGHT).x;
-                float bottom_right_y = corners.at(i).at(BOTTOM_RIGHT).y;
-
-                float half_size_x = (top_left_x - bottom_right_x) / 2;
-                float half_size_y = (top_left_y - bottom_right_y) / 2;
-
-                float center_x = top_left_x + half_size_x;
-                float center_y = top_left_y + half_size_y;
+            if (ids.size() > 0) {
                 
-                // find x difference between corner and center
-                float center_to_top_left_x = top_left_x - center_x;
-                float center_to_top_left_y = top_left_y - center_y;
-
-                // normalize distance to 0-1
-                float max_distance = sqrt( (half_size_x*half_size_x) + (half_size_y*half_size_y) );
-
-                float normalized_center_to_top_left_x = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_x);
-                // float normalized_center_to_top_left_y = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_y);
-
-                // get angle of rotation(yaw)
-                float new_yaw = acos(normalized_center_to_top_left_x);
-
-                // get y distance to determine quadrant
-                int y_sign = getSign(center_to_top_left_y);
-
-                // set quadrant sign
-                new_yaw = (new_yaw * y_sign) - 0.78539; // rotated by 45 to match the drawn X(red) axis
-                // float yaw_deg = new_yaw * (180.0/3.14159265);
-                // std::cout << "The degree value of entered yaw: " << yaw_deg << std::endl;
+                std::vector<cv::Vec3d> rvecs, tvecs;
+                cv::aruco::estimatePoseSingleMarkers(corners, 0.05, cameraMatrix, distCoeffs, rvecs, tvecs);
                 
-                // msDelay(500);
-                cv::aruco::drawAxis(imageCopyVisualize, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
+                // draw axis and corners for each marker
+                for(int i=0; i<ids.size(); i++) {
 
-                single_pose_holder.pose_state.q.yaw = new_yaw;
-                single_pose_holder.pose_state.q.x = MapValueToRange(field_data.Min_Input_Value_X, field_data.Min_Output_Value_X, field_data.Max_Input_Value_X, field_data.Max_Output_Value_X, tvecs[i][0]);
-                single_pose_holder.pose_state.q.y = MapValueToRange(field_data.Min_Input_Value_Y, field_data.Min_Output_Value_Y, field_data.Max_Input_Value_Y, field_data.Max_Output_Value_Y, tvecs[i][1]);
-                single_pose_holder.id = ids[i];
-                pose_holder.poses.push_back(single_pose_holder);
-                
+                    // find marker center point in pixel space
+                    float top_left_x = corners.at(i).at(TOP_LEFT).x;
+                    float top_left_y = corners.at(i).at(TOP_LEFT).y;
+
+                    // float top_right_x = corners.at(i).at(TOP_RIGHT).x;
+                    // float top_right_y = corners.at(i).at(TOP_RIGHT).y;
+
+                    // float bottom_left_x = corners.at(i).at(BOTTOM_LEFT).x;
+                    // float bottom_left_y = corners.at(i).at(BOTTOM_LEFT).y;
+
+                    float bottom_right_x = corners.at(i).at(BOTTOM_RIGHT).x;
+                    float bottom_right_y = corners.at(i).at(BOTTOM_RIGHT).y;
+
+                    float half_size_x = (top_left_x - bottom_right_x) / 2;
+                    float half_size_y = (top_left_y - bottom_right_y) / 2;
+
+                    float center_x = top_left_x + half_size_x;
+                    float center_y = top_left_y + half_size_y;
+                    
+                    // find x difference between corner and center
+                    float center_to_top_left_x = top_left_x - center_x;
+                    float center_to_top_left_y = top_left_y - center_y;
+
+                    // normalize distance to 0-1
+                    float max_distance = sqrt( (half_size_x*half_size_x) + (half_size_y*half_size_y) );
+
+                    float normalized_center_to_top_left_x = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_x);
+                    // float normalized_center_to_top_left_y = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_y);
+
+                    // get angle of rotation(yaw)
+                    float new_yaw = acos(normalized_center_to_top_left_x);
+
+                    // get y distance to determine quadrant
+                    int y_sign = getSign(center_to_top_left_y);
+
+                    // set quadrant sign
+                    new_yaw = (new_yaw * y_sign) - 0.78539; // rotated by 45 to match the drawn X(red) axis
+                    // float yaw_deg = new_yaw * (180.0/3.14159265);
+                    // std::cout << "The degree value of entered yaw: " << yaw_deg << std::endl;
+
+                    // #testing
+                    // visualizationSPSCQueue.try_push(currentImage);
+                    
+                    // msDelay(500);
+                    cv::aruco::drawAxis(currentImage, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
+
+                    single_pose_holder.pose_state.q.yaw = new_yaw;
+                    single_pose_holder.pose_state.q.x = MapValueToRange(field_data.Min_Input_Value_X, field_data.Min_Output_Value_X, field_data.Max_Input_Value_X, field_data.Max_Output_Value_X, tvecs[i][0]);
+                    single_pose_holder.pose_state.q.y = MapValueToRange(field_data.Min_Input_Value_Y, field_data.Min_Output_Value_Y, field_data.Max_Input_Value_Y, field_data.Max_Output_Value_Y, tvecs[i][1]);
+                    single_pose_holder.id = ids[i];
+                    pose_holder.poses.push_back(single_pose_holder);
+                    
+                }
+                // push vectored tvecs, rvecs and ids to queue if queue is not full
+                posesSPSCQueue.try_push(pose_holder);
+
+                // pop current set of tvecs and rvecs
+                pose_holder.poses.clear();
+
+                framesuccess_counter++;
             }
-            // push vectored tvecs, rvecs and ids to queue if queue is not full
-            posesSPSCQueue.try_push(pose_holder);
+            else {
+                //std::cout << "No markers detected!" << std::endl;
+            }
 
-            // pop current set of tvecs and rvecs
-            pose_holder.poses.clear();
-            // msDelay(500);
+            // #testing
+            visualizationSPSCQueue.try_push(currentImage);
+
+            // pop frame used for pose estimation
+            imageSPSCQueue.pop();
+
+            framerate_counter++;
+
+            auto timer_end = std::chrono::system_clock::now();
+            time_for_latest_pass = timer_end - timer_start;
+            ms milis = std::chrono::duration_cast<ms>(time_for_latest_pass);
+            totalElapsed += milis.count();
         }
-        else {
-            //std::cout << "No markers detected!" << std::endl;
-        }
 
-        // #testing
-        visualizationSPSCQueue.try_push(imageCopyVisualize);
+        std::clog << "Framerate(FPS): " << static_cast<int>(framerate_counter) << std::endl;
+        std::clog << "Successful frames per second: " << static_cast<int>(framesuccess_counter) << std::endl;
+        std::clog << "Percentage detection success(%): " << static_cast<int>(framesuccess_counter/framerate_counter * 100) << std::endl;
+        std::clog << std::endl;
 
-        // pop frame used for pose estimation
-        imageSPSCQueue.pop();
-
-        auto end1 = std::chrono::system_clock::now(); //#metrics
-        auto elapsed1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count(); //#metrics
-        // std::cout << "The first part took: " << elapsed1  << std::endl; //#metrics
-        avgTime += elapsed1; // #metrics
-
-
-        } // for 200 #metrics
-        std::cout << "The avg time per pass is: " << avgTime/AVG_NUM_CYCLES  << std::endl; //#metrics
-        std::cout << "The avg fps is: " << 1000/(avgTime/AVG_NUM_CYCLES)  << std::endl; //#metrics
-        avgTime = 0;
-
+        totalElapsed = 0;
+        framerate_counter = 0.1;
+        framesuccess_counter = 0.1;
     }
+
+    // aruco_metrics.join();
     capture_thread.join();
 }
 

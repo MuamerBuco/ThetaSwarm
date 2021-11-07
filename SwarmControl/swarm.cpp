@@ -377,4 +377,44 @@ bool Swarm::UpdateSwarm()
     return 0;
 }
 
+void Swarm::testSingleAMRHardware(int id)
+{
+    for(int i = 0; i < 6; i++)
+    {
+        swarm_box.ID_Unit_Map.find(id)->second->setCustomDirection(i, 180, 2000);
+        msDelay(1000);
+    }
+
+    RGBColor my_color;
+    my_color.r = 50;
+    my_color.g = 150;
+    my_color.b = 255;
+
+    for(int i = 0; i < Number_of_LED_programes; i++)
+    {
+        swarm_box.ID_Unit_Map.find(id)->second->setCustomColor(15, my_color, i, 50);
+        msDelay(1500);
+    }
+
+    msDelay(1000);
+
+    RobotConfiguration current_config = swarm_box.ID_Unit_Map.find(id)->second->getRobotConfig();
+
+    for(int i = current_config.Min_Bucket_Tilt; i < current_config.Max_Bucket_Tilt; i++)
+    {
+        for(int j = current_config.Min_Bucket_Extend; j < current_config.Max_Bucket_Extend; j++)
+        swarm_box.ID_Unit_Map.find(id)->second->setCustomBucket(i,j);
+        msDelay(1);
+    }
+
+    msDelay(1000);
+}
+
+void Swarm::testSwarmHardware()
+{
+    for(auto id : swarm_data.robot_ids)
+    {
+        testSingleAMRHardware(id);
+    }
+}
 

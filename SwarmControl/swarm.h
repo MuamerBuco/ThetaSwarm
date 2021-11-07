@@ -99,6 +99,10 @@ class Swarm {
         void PANIC_STOP_SWARM();
 
         void getSwarmData();
+
+        void testSingleAMRHardware(int id);
+
+        void testSwarmHardware();
     
     private:
 

@@ -21,6 +21,12 @@ struct RobotConfiguration {
     float Max_RadS_Speed; 
     float Min_RadS_Speed;
 
+    float Max_Bucket_Tilt;
+    float Min_Bucket_Tilt;
+
+    float Max_Bucket_Extend;
+    float Min_Bucket_Extend;
+
     float Rotation_Speed_Range = (Max_RadS_Speed - Min_RadS_Speed);
     int Viable_PWM_Range = (Max_Viable_PWM - Min_Viable_PWM);
 };

@@ -134,9 +134,11 @@ class autoMR
 
         void setCustomDirection(uint8_t direction, uint8_t speed, int ms_delay);
 
-        void setCustomColor(uint8_t index, RGBColor my_color, CustomLEDprograms mode, uint8_t ms_delay);
+        void setCustomColor(uint8_t index, RGBColor my_color, int mode, uint8_t ms_delay);
 
         void setCustomBucket(uint8_t tilt, uint8_t extend);
+
+        RobotConfiguration getRobotConfig();
 
         void selfIdentify();
     

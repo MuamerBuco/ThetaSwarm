@@ -18,12 +18,12 @@
     "VideoSource": 0,
     "CameraResolutionW": 1280,
     "CameraResolutionH": 720,
-    "Contrast": 300,
-    "Brightness": -150,
-    "Saturation": 0,
-    "Gain": 500,
+    "Contrast": 40,
+    "Brightness": 20,
+    "Saturation": 1,
+    "Gain": 50,
     "Gamma": 0,
-    "Sharpness": 200
+    "Sharpness": 40
   },
   "Robots": [
     {
@@ -40,14 +40,14 @@
         "X": 5,
         "Y": 5
       },
-      "Wheel_Diameter_mm": 46,
+      "Wheel_Diameter_mm": 57,
       "Wheel_To_Ceter_mm": {
         "X": 57,
         "Y": 57
       },
       "Viable_PWM": {
-        "MIN": 150,
-        "MAX": 255
+        "MAX": 150,
+        "MIN": 255
       },
       "Viable_RadS_Speed": {
         "MAX": 23.3,
@@ -57,6 +57,12 @@
         "Red": 0,
         "Green" : 255,
         "Blue": 0
+      },
+      "BucketConstraints": {
+        "MaxTilt": 60,
+        "MinTilt" : 20,
+        "MaxExtend": 60,
+        "MinExtend": 20
       }
     },
     {
@@ -73,7 +79,7 @@
         "X": 1,
         "Y": 1
       },
-      "Wheel_Diameter_mm": 46,
+      "Wheel_Diameter_mm": 57,
       "Wheel_To_Ceter_mm": {
         "X": 57,
         "Y": 57
@@ -90,6 +96,12 @@
         "Red": 0,
         "Green" : 0,
         "Blue": 255
+      },
+      "BucketConstraints": {
+        "MaxTilt": 60,
+        "MinTilt" : 20,
+        "MaxExtend": 60,
+        "MinExtend": 20
       }
     }
   ]
