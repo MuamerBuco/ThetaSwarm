@@ -48,6 +48,15 @@ struct CameraSettings {
     float Sharpness = 0;
 };
 
+struct ArucoParams {
+    
+    float minMarkerPerimeterRate = 0.03;
+    float maxMarkerPerimeterRate = 4;
+    float adaptiveThreshWinSizeMin = 3;
+    float adaptiveThreshWinSizeMax = 23;
+    float adaptiveThreshWinSizeStep = 10;
+};
+
 struct SinglePose {
 
     float yaw = 0;
@@ -104,7 +113,7 @@ enum CustomLEDprograms {
 // struct holding LED ring state(running program)
 struct SignalLED {
 
-    LEDProgram program = SOLID_BLUE;
+    LEDProgram program = NONE;
 };
 
 struct SingleStateTrajectory {

@@ -29,9 +29,10 @@ using namespace rigtorp;
 
 #define PI 3.14159265
 
-// holds the relevant field and camera data
+// holds the relevant field, camera and aruco data
 FieldData field_data;
 CameraSettings camera_settings;
+ArucoParams aruco_parameters;
 
 // queues poses in a single pass
 SPSCQueue<AllPoseStates> posesSPSCQueue(2);
@@ -78,7 +79,7 @@ void loadFieldData(std::string filePath)
     {
         const Value& field_json = document["FieldData"];
 
-        ////// P
+        ////// YAW
         field_data.Max_Input_Value_P = field_json["Max_Input_Value_P"].GetFloat();
         field_data.Min_Input_Value_P = field_json["Min_Input_Value_P"].GetFloat();
         field_data.Max_Output_Value_P = field_json["Max_Output_Value_P"].GetFloat();
@@ -126,13 +127,23 @@ void loadFieldData(std::string filePath)
         throw FATAL_ERROR;
     }
 
-    ifs.close();
-}
+    if (document.HasMember("ArucoParameters"))
+    {
+        const Value& camera_json = document["ArucoParameters"];
 
-// add offset to value
-int addOffset( int value, int offset)
-{
-    return abs(value) - offset;
+        // aruco settings
+        aruco_parameters.minMarkerPerimeterRate = camera_json["minMarkerPerimeterRate"].GetFloat();
+        aruco_parameters.maxMarkerPerimeterRate = camera_json["maxMarkerPerimeterRate"].GetFloat();
+        aruco_parameters.adaptiveThreshWinSizeMin = camera_json["adaptiveThreshWinSizeMin"].GetFloat();
+        aruco_parameters.adaptiveThreshWinSizeMax = camera_json["adaptiveThreshWinSizeMax"].GetFloat();
+        aruco_parameters.adaptiveThreshWinSizeStep = camera_json["adaptiveThreshWinSizeStep"].GetFloat();
+    }
+    else {
+        std::cerr << "Config doesnt have ArucoParameters member" << std::endl;
+        throw FATAL_ERROR;
+    }
+
+    ifs.close();
 }
 
 // returns a struct holding all pose/id structs per robot, non-blocking function
@@ -164,7 +175,7 @@ void start_capturing()
     }
     catch(int& err){
         std::cerr << "Failed to load field data from config, aborting.." << std::endl;
-        std::abort();
+        std::exit( EXIT_FAILURE );
     }
     
     // open video source, set internal buffer to 0
@@ -196,12 +207,9 @@ void start_capturing()
             inputVideo.set(cv::CAP_PROP_SHARPNESS, camera_settings.Sharpness);
             inputVideo.set(cv::CAP_PROP_FPS, 120);
 
-            int counter = 0;
-
-            while(inputVideo.read(InputImage)) {
-                if(counter > 480) std::cout << "Just did a 480 pushes" << std::endl, counter = 0;
+            while(inputVideo.read(InputImage))
+            {
                 imageSPSCQueue.try_push(InputImage);
-                counter++;
             }
         }
         else {
@@ -246,14 +254,19 @@ void start_pose_estimation(const std::string calibrationPath)
     ChassisFullState single_pose_holder;
     AllPoseStates pose_holder;
 
+    struct cornerPosition {
+        float x;
+        float y;
+    };
+
+#ifdef SHOW_METRICS
+    // performance metric variables
     typedef std::chrono::milliseconds ms;
     std::chrono::duration<double> time_for_latest_pass;
     float framerate_counter = 0.1;
     float framesuccess_counter = 0.1;
-
     float totalElapsed = 0;
-
-    // std::thread aruco_metrics = std::thread(&launchArucoMetrics);
+#endif
 
     // camera parameters are read from calibrationFileName
     readCameraParameters(&cameraMatrix, &distCoeffs, calibrationPath);
@@ -264,19 +277,26 @@ void start_pose_estimation(const std::string calibrationPath)
 
     Matrix3f new_rotations(3,3);
     float my_yaw;
+    cornerPosition top_left;
+    cornerPosition top_right;
     
     while(1) {
         while(totalElapsed < 1000)
         {
+            // Use aruco parameters set in config file
+            params->minMarkerPerimeterRate = aruco_parameters.minMarkerPerimeterRate;
+            params->maxMarkerPerimeterRate = aruco_parameters.maxMarkerPerimeterRate;
+
+            params->adaptiveThreshWinSizeMin = aruco_parameters.adaptiveThreshWinSizeMin;
+            params->adaptiveThreshWinSizeMax = aruco_parameters.adaptiveThreshWinSizeMax;
+            params->adaptiveThreshWinSizeStep = aruco_parameters.adaptiveThreshWinSizeStep;
+
             // start frame timer
             auto timer_start = std::chrono::system_clock::now();
 
             // wait for camera to push frame, store it in variable
             while (!imageSPSCQueue.front());
             currentImage = *imageSPSCQueue.front();
-
-            // params->cornerRefinementMethod = cv::aruco::CORNER_REFINE_CONTOUR;
-            // params->adaptiveThreshConstant = true;
             
             cv::aruco::detectMarkers(currentImage, dictionary, corners, ids, params);
             cv::aruco::drawDetectedMarkers(currentImage, corners, ids);
@@ -286,54 +306,84 @@ void start_pose_estimation(const std::string calibrationPath)
             if (ids.size() > 0) {
                 
                 std::vector<cv::Vec3d> rvecs, tvecs;
-                cv::aruco::estimatePoseSingleMarkers(corners, 0.05, cameraMatrix, distCoeffs, rvecs, tvecs);
+                cv::aruco::estimatePoseSingleMarkers(corners, 0.07, cameraMatrix, distCoeffs, rvecs, tvecs);
                 
                 // draw axis and corners for each marker
                 for(int i=0; i<ids.size(); i++) {
 
-                    // find marker center point in pixel space
-                    float top_left_x = corners.at(i).at(TOP_LEFT).x;
-                    float top_left_y = corners.at(i).at(TOP_LEFT).y;
+                    top_left.x = corners.at(i).at(TOP_LEFT).x;
+                    top_left.y = corners.at(i).at(TOP_LEFT).y;
 
-                    // float top_right_x = corners.at(i).at(TOP_RIGHT).x;
-                    // float top_right_y = corners.at(i).at(TOP_RIGHT).y;
+                    top_right.x = corners.at(i).at(TOP_RIGHT).x;
+                    top_right.y = corners.at(i).at(TOP_RIGHT).y;
 
-                    // float bottom_left_x = corners.at(i).at(BOTTOM_LEFT).x;
-                    // float bottom_left_y = corners.at(i).at(BOTTOM_LEFT).y;
+                    cornerPosition difference;
+                    difference.x = top_right.x - top_left.x;
+                    difference.y = top_right.y - top_left.y;
 
-                    float bottom_right_x = corners.at(i).at(BOTTOM_RIGHT).x;
-                    float bottom_right_y = corners.at(i).at(BOTTOM_RIGHT).y;
+                    float max_length = sqrt( (difference.x*difference.x) + (difference.y*difference.y) );
 
-                    float half_size_x = (top_left_x - bottom_right_x) / 2;
-                    float half_size_y = (top_left_y - bottom_right_y) / 2;
+                    float normalized = MapValueToRange(-max_length, -1, max_length, 1, difference.x);
 
-                    float center_x = top_left_x + half_size_x;
-                    float center_y = top_left_y + half_size_y;
-                    
-                    // find x difference between corner and center
-                    float center_to_top_left_x = top_left_x - center_x;
-                    float center_to_top_left_y = top_left_y - center_y;
-
-                    // normalize distance to 0-1
-                    float max_distance = sqrt( (half_size_x*half_size_x) + (half_size_y*half_size_y) );
-
-                    float normalized_center_to_top_left_x = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_x);
-                    // float normalized_center_to_top_left_y = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_y);
-
-                    // get angle of rotation(yaw)
-                    float new_yaw = acos(normalized_center_to_top_left_x);
+                    float new_yaw = acos(normalized);
 
                     // get y distance to determine quadrant
-                    int y_sign = getSign(center_to_top_left_y);
+                    int y_sign = getSign(difference.y);
 
-                    // set quadrant sign
-                    new_yaw = (new_yaw * y_sign) - 0.78539; // rotated by 45 to match the drawn X(red) axis
-                    // float yaw_deg = new_yaw * (180.0/3.14159265);
+                    new_yaw = (new_yaw * y_sign);
+
+                    std::cout << std::endl << "The yaw: " << new_yaw << std::endl;
+
+                    ///////////////////////////////////////////////////////// OLD YAW
+                    // // find marker center point in pixel space
+                    // float top_left_x = corners.at(i).at(TOP_LEFT).x;
+                    // float top_left_y = corners.at(i).at(TOP_LEFT).y;
+
+                    // // float top_right_x = corners.at(i).at(TOP_RIGHT).x;
+                    // // float top_right_y = corners.at(i).at(TOP_RIGHT).y;
+
+                    // // float bottom_left_x = corners.at(i).at(BOTTOM_LEFT).x;
+                    // // float bottom_left_y = corners.at(i).at(BOTTOM_LEFT).y;
+
+                    // float bottom_right_x = corners.at(i).at(BOTTOM_RIGHT).x;
+                    // float bottom_right_y = corners.at(i).at(BOTTOM_RIGHT).y;
+
+                    // float half_size_x = (top_left_x - bottom_right_x) / 2;
+                    // float half_size_y = (top_left_y - bottom_right_y) / 2;
+
+                    // float center_x = top_left_x + half_size_x;
+                    // float center_y = top_left_y + half_size_y;
+                    
+                    // // find x difference between corner and center
+                    // float center_to_top_left_x = top_left_x - center_x;
+                    // float center_to_top_left_y = top_left_y - center_y;
+
+                    // // normalize distance to 0-1
+                    // float max_distance = sqrt( (half_size_x*half_size_x) + (half_size_y*half_size_y) );
+
+                    // float normalized_center_to_top_left_x = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_x);
+                    // // float normalized_center_to_top_left_y = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_y);
+
+                    // // get angle of rotation(yaw)
+                    // float new_yaw = acos(normalized_center_to_top_left_x);
+
+                    // // get y distance to determine quadrant
+                    // int y_sign = getSign(center_to_top_left_y);
+
+                    // // set quadrant sign
+                    // new_yaw = (new_yaw * y_sign) - 0.78539; // rotated by 45 to match the drawn X(red) axis
+                    // // float yaw_deg = new_yaw * (180.0/3.14159265);
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
                     // std::cout << "The degree value of entered yaw: " << yaw_deg << std::endl;
 
                     // #testing
                     // visualizationSPSCQueue.try_push(currentImage);
-                    
+
+                    // std::cout << "The X value in camera space: " << tvecs[i][0] << std::endl;
+                    // std::cout << "The Y value in camera space: " << tvecs[i][1] << std::endl;
+
                     // msDelay(500);
                     cv::aruco::drawAxis(currentImage, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
 
@@ -362,14 +412,18 @@ void start_pose_estimation(const std::string calibrationPath)
             // pop frame used for pose estimation
             imageSPSCQueue.pop();
 
+#ifdef SHOW_METRICS
             framerate_counter++;
 
             auto timer_end = std::chrono::system_clock::now();
             time_for_latest_pass = timer_end - timer_start;
             ms milis = std::chrono::duration_cast<ms>(time_for_latest_pass);
             totalElapsed += milis.count();
+#endif 
+            
         }
-
+        
+#ifdef SHOW_METRICS
         std::clog << "Framerate(FPS): " << static_cast<int>(framerate_counter) << std::endl;
         std::clog << "Successful frames per second: " << static_cast<int>(framesuccess_counter) << std::endl;
         std::clog << "Percentage detection success(%): " << static_cast<int>(framesuccess_counter/framerate_counter * 100) << std::endl;
@@ -378,6 +432,7 @@ void start_pose_estimation(const std::string calibrationPath)
         totalElapsed = 0;
         framerate_counter = 0.1;
         framesuccess_counter = 0.1;
+#endif
     }
 
     // aruco_metrics.join();
@@ -387,8 +442,8 @@ void start_pose_estimation(const std::string calibrationPath)
 // run visualization  
 void start_visualization()
 {
-    while(1) {
-        
+    while(1) 
+    {
         while(!visualizationSPSCQueue.front());
         cv::imshow("Output", *visualizationSPSCQueue.front());
         char key = (char) cv::waitKey(1);

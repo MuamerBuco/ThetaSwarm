@@ -30,10 +30,9 @@ typedef std::unordered_map< int, FullStateTrajectory> AllFullStateTrajectories;
 
 struct SwarmBox {
 
-    // holding variables for velocity and acceleration averaging, memory size determined by ACCEL_MEMORY_SIZE TODO1 maybe switch to array
+    // holding variables for velocity and acceleration averaging, memory size determined by ACCEL_MEMORY_SIZE
     std::unordered_map<int, std::deque<FullPoseState> > q_memory_map;
-    std::unordered_map<int, std::deque<double> > time_memories_map;
-    std::unordered_map<int, std::chrono::_V2::system_clock::time_point > timer_start_map;
+    std::unordered_map<int, std::chrono::_V2::system_clock::time_point > q_timer_start_map;
 
     // holds all FullStates accessed by ID
     std::unordered_map<int, FullRobotState> ID_FullState_Map;
@@ -81,11 +80,8 @@ class Swarm {
             // test_traj.insert( std::make_pair(16, test_fullstate) );
             // all_setpoints->push(test_traj);
             
-            // enter robot IDs
-            swarm_box.ids = idsVector;
-
             // initialize robots
-            initializeSwarm();
+            initializeSwarm(idsVector);
         }
 
         ~Swarm(){}
@@ -114,15 +110,15 @@ class Swarm {
 
         int generateAndPushAllTrajectories();
 
-        void initializeSwarm();
+        void initializeSwarm(std::vector<int> entered_ids);
 
         void startClock(int id);
 
         double getTimePassed(int id);
 
-        SinglePose getVelocity(int id, SinglePose new_q);
+        SinglePose getVelocity(int id, SinglePose new_q, double timekeeper);
 
-        SinglePose getAcceleration(int id, SinglePose new_q_dot);
+        SinglePose getAcceleration(int id, SinglePose, double timekeeper);
 };
 
 #endif // SWARM_H

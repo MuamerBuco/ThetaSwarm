@@ -84,28 +84,31 @@ class autoMR
 
         autoMR(int id)
         {
-            // queues the latest robot data(current pose, target pose, bucket state...) and trajectory set
-            LatestRobotState = std::make_shared< rigtorp::SPSCQueue<FullRobotState> >(2);
-            TrajectorySet = std::make_shared< rigtorp::SPSCQueue<FullStateTrajectory> >(2);
-
             // TODO1 for all try catch derive type from <stdexcept>
             try {
-    
                 initializeRobot(id);
+
+                // queues the latest robot data(current pose, target pose, bucket state...) and trajectory set
+                LatestRobotState = std::make_shared< rigtorp::SPSCQueue<FullRobotState> >(2);
+                TrajectorySet = std::make_shared< rigtorp::SPSCQueue<FullStateTrajectory> >(2);
+
+                worker_thread = std::thread(&autoMR::robot_control, this);                
             }
-            catch( int& err ) {
+            catch( const int& err ) {
                 if(err == FATAL_ERROR){
                     std::cerr << "Failed to access configuration, aborting..." << std::endl;
-                    std::abort();
-                }
-                else if(err == CASE_ERROR) {
-                    std::cerr << "Failed to initialize robot ID: " << id << std::endl;
-                    std::cerr << "Skipping..." << std::endl;
                     std::exit( EXIT_FAILURE );
                 }
+                else if(err == CASE_ERROR) {
+                    std::cerr << "autoMR constructor failed to initialize robot ID: " << id << std::endl;
+                    std::cerr << "Skipping..." << std::endl;
+                    throw err;
+                }
+                else {
+                    std::cerr << "Unknown error in autoMR construction, skipping.." << std::endl;
+                    throw CASE_ERROR;
+                }
             }
-
-            worker_thread = std::thread(&autoMR::robot_control, this);
         }
 
         ~autoMR() 
@@ -134,13 +137,15 @@ class autoMR
 
         void setCustomDirection(uint8_t direction, uint8_t speed, int ms_delay);
 
-        void setCustomColor(uint8_t index, RGBColor my_color, int mode, uint8_t ms_delay);
+        void setCustomColor(uint8_t index, RGBColor my_color, uint8_t mode, uint8_t ms_delay);
 
         void setCustomBucket(uint8_t tilt, uint8_t extend);
 
         RobotConfiguration getRobotConfig();
 
         void selfIdentify();
+
+        void direct_control(Vector3f q_dot);
     
     private:
 

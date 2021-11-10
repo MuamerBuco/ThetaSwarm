@@ -16,6 +16,7 @@ void Swarm::PANIC_STOP_SWARM()
 void Swarm::getSwarmData()
 {
     unsigned int number_of_robots = 0;
+
     for (auto const& x : swarm_box.ID_Unit_Map)
     {
         // access ID_FullState_Map by ID and get robot data and IDs
@@ -32,7 +33,7 @@ void Swarm::getSwarmData()
 }
 
 // create robot objects and initialize all robot related data
-void Swarm::initializeSwarm()
+void Swarm::initializeSwarm(std::vector<int> entered_ids)
 {
     using namespace std;
     
@@ -41,21 +42,33 @@ void Swarm::initializeSwarm()
 
     // create vel/acc queue and timer queue with size of ACCEL_MEMORY_SIZE
     std::deque<FullPoseState> initial_vel_acc_queue(ACCEL_MEMORY_SIZE, temp_state);
-    std::deque<double> initial_time_memories_queue(ACCEL_MEMORY_SIZE, 0.1);
     std::chrono::_V2::system_clock::time_point initial_timer_start;
 
     // initialize robots, fill unit map with < ID, autoMR* > pairs, initialize timer, timkeeping and vel/acc maps, and initialize ID-State map
-    for(int id : swarm_box.ids)
+    for(int id : entered_ids)
     {
         // create robot object and initialize maps
-        auto temp_amr = std::make_shared< autoMR >(id);
-        swarm_box.ID_Unit_Map.insert( make_pair(id, temp_amr) );
-        swarm_box.ID_FullState_Map.insert( make_pair(id, initial_state) );
-        
-        // initialize metric related data
-        swarm_box.q_memory_map.insert( make_pair(id, initial_vel_acc_queue) );
-        swarm_box.time_memories_map.insert( make_pair(id, initial_time_memories_queue) );
-        swarm_box.timer_start_map.insert( make_pair(id, initial_timer_start) );
+        try {
+            auto temp_amr = std::make_shared< autoMR >(id);
+
+            swarm_box.ID_Unit_Map.insert( make_pair(id, temp_amr) );
+            swarm_box.ID_FullState_Map.insert( make_pair(id, initial_state) );
+            
+            // initialize metric related data
+            swarm_box.q_memory_map.insert( make_pair(id, initial_vel_acc_queue) );
+            swarm_box.q_timer_start_map.insert( make_pair(id, initial_timer_start) );
+
+            swarm_box.ids.push_back(id);          
+        }
+        catch(const int& err) {
+            std::cerr << "Swarm failed to initialize Robot ID: " << id << std::endl;
+            std::cerr << "Skipping..." << std::endl;
+            //std::exit( EXIT_FAILURE );
+        }
+        catch(const std::bad_alloc& e) {
+            std::cout << "Allocation failed: " << e.what() << std::endl;
+            //std::exit( EXIT_FAILURE );
+        }
     }
 
     getSwarmData();
@@ -68,7 +81,6 @@ void Swarm::addRobotToSwarm(int id)
 
     // create vel/acc queue and timer queue with size of ACCEL_MEMORY_SIZE
     std::deque<FullPoseState> initial_vel_acc_queue(ACCEL_MEMORY_SIZE, temp_state);
-    std::deque<double> initial_time_memories_map(ACCEL_MEMORY_SIZE, 0.1);
     std::chrono::_V2::system_clock::time_point initial_timer_start;
 
     // create robot object and initialize maps
@@ -78,8 +90,7 @@ void Swarm::addRobotToSwarm(int id)
     
     // initialize metric related data
     swarm_box.q_memory_map.insert( std::make_pair(id, initial_vel_acc_queue) );
-    swarm_box.time_memories_map.insert( std::make_pair(id, initial_time_memories_map) );
-    swarm_box.timer_start_map.insert( std::make_pair(id, initial_timer_start) );
+    swarm_box.q_timer_start_map.insert( std::make_pair(id, initial_timer_start) );
 
     // access ID_FullState_Map by ID and get robot data and IDs
     swarm_data.robots_data.insert( std::make_pair(id ,swarm_box.ID_Unit_Map.find(id)->second->robot_data) );
@@ -98,8 +109,7 @@ void Swarm::removeRobotFromSwarm(int id)
     swarm_box.ID_Unit_Map.erase(id);
 
     swarm_box.q_memory_map.erase(id);
-    swarm_box.time_memories_map.erase(id);
-    swarm_box.timer_start_map.erase(id);
+    swarm_box.q_timer_start_map.erase(id);
 
     swarm_box.ids.erase(std::remove(swarm_box.ids.begin(), swarm_box.ids.end(), id), swarm_box.ids.end());
 
@@ -149,7 +159,7 @@ SinglePose operator/(SinglePose a, int b)
 
 // take new q vector, find point by point distances using memory, find average value
 // basically finds the displacement in the last ACCEL_MEMORY_SIZE  number of passes
-SinglePose Swarm::getVelocity(int id, SinglePose new_q)
+SinglePose Swarm::getVelocity(int id, SinglePose new_q, double time_passed)
 {
     // get the current deque holding Q state memory of robot[ID] 
     std::deque<FullPoseState> state_holder = swarm_box.q_memory_map.find(id)->second;
@@ -163,14 +173,14 @@ SinglePose Swarm::getVelocity(int id, SinglePose new_q)
     // std::cout << "The new difference between last entry in q and new value for x: " << new_q.x << std::endl;
 
     // average previous [ACCEL_MEMORY_SIZE] number of position differences
-    for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
-    {
-        new_q = new_q + (state_holder.at(i+1).q - state_holder.at(i).q);
-    }
+    // for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
+    // {
+    //     new_q = new_q + (state_holder.at(i+1).q - state_holder.at(i).q);
+    // }
 
-    new_q.x = new_q.x / ACCEL_MEMORY_SIZE;
-    new_q.y = new_q.y / ACCEL_MEMORY_SIZE;
-    new_q.yaw = new_q.yaw / ACCEL_MEMORY_SIZE;
+    // new_q.x = new_q.x / ACCEL_MEMORY_SIZE;
+    // new_q.y = new_q.y / ACCEL_MEMORY_SIZE;
+    // new_q.yaw = new_q.yaw / ACCEL_MEMORY_SIZE;
 
     // std::cout << "The new summed value for x_dot: " << temp.x << std::endl;
 
@@ -179,28 +189,32 @@ SinglePose Swarm::getVelocity(int id, SinglePose new_q)
 
     // reduce by one, one datapoint of velocity is difference between 2 datapoints of position, 
     // so total number of generated datapoints for averaging is 1 lower than memory size
-    return new_q;
+    return ( new_q / time_passed / 100 );
 }
 
 // take new q_dot vector, 
-SinglePose Swarm::getAcceleration(int id, SinglePose new_q_dot)
+SinglePose Swarm::getAcceleration(int id, SinglePose new_q_dot, double time_passed)
 {
     std::deque<FullPoseState> state_holder = swarm_box.q_memory_map.find(id)->second;
 
-    for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
-    {
-        new_q_dot = new_q_dot + (state_holder.at(i).q_dot - state_holder.at(i+1).q_dot);
-    }
+    new_q_dot = new_q_dot + state_holder.at(0).q_dot;
 
-    new_q_dot = new_q_dot / (ACCEL_MEMORY_SIZE);
+    // for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
+    // {
+    //     new_q_dot = new_q_dot + (state_holder.at(i).q_dot - state_holder.at(i+1).q_dot);
+    // }
 
-    return new_q_dot;
+    // new_q_dot = new_q_dot / (ACCEL_MEMORY_SIZE);
+
+    new_q_dot = new_q_dot / 2;
+
+    return ( new_q_dot / time_passed / 100 );
 }
 
 // starts the timer
 void Swarm::startClock(int id)
 {
-     swarm_box.timer_start_map.find(id)->second = std::chrono::system_clock::now();
+    swarm_box.q_timer_start_map.find(id)->second = std::chrono::system_clock::now();
 }
 
 // stop clock when called, average new time together with memory, place new time in memory, return averaged time for one pass in miliseconds
@@ -212,7 +226,7 @@ double Swarm::getTimePassed(int id)
     auto timer_stop = std::chrono::system_clock::now();
 
     // calculate duration between clock starting for [ID] robot and clock stopping
-    std::chrono::duration<double> elapsed = timer_stop - swarm_box.timer_start_map.find(id)->second;
+    std::chrono::duration<double> elapsed = timer_stop - swarm_box.q_timer_start_map.find(id)->second;
 
     // cast to milliseconds
     ms milis = std::chrono::duration_cast<ms>(elapsed);
@@ -221,24 +235,24 @@ double Swarm::getTimePassed(int id)
     // std::cout << "time before averaging passed in milliseconds: " << time_for_latest_pass << std::endl;
 
     // average latest time that passed with the previous
-    for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
-    {
-        time_for_latest_pass += (swarm_box.time_memories_map.find(id)->second.at(i));
-    }
+    // for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
+    // {
+    //     time_for_latest_pass += (swarm_box.time_memories_map.find(id)->second.at(i));
+    // }
 
     // remove oldest entry in time table(ms)
-    swarm_box.time_memories_map.find(id)->second.pop_back();
+    // swarm_box.time_memories_map.find(id)->second.pop_back();
 
     // TODO1 byteShift
-    time_for_latest_pass = time_for_latest_pass / (ACCEL_MEMORY_SIZE);
+    // time_for_latest_pass = time_for_latest_pass / (ACCEL_MEMORY_SIZE);
 
     // std::cout << "time after averaging passed in milliseconds: " << time_for_latest_pass << std::endl;
 
     // if the time exceeds 2 seconds, set it to 100ms to avoid averaging overflow
-    if(time_for_latest_pass > 2000) time_for_latest_pass = 100;
+    // if(time_for_latest_pass > 2000) time_for_latest_pass = 100;
 
     // add newest averaged time to time records
-    swarm_box.time_memories_map.find(id)->second.push_front(time_for_latest_pass);
+    // swarm_box.time_memories_map.find(id)->second.push_front(time_for_latest_pass);
 
     // start the clock again
     startClock(id);
@@ -315,7 +329,12 @@ bool Swarm::idExists(int id)
     return 0;
 }
 
-// update swarm
+/*
+* For each active robot:
+* Obtain new values of [yaw, x, y] from pose estimation
+* Calculate velocity and acceleration
+* Update swarm data with new values
+* Push new full state to robots */
 bool Swarm::UpdateSwarm()
 {
     AllPoseStates allPoses;
@@ -337,32 +356,37 @@ bool Swarm::UpdateSwarm()
                 // get new q
                 temp_state = pose.pose_state;
 
-                // TODO1 rethink the velocity and acceleration calculations, maybe remove averaging 
-
-                // calculate new speed based on new position (cm/s)
-                current_full_state.pose_and_id = pose;
-                current_full_state.pose_and_id.pose_state.q_dot = (getVelocity(id, temp_state.q) / timekeeper) / 100;
-                temp_state.q_dot = current_full_state.pose_and_id.pose_state.q_dot;
+                // current_full_state.pose_and_id.pose_state.q_dot = (getVelocity(id, temp_state.q) / timekeeper) / 100;
+                // temp_state.q_dot = current_full_state.pose_and_id.pose_state.q_dot;
                 // std::cout << "got the velocity: " << FullStateHolder.current_pose_and_id.pose_and_id.pose_state.q_dot.x << std::endl;
+                
+                // calculate new speed based on new position (cm/s)
+                temp_state.q_dot = getVelocity(id, temp_state.q, timekeeper) / 100;
 
                 // std::cout << "The timekeeper(in ms): " << timekeeper << std::endl;
 
                 // calculate new acceleration based on new speed (cm/s2)
-                current_full_state.pose_and_id.pose_state.q_dot_dot = (getAcceleration(id, temp_state.q_dot) / timekeeper) / 100;
-                temp_state.q_dot_dot = current_full_state.pose_and_id.pose_state.q_dot_dot;
+                // current_full_state.pose_and_id.pose_state.q_dot_dot = (getAcceleration(id, temp_state.q_dot) / timekeeper) / 100;
+                // temp_state.q_dot_dot = current_full_state.pose_and_id.pose_state.q_dot_dot;
                 // std::cout << "got the accel: " << current_full_state.pose_and_id.pose_state.q_dot_dot.x << std::endl;
+
+                temp_state.q_dot_dot = getAcceleration(id, temp_state.q_dot, timekeeper) / 100;
+
+                // save new yaw,x,y and q values into the new full state holder
+                current_full_state.pose_and_id = pose;
+                current_full_state.pose_and_id.pose_state = temp_state;
+
+                // push new pose state to q memory, holding new q, q_dot and q_dot_dot
+                swarm_box.q_memory_map.find(id)->second.push_front(temp_state);
 
                 // remove oldest entry in memory
                 swarm_box.q_memory_map.find(id)->second.pop_back();
-
-                // push temp_state to q memory, holding new q, q_dot and q_dot_dot
-                swarm_box.q_memory_map.find(id)->second.push_front(temp_state);
 
                 // place the proper (full state / ID) pair in ID-State map
                 swarm_box.ID_FullState_Map.find(id)->second = current_full_state;
 
                 // push new state to the robot
-                bool temp = swarm_box.ID_Unit_Map.find(id)->second->pushNewRobotState( swarm_box.ID_FullState_Map.find(id)->second );
+                swarm_box.ID_Unit_Map.find(id)->second->pushNewRobotState( swarm_box.ID_FullState_Map.find(id)->second );
             }
 
             // generate and push all trajectories if any new setpoints are found, non blocking
@@ -381,9 +405,10 @@ void Swarm::testSingleAMRHardware(int id)
 {
     for(int i = 0; i < 6; i++)
     {
-        swarm_box.ID_Unit_Map.find(id)->second->setCustomDirection(i, 180, 2000);
-        msDelay(1000);
+        swarm_box.ID_Unit_Map.find(id)->second->setCustomDirection(i, 220, 2000);
     }
+
+    msDelay(1000);
 
     RGBColor my_color;
     my_color.r = 50;
@@ -392,22 +417,21 @@ void Swarm::testSingleAMRHardware(int id)
 
     for(int i = 0; i < Number_of_LED_programes; i++)
     {
-        swarm_box.ID_Unit_Map.find(id)->second->setCustomColor(15, my_color, i, 50);
-        msDelay(1500);
+        //swarm_box.ID_Unit_Map.find(id)->second->setCustomColor(15, my_color, i, 10);
+        msDelay(300);
     }
 
-    msDelay(1000);
+    //msDelay(30000);
 
     RobotConfiguration current_config = swarm_box.ID_Unit_Map.find(id)->second->getRobotConfig();
 
-    for(int i = current_config.Min_Bucket_Tilt; i < current_config.Max_Bucket_Tilt; i++)
+    for(int i = 0; i < 10; i++)
     {
-        for(int j = current_config.Min_Bucket_Extend; j < current_config.Max_Bucket_Extend; j++)
-        swarm_box.ID_Unit_Map.find(id)->second->setCustomBucket(i,j);
-        msDelay(1);
+        swarm_box.ID_Unit_Map.find(id)->second->setCustomBucket(current_config.Min_Bucket_Tilt, current_config.Min_Bucket_Extend);
+        msDelay(1000);
+        swarm_box.ID_Unit_Map.find(id)->second->setCustomBucket(current_config.Max_Bucket_Tilt, current_config.Max_Bucket_Extend);
+        msDelay(1000);
     }
-
-    msDelay(1000);
 }
 
 void Swarm::testSwarmHardware()

@@ -4,18 +4,18 @@
     "Min_Input_Value_P": -3.15,
     "Max_Output_Value_P": 2.36,
     "Min_Output_Value_P": -3.93,
-    "Max_Input_Value_X": 1.36,
-    "Min_Input_Value_X": -1.31,
+    "Max_Input_Value_X": 0.65,
+    "Min_Input_Value_X": -0.65,
     "Max_Output_Value_X": 190,
     "Min_Output_Value_X": 0,
-    "Max_Input_Value_Y": 0.81,
-    "Min_Input_Value_Y": -0.84,
+    "Max_Input_Value_Y": 0.392,
+    "Min_Input_Value_Y": -0.392,
     "Max_Output_Value_Y": 130,
     "Min_Output_Value_Y": 0,
     "Number_of_units": 5
   },
   "CameraSettings": {
-    "VideoSource": 0,
+    "VideoSource": 2,
     "CameraResolutionW": 1280,
     "CameraResolutionH": 720,
     "Contrast": 40,
@@ -23,12 +23,19 @@
     "Saturation": 1,
     "Gain": 50,
     "Gamma": 0,
-    "Sharpness": 40
+    "Sharpness": 20
+  },
+  "ArucoParameters": {
+    "minMarkerPerimeterRate": 0.08,
+    "maxMarkerPerimeterRate": 1,
+    "adaptiveThreshWinSizeMin": 11,
+    "adaptiveThreshWinSizeMax": 12,
+    "adaptiveThreshWinSizeStep": 1
   },
   "Robots": [
     {
-      "ID": 16,
-      "RobotIP": "192.168.1.84",
+      "ID": 13,
+      "RobotIP": "192.168.0.46",
       "RobotPort": 3333,
       "PID": {
         "Yaw": 1,
@@ -40,13 +47,13 @@
         "X": 5,
         "Y": 5
       },
-      "Wheel_Diameter_mm": 57,
+      "Wheel_Diameter_mm": 56,
       "Wheel_To_Ceter_mm": {
         "X": 57,
         "Y": 57
       },
       "Viable_PWM": {
-        "MAX": 150,
+        "MAX": 200,
         "MIN": 255
       },
       "Viable_RadS_Speed": {
@@ -66,8 +73,8 @@
       }
     },
     {
-      "ID": 15,
-      "RobotIP": "192.168.1.11",
+      "ID": 11,
+      "RobotIP": "192.168.0.44",
       "RobotPort": 3333,
       "PID": {
         "Yaw": 1,

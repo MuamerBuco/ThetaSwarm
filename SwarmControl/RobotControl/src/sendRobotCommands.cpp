@@ -5,6 +5,7 @@
 // in format [parseReference,  UL-speed, UL-direction, UR-speed, UR-direction, DL-speed, DL-direction, DR-speed, DR-direction]
 void SendRobotCommands(uint8_t *msgRobot, std::shared_ptr<udp_client_server::udp_client> client_object, uint16_t ms_delay)
 {
+    // PrintBuffer(msgRobot);
     client_object->send_bytes(msgRobot, sizeof(msgRobot) + 1);
     msDelay(ms_delay);
 }
@@ -15,6 +16,6 @@ void SendRobotCommandsForMs(uint8_t *msgRobot, uint16_t time_in_ms, uint16_t sen
     uint16_t number_of_cycles = time_in_ms/send_increment_ms;
 
     for(uint16_t i = 0; i < number_of_cycles; i++) {
-        SendRobotCommands(msgRobot, std::move(client_object), send_increment_ms);
+        SendRobotCommands(msgRobot, client_object, send_increment_ms);
     }
 }

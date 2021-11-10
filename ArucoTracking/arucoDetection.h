@@ -10,6 +10,8 @@
 
 #include "../util/util.h"
 
+#define SHOW_METRICS 1
+
 int getAllPoseStates(AllPoseStates& pose_holder);
 FieldData getFieldData();
 void start_aruco_detection();

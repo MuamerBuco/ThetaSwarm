@@ -28,18 +28,22 @@ bool autoMR::initializeRobot(int id)
     try {
         loadConfig(configFile, id);
         setFieldData();
+
+        robot_data.kinematics_data.H0_R = initialize_H_0_R(robot_data.robot_configuration);
+
+        initializeRobotStates(id);
+
+        // initialize UDP client
+        robot_client = std::make_shared<udp_client_server::udp_client>(robot_data.robotIP, robot_data.robotPort);
     }
-    catch( int& err ) {
-        std::cerr << "Failed to load config!" << std::endl;
+    catch( const int& err ) {
+        std::cerr << "Failed to load robot config!" << std::endl;
         throw err;
     }
-    
-    robot_data.kinematics_data.H0_R = initialize_H_0_R(robot_data.robot_configuration);
-
-    initializeRobotStates(id);
-
-    // initialize UDP client
-    robot_client = std::make_shared<udp_client_server::udp_client>(robot_data.robotIP, robot_data.robotPort);
+    catch(const std::bad_alloc& e) {
+        std::cout << "Allocation of UDP client failed: " << e.what() << ". Aborting... " << std::endl;
+        std::exit( EXIT_FAILURE );
+    }
 
     return 1;
 }
@@ -135,17 +139,12 @@ void autoMR::initializeRobotStates(int id)
 {
     // current state
     current_full_state.pose_and_id.id = id;
-
     target_full_state.pose_and_id.id = id;
 
     // default state
     default_state.pose_and_id.id = id;
 
-    default_state.pose_and_id.id = id;
-
     // stop state
-    stop_state.pose_and_id.id = id;
-
     stop_state.pose_and_id.id = id;
 }
 
@@ -221,7 +220,7 @@ void autoMR::setCustomDirection(uint8_t direction, uint8_t speed, int duration)
 * If mode == 0(SET_SINGLE_PIXEL) use index and colors(0-255)
 * If mode == (SET_SINGLE_PIXEL) use colors(0-255)
 * If mode == program that uses timing(Rainbow, Theatre) use ms_delay */
-void autoMR::setCustomColor(uint8_t index, RGBColor my_color, int mode, uint8_t ms_delay)
+void autoMR::setCustomColor(uint8_t index, RGBColor my_color, uint8_t mode, uint8_t ms_delay)
 {
     uint8_t tx_buffer[7];
 
@@ -237,7 +236,7 @@ void autoMR::setCustomColor(uint8_t index, RGBColor my_color, int mode, uint8_t 
     tx_buffer[6] = ms_delay;
 
     // resend a few times
-    for(int i = 0; i < 5; i ++)
+    for(int i = 0; i < 2; i ++)
     {
         SendRobotCommands(&tx_buffer[0], robot_client, 1);
     }
@@ -359,9 +358,9 @@ Vector3f autoMR::getPoseError()
     pose_error(2,0) = target_full_state.pose_and_id.pose_state.q.y - current_full_state.pose_and_id.pose_state.q.y;
 
     // clamp to 0 if within margins to avoid destabilizing
-    if( abs(pose_error(0,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw) pose_error(0,0) = 0;
-    if( abs(pose_error(1,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_X) pose_error(1,0) = 0;
-    if( abs(pose_error(2,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_Y) pose_error(2,0) = 0;
+    if( abs(pose_error(0,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw ) { pose_error(0,0) = 0; }
+    if( abs(pose_error(1,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_X ) { pose_error(1,0) = 0; }
+    if( abs(pose_error(2,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_Y ) { pose_error(2,0) = 0; }
 
     return pose_error;
 }
@@ -374,21 +373,23 @@ void autoMR::robot_control()
     Vector3f q_dot;
     float currentPhi = 0;
     uint8_t robot_command_array[12] = {0};
-    unsigned int fail_count = 0;
 
     // TESTING FEEDBACK
-    target_full_state.pose_and_id.pose_state.q.yaw = 2;
-    target_full_state.pose_and_id.pose_state.q.x = 150;
-    target_full_state.pose_and_id.pose_state.q.y = 20;
+    target_full_state.pose_and_id.pose_state.q.yaw = 1;
+    target_full_state.pose_and_id.pose_state.q.x = 90;
+    target_full_state.pose_and_id.pose_state.q.y = 65;
+    // target_full_state.bucket_state.tilt = 30;
+    // target_full_state.bucket_state.extension = 30;
+    // target_full_state.LED_state.program = SOLID_GREEN;
 
-    while(1)
-    {
+    while(1) {
+
         while( !stopRobot )
         {
             // update to latest state
             if( updateCurrentFullRobotState() ) 
             {
-                // check if the current setpoint is reached, if it is set a new one
+                // check if the current setpoint is reached, if yes set a new one
                 if( ReachedTarget() )
                 {
                     std::cout << "Reached target!!" << std::endl;
@@ -406,21 +407,22 @@ void autoMR::robot_control()
 
                 pose_error = getPoseError();
 
-                // std::cout << "Current X: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
-                // std::cout << "Current Y: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
+                std::cout << "Current YAW: " << current_full_state.pose_and_id.pose_state.q.yaw << std::endl;
+                std::cout << "Current X: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
+                std::cout << "Current Y: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
 
                 q_dot = PD_Controller(pose_error);
 
-                // std::cout << "The pose error vector: \n" << q_dot << std::endl;
+                q_dot(0,0) = 0;
+
+                std::cout << "The pose error vector: \n" << q_dot << std::endl;
 
                 currentPhi = current_full_state.pose_and_id.pose_state.q.yaw;
-                // currentPhi += 0.01;
 
                 // std::cout << "The current passed phi: " << currentPhi << std::endl;
 
                 // add first parse bit, leave as 1 for now
-                // robot_command_array[0] = STANDARD_MODE;
-                robot_command_array[0] = CUSTOM_MOVE;
+                robot_command_array[0] = STANDARD_MODE;
 
                 // TODO2 create a parsing model for engineering and getter functionality
                 VectorXi motor_commands = CalculateSpeedCommands(robot_data.kinematics_data.H0_R, robot_data.robot_configuration, q_dot, currentPhi);
@@ -431,15 +433,51 @@ void autoMR::robot_control()
                     robot_command_array[i + 1] = motor_commands(i);
                 }
 
+                // robot_command_array[9] = target_full_state.bucket_state.extension;
+                // robot_command_array[10] = target_full_state.bucket_state.tilt;
+                // robot_command_array[11] = target_full_state.LED_state.program;
+
                 robot_command_array[9] = current_full_state.bucket_state.extension;
                 robot_command_array[10] = current_full_state.bucket_state.tilt;
                 robot_command_array[11] = current_full_state.LED_state.program;
+
                 // PrintBuffer(&robot_command_array[0]);
 
                 SendRobotCommands(&robot_command_array[0], robot_client, 1); // TODO1 maybe remove 1ms delay
             }
         }
         
+        freezeRobot( robot_client );
+    }
+}
+
+// Directly control robot by passing a q_dot vector [yaw, x, y]
+void autoMR::direct_control(Vector3f q_dot)
+{
+    float currentPhi = 0;
+    uint8_t robot_command_array[12] = {0};
+
+    if( updateCurrentFullRobotState() )
+    {
+        currentPhi = current_full_state.pose_and_id.pose_state.q.yaw;
+
+        // add first parse bit, leave as 1 for now
+        robot_command_array[0] = STANDARD_MODE;
+
+        VectorXi motor_commands = CalculateSpeedCommands(robot_data.kinematics_data.H0_R, robot_data.robot_configuration, q_dot, currentPhi);
+
+        for(int i = 0; i < 8; i++)
+        {
+            robot_command_array[i + 1] = motor_commands(i);
+        }
+
+        robot_command_array[9] = target_full_state.bucket_state.extension;
+        robot_command_array[10] = target_full_state.bucket_state.tilt;
+        robot_command_array[11] = target_full_state.LED_state.program;
+
+        SendRobotCommands(&robot_command_array[0], robot_client, 1);
+    }
+    else {
         freezeRobot( robot_client );
     }
 }
@@ -457,6 +495,7 @@ void autoMR::setFieldData()
         robot_data.robot_field_data = getFieldData();
     }
     catch(int& err){
+        std::cerr << "Failed to get field data" << std::endl;
         throw err;
     }
     

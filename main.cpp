@@ -6,31 +6,32 @@
 
 void run_hardware_test()
 {
-    std::vector<int> usedIDs = {15, 16};
+    std::vector<int> usedIDs = {11, 13};
     Swarm test_swarm(usedIDs);
+
+    msDelay(1000);
 
     test_swarm.testSwarmHardware();
 }
 
 int main(int argc, char** argv)
 {
-    // std::thread aruco_thread(start_aruco_detection);
-    // msDelay(100);
+    std::thread aruco_thread(start_aruco_detection);
+    msDelay(300);
 
-    // std::vector<int> usedIDs = {15, 16};
+    std::vector<int> usedIDs = { 11, 13};
 
-    // Swarm test_swarm(usedIDs);
+    Swarm test_swarm(usedIDs);
+
+    // run_hardware_test();
     
-    // while(1)
-    // {
-    //     for(int i = 0; i < 500; i++)
-    //     {
-    //         test_swarm.UpdateSwarm();
-    //     }
-    // }
-    
-    // aruco_thread.join();
+    while(1)
+    {
+        for(int i = 0; i < 500; i++)
+        {
+            test_swarm.UpdateSwarm();
+        }
+    }
 
-    ////////// TESTING HARDWARE
-    run_hardware_test();
+    aruco_thread.join();
 }
