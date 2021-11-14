@@ -2,8 +2,8 @@
   "FieldData": {
     "Max_Input_Value_P": 3.15,
     "Min_Input_Value_P": -3.15,
-    "Max_Output_Value_P": 2.36,
-    "Min_Output_Value_P": -3.93,
+    "Max_Output_Value_P": 3.15,
+    "Min_Output_Value_P": -3.15,
     "Max_Input_Value_X": 0.65,
     "Min_Input_Value_X": -0.65,
     "Max_Output_Value_X": 190,
@@ -43,9 +43,9 @@
         "Y": 1
       },
       "PrecisionMargins": {
-        "Yaw": 0.3,
-        "X": 5,
-        "Y": 5
+        "Yaw": 0.6,
+        "X": 10,
+        "Y": 10
       },
       "Wheel_Diameter_mm": 56,
       "Wheel_To_Ceter_mm": {
@@ -53,7 +53,7 @@
         "Y": 57
       },
       "Viable_PWM": {
-        "MAX": 200,
+        "MAX": 220,
         "MIN": 255
       },
       "Viable_RadS_Speed": {
@@ -82,9 +82,9 @@
         "Y": 1
       },
       "PrecisionMargins": {
-        "Yaw": 1,
-        "X": 1,
-        "Y": 1
+        "Yaw": 0.3,
+        "X": 5,
+        "Y": 5
       },
       "Wheel_Diameter_mm": 57,
       "Wheel_To_Ceter_mm": {

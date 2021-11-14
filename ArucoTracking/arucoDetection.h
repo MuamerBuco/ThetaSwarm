@@ -10,7 +10,11 @@
 
 #include "../util/util.h"
 
-#define SHOW_METRICS 1
+/* **
+* 0 = no metrics
+* 1 = basic metrics
+* 2 = all metrics */
+#define ARUCO_METRICS_LVL 1
 
 int getAllPoseStates(AllPoseStates& pose_holder);
 FieldData getFieldData();

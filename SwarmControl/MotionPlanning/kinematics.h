@@ -5,8 +5,8 @@
 
 using namespace Eigen;
 
-#define MIN_NORM_SPEED -100.0
-#define MAX_NORM_SPEED 100.0
+#define MIN_NORM_SPEED -35.0
+#define MAX_NORM_SPEED 35.0
 
 // struct holding robot configuration data
 struct RobotConfiguration {

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 set (CMAKE_CXX_STANDARD 17)
 
 # set the project name
-project(openSwarm)
+project(ThetaSwarm)
 
 # add the executable
 add_executable( ${PROJECT_NAME} main.cpp )

@@ -8,6 +8,12 @@
 #include "RobotControl/autoMR.h"
 #include "MotionPlanning/navigation.h"
 
+/* **
+* 0 = no metrics
+* 1 = basic metrics
+* 2 = all metrics */
+#define ROBOT_METRICS_LVL 1
+
 // holds swarm data(ids, battery lvls...)
 struct SwarmData {
     

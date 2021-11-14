@@ -259,7 +259,7 @@ void start_pose_estimation(const std::string calibrationPath)
         float y;
     };
 
-#ifdef SHOW_METRICS
+#if ARUCO_METRICS_LVL > 0
     // performance metric variables
     typedef std::chrono::milliseconds ms;
     std::chrono::duration<double> time_for_latest_pass;
@@ -279,6 +279,7 @@ void start_pose_estimation(const std::string calibrationPath)
     float my_yaw;
     cornerPosition top_left;
     cornerPosition top_right;
+    cornerPosition difference;
     
     while(1) {
         while(totalElapsed < 1000)
@@ -301,8 +302,6 @@ void start_pose_estimation(const std::string calibrationPath)
             cv::aruco::detectMarkers(currentImage, dictionary, corners, ids, params);
             cv::aruco::drawDetectedMarkers(currentImage, corners, ids);
 
-            // std::cout << "Number of detected markers " << ids.size() << std::endl;
-
             if (ids.size() > 0) {
                 
                 std::vector<cv::Vec3d> rvecs, tvecs;
@@ -317,7 +316,6 @@ void start_pose_estimation(const std::string calibrationPath)
                     top_right.x = corners.at(i).at(TOP_RIGHT).x;
                     top_right.y = corners.at(i).at(TOP_RIGHT).y;
 
-                    cornerPosition difference;
                     difference.x = top_right.x - top_left.x;
                     difference.y = top_right.y - top_left.y;
 
@@ -334,57 +332,9 @@ void start_pose_estimation(const std::string calibrationPath)
 
                     std::cout << std::endl << "The yaw: " << new_yaw << std::endl;
 
-                    ///////////////////////////////////////////////////////// OLD YAW
-                    // // find marker center point in pixel space
-                    // float top_left_x = corners.at(i).at(TOP_LEFT).x;
-                    // float top_left_y = corners.at(i).at(TOP_LEFT).y;
-
-                    // // float top_right_x = corners.at(i).at(TOP_RIGHT).x;
-                    // // float top_right_y = corners.at(i).at(TOP_RIGHT).y;
-
-                    // // float bottom_left_x = corners.at(i).at(BOTTOM_LEFT).x;
-                    // // float bottom_left_y = corners.at(i).at(BOTTOM_LEFT).y;
-
-                    // float bottom_right_x = corners.at(i).at(BOTTOM_RIGHT).x;
-                    // float bottom_right_y = corners.at(i).at(BOTTOM_RIGHT).y;
-
-                    // float half_size_x = (top_left_x - bottom_right_x) / 2;
-                    // float half_size_y = (top_left_y - bottom_right_y) / 2;
-
-                    // float center_x = top_left_x + half_size_x;
-                    // float center_y = top_left_y + half_size_y;
-                    
-                    // // find x difference between corner and center
-                    // float center_to_top_left_x = top_left_x - center_x;
-                    // float center_to_top_left_y = top_left_y - center_y;
-
-                    // // normalize distance to 0-1
-                    // float max_distance = sqrt( (half_size_x*half_size_x) + (half_size_y*half_size_y) );
-
-                    // float normalized_center_to_top_left_x = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_x);
-                    // // float normalized_center_to_top_left_y = MapValueToRange(-max_distance, -1, max_distance, 1, center_to_top_left_y);
-
-                    // // get angle of rotation(yaw)
-                    // float new_yaw = acos(normalized_center_to_top_left_x);
-
-                    // // get y distance to determine quadrant
-                    // int y_sign = getSign(center_to_top_left_y);
-
-                    // // set quadrant sign
-                    // new_yaw = (new_yaw * y_sign) - 0.78539; // rotated by 45 to match the drawn X(red) axis
-                    // // float yaw_deg = new_yaw * (180.0/3.14159265);
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-                    // std::cout << "The degree value of entered yaw: " << yaw_deg << std::endl;
-
-                    // #testing
-                    // visualizationSPSCQueue.try_push(currentImage);
-
                     // std::cout << "The X value in camera space: " << tvecs[i][0] << std::endl;
                     // std::cout << "The Y value in camera space: " << tvecs[i][1] << std::endl;
 
-                    // msDelay(500);
                     cv::aruco::drawAxis(currentImage, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
 
                     single_pose_holder.pose_state.q.yaw = new_yaw;
@@ -412,7 +362,7 @@ void start_pose_estimation(const std::string calibrationPath)
             // pop frame used for pose estimation
             imageSPSCQueue.pop();
 
-#ifdef SHOW_METRICS
+#if ARUCO_METRICS_LVL > 0
             framerate_counter++;
 
             auto timer_end = std::chrono::system_clock::now();
@@ -423,7 +373,7 @@ void start_pose_estimation(const std::string calibrationPath)
             
         }
         
-#ifdef SHOW_METRICS
+#if ARUCO_METRICS_LVL > 0
         std::clog << "Framerate(FPS): " << static_cast<int>(framerate_counter) << std::endl;
         std::clog << "Successful frames per second: " << static_cast<int>(framesuccess_counter) << std::endl;
         std::clog << "Percentage detection success(%): " << static_cast<int>(framesuccess_counter/framerate_counter * 100) << std::endl;
@@ -435,7 +385,6 @@ void start_pose_estimation(const std::string calibrationPath)
 #endif
     }
 
-    // aruco_metrics.join();
     capture_thread.join();
 }
 

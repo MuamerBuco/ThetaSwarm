@@ -72,6 +72,8 @@ class autoMR
 
         FullStateTrajectory full_state_trajectory;
 
+        std::chrono::_V2::system_clock::time_point interpolation_time_start;
+
         std::shared_ptr< rigtorp::SPSCQueue<FullRobotState> > LatestRobotState;
         std::shared_ptr< rigtorp::SPSCQueue<FullStateTrajectory> > TrajectorySet;
         std::shared_ptr< udp_client_server::udp_client > robot_client;
@@ -162,6 +164,10 @@ class autoMR
         bool ReachedTarget();
 
         int updateCurrentFullRobotState();
+
+        int interpolateDeadReckoningAndUpdate();
+
+        void resetInterpolationTimer();
 
         int setNextTrajectoryPoint();
 

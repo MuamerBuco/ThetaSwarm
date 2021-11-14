@@ -66,7 +66,7 @@ void Swarm::initializeSwarm(std::vector<int> entered_ids)
             //std::exit( EXIT_FAILURE );
         }
         catch(const std::bad_alloc& e) {
-            std::cout << "Allocation failed: " << e.what() << std::endl;
+            std::cerr << "Allocation failed: " << e.what() << std::endl;
             //std::exit( EXIT_FAILURE );
         }
     }
@@ -387,6 +387,16 @@ bool Swarm::UpdateSwarm()
 
                 // push new state to the robot
                 swarm_box.ID_Unit_Map.find(id)->second->pushNewRobotState( swarm_box.ID_FullState_Map.find(id)->second );
+
+#if ROBOT_METRICS_LVL > 0
+                std::clog << std::endl << "Metrics for robot ID: " << id << std::endl;
+                std::clog << "Values for POSE: [X, Y, YAW]" << std::endl;
+                std::clog << "[ " << current_full_state.pose_and_id.pose_state.q.x << ", " << current_full_state.pose_and_id.pose_state.q.y << ", " << current_full_state.pose_and_id.pose_state.q.yaw << " ]" << std::endl;
+                std::clog << "Values for SPEED: [X_DOT, Y_DOT, YAW_DOT]" << std::endl;
+                std::clog << "[ " << current_full_state.pose_and_id.pose_state.q_dot.x << ", " << current_full_state.pose_and_id.pose_state.q_dot.y << ", " << current_full_state.pose_and_id.pose_state.q_dot.yaw << " ]" << std::endl;
+                std::clog << "Values for ACCELERATION: [X_DOT_DOT, Y_DOT_DOT, YAW_DOT_DOT]" << std::endl;
+                std::clog << "[ " << current_full_state.pose_and_id.pose_state.q_dot_dot.x << ", " << current_full_state.pose_and_id.pose_state.q_dot_dot.y << ", " << current_full_state.pose_and_id.pose_state.q_dot_dot.yaw << " ]" << std::endl;
+#endif
             }
 
             // generate and push all trajectories if any new setpoints are found, non blocking
@@ -415,11 +425,9 @@ void Swarm::testSingleAMRHardware(int id)
     my_color.g = 150;
     my_color.b = 255;
 
-    for(int i = 0; i < Number_of_LED_programes; i++)
-    {
-        //swarm_box.ID_Unit_Map.find(id)->second->setCustomColor(15, my_color, i, 10);
-        msDelay(300);
-    }
+    
+    swarm_box.ID_Unit_Map.find(id)->second->setCustomColor(15, my_color, BLINK_ONCE, 10);
+    msDelay(3000);
 
     //msDelay(30000);
 

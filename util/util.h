@@ -106,8 +106,7 @@ enum CustomLEDprograms {
 	THEATER_CHASE,
 	FADE_IN_OUT,
     BLINK_ONCE,
-    BLINK_N_TIMES,
-    Number_of_LED_programes,
+    BLINK_N_TIMES
 };
 
 // struct holding LED ring state(running program)
