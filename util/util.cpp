@@ -1,12 +1,14 @@
 #include "util.h"
 #include <unistd.h>
+#include <chrono>
+#include <thread>
 
 using namespace Eigen;
 
 // Delay N milliseconds
 void msDelay(uint16_t milliseconds)
 {
-    usleep(milliseconds * 1000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
 // Print buffer
@@ -25,18 +27,34 @@ void PrintBuffer(uint8_t *buffer)
 namespace Eigen 
 {
     auto begin(Vector4f const &m) { return m.data(); }
+    auto begin(Vector3f const &m) { return m.data(); }
 
     auto end(Vector4f const &m) { return m.data()+m.size(); }
+    auto end(Vector3f const &m) { return m.data()+m.size(); }
 }
 
 
-float findMaxAbsValue(Vector4f const &speeds_vector)
+float findMaxAbsValue(Vector4f const &input_vector)
 {
     Vector4f *iter = NULL;
 
     float max_value = 0;
 
-    for (auto it = Eigen::begin(speeds_vector); it != Eigen::end(speeds_vector); ++it) 
+    for (auto it = Eigen::begin(input_vector); it != Eigen::end(input_vector); ++it) 
+    {
+        if( max_value < abs(*it) ) max_value = abs(*it);
+    }
+
+    return max_value;
+}
+
+float findMaxAbsValue(Vector3f const &input_vector)
+{
+    Vector3f *iter = NULL;
+
+    float max_value = 0;
+
+    for (auto it = Eigen::begin(input_vector); it != Eigen::end(input_vector); ++it) 
     {
         if( max_value < abs(*it) ) max_value = abs(*it);
     }

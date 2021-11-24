@@ -5,7 +5,6 @@
 #include <opencv2/calib3d/calib3d.hpp>
 
 #include "arucoDetection.h"
-// #include "../Metrics/metrics.h"
 
 #include <Eigen/Dense>
 
@@ -43,8 +42,8 @@ SPSCQueue<cv::Mat> imageSPSCQueue(2);
 // queues images to be visualized
 SPSCQueue<cv::Mat> visualizationSPSCQueue(2);
 
-const std::string calibrationFilePath = "../CameraCalibration/calibration1.yml";
 const std::string configFilePath = "../config.json";
+const std::string calibrationFilePath = "../CameraCalibration/calibration1.yml";
 
 // get camera calibration parameters from fileName path
 void readCameraParameters(cv::Mat *cameraMatrix, cv::Mat *distCoeffs, std::string fileName)
@@ -191,7 +190,7 @@ void start_capturing()
     while(1) {
         // if the input is opened, read image and push to buffer
         if(inputVideo.isOpened()) {
-            
+
             // Set internal buffer to 0
             inputVideo.set(cv::CAP_PROP_BUFFERSIZE, 1);
 
@@ -330,7 +329,7 @@ void start_pose_estimation(const std::string calibrationPath)
 
                     new_yaw = (new_yaw * y_sign);
 
-                    std::cout << std::endl << "The yaw: " << new_yaw << std::endl;
+                    // std::cout << std::endl << "The yaw: " << new_yaw << std::endl;
 
                     // std::cout << "The X value in camera space: " << tvecs[i][0] << std::endl;
                     // std::cout << "The Y value in camera space: " << tvecs[i][1] << std::endl;
@@ -352,11 +351,7 @@ void start_pose_estimation(const std::string calibrationPath)
 
                 framesuccess_counter++;
             }
-            else {
-                //std::cout << "No markers detected!" << std::endl;
-            }
 
-            // #testing
             visualizationSPSCQueue.try_push(currentImage);
 
             // pop frame used for pose estimation

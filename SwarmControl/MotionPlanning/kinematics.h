@@ -5,41 +5,46 @@
 
 using namespace Eigen;
 
-#define MIN_NORM_SPEED -35.0
-#define MAX_NORM_SPEED 35.0
-
-// struct holding robot configuration data
+// Struct holding robot configuration data
 struct RobotConfiguration {
 
-    float Wheel_Diameter_mm;
-    float Wheel_To_CenterX_mm;
-    float Wheel_To_CenterY_mm;
+    float Wheel_Diameter_mm = 0;
+    float Wheel_To_CenterX_mm = 0;
+    float Wheel_To_CenterY_mm = 0;
 
-    int Max_Viable_PWM; 
-    int Min_Viable_PWM;
+    int Max_Viable_PWM = 0; 
+    int Min_Viable_PWM = 0;
 
-    float Max_RadS_Speed; 
-    float Min_RadS_Speed;
+    float Max_Controller_Speed = 0; 
+    float Min_Controller_Speed = 0;
 
-    float Max_Bucket_Tilt;
-    float Min_Bucket_Tilt;
+    float Max_Bucket_Tilt = 0;
+    float Min_Bucket_Tilt = 0;
 
-    float Max_Bucket_Extend;
-    float Min_Bucket_Extend;
+    float Max_Bucket_Extend = 0;
+    float Min_Bucket_Extend = 0;
 
-    float Rotation_Speed_Range = (Max_RadS_Speed - Min_RadS_Speed);
-    int Viable_PWM_Range = (Max_Viable_PWM - Min_Viable_PWM);
+    int Viable_PWM_Range = 0;
+    
+    void setViablePWM(){
+        Viable_PWM_Range = Max_Viable_PWM - Min_Viable_PWM;
+    }
 };
 
-// struct holding the robot constraints and margins
+// Struct holding the robot constraints and margins
 struct RobotConstraints {
 
-    float Target_Precision_Margin_Yaw;
-    float Target_Precision_Margin_X;
-    float Target_Precision_Margin_Y;
+    float Target_Precision_Margin_Yaw = 0;
+    float Target_Precision_Margin_X = 0;
+    float Target_Precision_Margin_Y = 0;
+
+    float Error_Limit_Max_Yaw = 0;
+    float Error_Limit_Max_X = 0;
+    float Error_Limit_Max_Y = 0;
 };
 
 MatrixXf initialize_H_0_R(RobotConfiguration const &configuration);
-VectorXi CalculateSpeedCommands(MatrixXf const &H0_R, RobotConfiguration const &robot_config, Vector3f const &control_vector, float phiCurrent);
+VectorXi CalculateSpeedCommands(MatrixXf const &H0_R, RobotConfiguration const &robot_config, Vector3f const &control_vector, float phiCurrent, float speed_coeff);
+Vector4f CalculateSpeedVector(MatrixXf const &H0_R, Vector3f const &control_vector, float phiCurrent);
 
 #endif //ROBOT_KINEMATICS_H

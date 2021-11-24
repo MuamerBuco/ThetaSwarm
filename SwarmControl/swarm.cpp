@@ -146,13 +146,25 @@ SinglePose operator-(SinglePose a, SinglePose b)
 }
 
 // overload / operator for SinglePose custom struct
-SinglePose operator/(SinglePose a, int b) 
+SinglePose operator/(SinglePose a, float b) 
 {
     SinglePose S;
     // TODO1 after size of memory is established, byte shift this
     S.yaw = a.yaw / b;
     S.x = a.x / b;
     S.y = a.y / b;
+
+    return S;
+}
+
+// overload / operator for SinglePose custom struct
+SinglePose operator*(SinglePose a, float b) 
+{
+    SinglePose S;
+    // TODO1 after size of memory is established, byte shift this
+    S.yaw = a.yaw * b;
+    S.x = a.x * b;
+    S.y = a.y * b;
 
     return S;
 }
@@ -166,49 +178,38 @@ SinglePose Swarm::getVelocity(int id, SinglePose new_q, double time_passed)
 
     new_q = new_q - state_holder.at(0).q;
 
-    // std::cout << "The new value for x: " << new_q.x << std::endl;
+    std::cout << "The new q difference -x: " << new_q.x << std::endl;
+    std::cout << "The new q difference -y: " << new_q.y << std::endl;
+    std::cout << "The new q difference -yaw: " << new_q.yaw << std::endl;
 
-    // std::cout << "The old value for x: " << state_holder.at(0).q.x << std::endl;
+    std::cout << "The new time passed in velocity: " << time_passed << std::endl;
 
-    // std::cout << "The new difference between last entry in q and new value for x: " << new_q.x << std::endl;
-
-    // average previous [ACCEL_MEMORY_SIZE] number of position differences
-    // for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
-    // {
-    //     new_q = new_q + (state_holder.at(i+1).q - state_holder.at(i).q);
-    // }
-
-    // new_q.x = new_q.x / ACCEL_MEMORY_SIZE;
-    // new_q.y = new_q.y / ACCEL_MEMORY_SIZE;
-    // new_q.yaw = new_q.yaw / ACCEL_MEMORY_SIZE;
-
-    // std::cout << "The new summed value for x_dot: " << temp.x << std::endl;
-
-    // std::cout << "The new averaged value for x_dot: " << new_q.x/ACCEL_MEMORY_SIZE << std::endl;
-
+    SinglePose cm_per_sec = (new_q / time_passed) * 1000;
 
     // reduce by one, one datapoint of velocity is difference between 2 datapoints of position, 
     // so total number of generated datapoints for averaging is 1 lower than memory size
-    return ( new_q / time_passed / 100 );
+    return cm_per_sec;
 }
 
 // take new q_dot vector, 
 SinglePose Swarm::getAcceleration(int id, SinglePose new_q_dot, double time_passed)
 {
+    // get the current deque holding Q state memory of robot[ID] 
     std::deque<FullPoseState> state_holder = swarm_box.q_memory_map.find(id)->second;
 
-    new_q_dot = new_q_dot + state_holder.at(0).q_dot;
+    new_q_dot = new_q_dot - state_holder.at(0).q_dot;
 
-    // for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
-    // {
-    //     new_q_dot = new_q_dot + (state_holder.at(i).q_dot - state_holder.at(i+1).q_dot);
-    // }
+    std::cout << "The new q_dot difference -x: " << new_q_dot.x << std::endl;
+    std::cout << "The new q_dot difference -y: " << new_q_dot.y << std::endl;
+    std::cout << "The new q_dot difference -yaw: " << new_q_dot.yaw << std::endl;
 
-    // new_q_dot = new_q_dot / (ACCEL_MEMORY_SIZE);
+    std::cout << "The new time passed in velocity: " << time_passed << std::endl;
 
-    new_q_dot = new_q_dot / 2;
+    SinglePose cm_per_s_per_s = (new_q_dot / time_passed) * 1000;
 
-    return ( new_q_dot / time_passed / 100 );
+    // reduce by one, one datapoint of velocity is difference between 2 datapoints of position, 
+    // so total number of generated datapoints for averaging is 1 lower than memory size
+    return cm_per_s_per_s;
 }
 
 // starts the timer
@@ -231,28 +232,6 @@ double Swarm::getTimePassed(int id)
     // cast to milliseconds
     ms milis = std::chrono::duration_cast<ms>(elapsed);
     double time_for_latest_pass = milis.count();
-
-    // std::cout << "time before averaging passed in milliseconds: " << time_for_latest_pass << std::endl;
-
-    // average latest time that passed with the previous
-    // for ( int i = 0; i < ACCEL_MEMORY_SIZE - 1; i++ )
-    // {
-    //     time_for_latest_pass += (swarm_box.time_memories_map.find(id)->second.at(i));
-    // }
-
-    // remove oldest entry in time table(ms)
-    // swarm_box.time_memories_map.find(id)->second.pop_back();
-
-    // TODO1 byteShift
-    // time_for_latest_pass = time_for_latest_pass / (ACCEL_MEMORY_SIZE);
-
-    // std::cout << "time after averaging passed in milliseconds: " << time_for_latest_pass << std::endl;
-
-    // if the time exceeds 2 seconds, set it to 100ms to avoid averaging overflow
-    // if(time_for_latest_pass > 2000) time_for_latest_pass = 100;
-
-    // add newest averaged time to time records
-    // swarm_box.time_memories_map.find(id)->second.push_front(time_for_latest_pass);
 
     // start the clock again
     startClock(id);
@@ -287,7 +266,7 @@ int Swarm::generateAndPushAllTrajectories()
         FullStateTrajectory new_trajectory;
         for(auto single_trajectory : new_trajectories_map)
         {
-            if( generateTrajectory(new_trajectory, single_trajectory.second, "RRTstar") )
+            if( generateTrajectory(new_trajectory, single_trajectory.second, "BITstar") )
             {
                 // push new trajectory to robot
                 swarm_box.ID_Unit_Map.find(single_trajectory.first)->second->setTrajectory(new_trajectory);
@@ -358,10 +337,9 @@ bool Swarm::UpdateSwarm()
 
                 // current_full_state.pose_and_id.pose_state.q_dot = (getVelocity(id, temp_state.q) / timekeeper) / 100;
                 // temp_state.q_dot = current_full_state.pose_and_id.pose_state.q_dot;
-                // std::cout << "got the velocity: " << FullStateHolder.current_pose_and_id.pose_and_id.pose_state.q_dot.x << std::endl;
                 
                 // calculate new speed based on new position (cm/s)
-                temp_state.q_dot = getVelocity(id, temp_state.q, timekeeper) / 100;
+                temp_state.q_dot = getVelocity(id, temp_state.q, timekeeper);
 
                 // std::cout << "The timekeeper(in ms): " << timekeeper << std::endl;
 
@@ -370,7 +348,7 @@ bool Swarm::UpdateSwarm()
                 // temp_state.q_dot_dot = current_full_state.pose_and_id.pose_state.q_dot_dot;
                 // std::cout << "got the accel: " << current_full_state.pose_and_id.pose_state.q_dot_dot.x << std::endl;
 
-                temp_state.q_dot_dot = getAcceleration(id, temp_state.q_dot, timekeeper) / 100;
+                temp_state.q_dot_dot = getAcceleration(id, temp_state.q_dot, timekeeper);
 
                 // save new yaw,x,y and q values into the new full state holder
                 current_full_state.pose_and_id = pose;
@@ -411,42 +389,10 @@ bool Swarm::UpdateSwarm()
     return 0;
 }
 
-void Swarm::testSingleAMRHardware(int id)
-{
-    for(int i = 0; i < 6; i++)
-    {
-        swarm_box.ID_Unit_Map.find(id)->second->setCustomDirection(i, 220, 2000);
-    }
-
-    msDelay(1000);
-
-    RGBColor my_color;
-    my_color.r = 50;
-    my_color.g = 150;
-    my_color.b = 255;
-
-    
-    swarm_box.ID_Unit_Map.find(id)->second->setCustomColor(15, my_color, BLINK_ONCE, 10);
-    msDelay(3000);
-
-    //msDelay(30000);
-
-    RobotConfiguration current_config = swarm_box.ID_Unit_Map.find(id)->second->getRobotConfig();
-
-    for(int i = 0; i < 10; i++)
-    {
-        swarm_box.ID_Unit_Map.find(id)->second->setCustomBucket(current_config.Min_Bucket_Tilt, current_config.Min_Bucket_Extend);
-        msDelay(1000);
-        swarm_box.ID_Unit_Map.find(id)->second->setCustomBucket(current_config.Max_Bucket_Tilt, current_config.Max_Bucket_Extend);
-        msDelay(1000);
-    }
-}
-
 void Swarm::testSwarmHardware()
 {
-    for(auto id : swarm_data.robot_ids)
+    for(auto robot : swarm_box.ID_Unit_Map)
     {
-        testSingleAMRHardware(id);
+        robot.second->testSingleAMRHardware();
     }
 }
-

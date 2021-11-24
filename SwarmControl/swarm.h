@@ -102,8 +102,6 @@ class Swarm {
 
         void getSwarmData();
 
-        void testSingleAMRHardware(int id);
-
         void testSwarmHardware();
     
     private:

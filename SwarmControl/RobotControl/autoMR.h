@@ -1,7 +1,7 @@
 #ifndef autoMR_H
 #define autoMR_H
 
-#include "sendRobotCommands.h"
+#include "udp_client_server.h"
 #include "../MotionPlanning/kinematics.h"
 #include "../../ArucoTracking/arucoDetection.h"
 
@@ -148,6 +148,8 @@ class autoMR
         void selfIdentify();
 
         void direct_control(Vector3f q_dot);
+
+        void testSingleAMRHardware();
     
     private:
 
@@ -175,9 +177,7 @@ class autoMR
 
         Vector3f getPoseError();
 
-        Vector3f ScaleToEqualRange(Vector3f control_input);
-
-        Eigen::Vector3f PD_Controller(Eigen::Vector3f const &pose_error);
+        float P_Controller(Eigen::Vector3f const &pose_error);
 
         int getNextTrajectory();
 
@@ -189,7 +189,11 @@ class autoMR
         
         void setDefaultState(FullRobotState const &new_default_state);
 
-        void freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_object);
+        void freezeRobot();
+
+        void SendRobotCommands(uint8_t *speeds_and_directions, uint16_t ms_delay);
+
+        void SendRobotCommandsForMs(uint8_t *speeds_and_directions, uint16_t time_in_ms, uint16_t send_increment_ms);
 
         void launchWorkerThread();
 

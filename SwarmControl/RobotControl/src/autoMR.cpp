@@ -7,6 +7,7 @@
 using namespace Eigen;
 
 #define MAX_FAIL_COUNT 20
+#define MAX_CONT_INTERPOLATION_STEPS 100
 
 // HARDWARE TESTING
 uint8_t DIRECTION_ARRAY[6][8] = {
@@ -22,7 +23,7 @@ uint8_t DIRECTION_ARRAY[6][8] = {
 
 std::string configFile = "../config.json";
 
-// explicitly initialize robot PD coefficients, HOR matrix and initial states
+// Explicitly initialize robot PD coefficients, HOR matrix and initial states
 bool autoMR::initializeRobot(int id)
 {
     try {
@@ -32,6 +33,8 @@ bool autoMR::initializeRobot(int id)
         robot_data.kinematics_data.H0_R = initialize_H_0_R(robot_data.robot_configuration);
 
         initializeRobotStates(id);
+
+        robot_data.robot_configuration.setViablePWM();
 
         // initialize UDP client
         robot_client = std::make_shared<udp_client_server::udp_client>(robot_data.robotIP, robot_data.robotPort);
@@ -48,7 +51,7 @@ bool autoMR::initializeRobot(int id)
     return 1;
 }
 
-// grab the robot configuration data from the config file
+// Grab the robot configuration data from the config file
 bool autoMR::loadConfig(std::string filePath, int id)
 {
     using namespace rapidjson;
@@ -87,6 +90,11 @@ bool autoMR::loadConfig(std::string filePath, int id)
                 robot_data.robot_constraints.Target_Precision_Margin_Yaw = robot_precision["Yaw"].GetFloat();
                 robot_data.robot_constraints.Target_Precision_Margin_X = robot_precision["X"].GetFloat();
                 robot_data.robot_constraints.Target_Precision_Margin_Y = robot_precision["Y"].GetFloat();
+                
+                const Value& robot_max_error = robot_json[i]["ErrorLimits"];
+                robot_data.robot_constraints.Error_Limit_Max_Yaw = robot_max_error["Yaw"].GetFloat();
+                robot_data.robot_constraints.Error_Limit_Max_X = robot_max_error["X"].GetFloat();
+                robot_data.robot_constraints.Error_Limit_Max_Y = robot_max_error["Y"].GetFloat();
 
                 const Value& robot_wheel_to_center = robot_json[i]["Wheel_To_Ceter_mm"];
                 robot_data.robot_configuration.Wheel_To_CenterX_mm = robot_wheel_to_center["X"].GetFloat();
@@ -96,9 +104,10 @@ bool autoMR::loadConfig(std::string filePath, int id)
                 robot_data.robot_configuration.Max_Viable_PWM = robot_viable_pwm["MAX"].GetInt();
                 robot_data.robot_configuration.Min_Viable_PWM = robot_viable_pwm["MIN"].GetInt();
                 
-                const Value& robot_viable_speed = robot_json[i]["Viable_RadS_Speed"];
-                robot_data.robot_configuration.Max_RadS_Speed = robot_viable_speed["MAX"].GetFloat();
-                robot_data.robot_configuration.Min_RadS_Speed = robot_viable_speed["MIN"].GetFloat();
+                // TODO repurpose or remove
+                const Value& Controller_Set_Speed = robot_json[i]["Controller_Set_Speed"];
+                robot_data.robot_configuration.Max_Controller_Speed = Controller_Set_Speed["MAX"].GetFloat();
+                robot_data.robot_configuration.Max_Controller_Speed = Controller_Set_Speed["MIN"].GetFloat();
 
                 const Value& default_color = robot_json[i]["DefaultColor"];
                 robot_data.default_color.r = default_color["Red"].GetInt();
@@ -134,7 +143,7 @@ int autoMR::setTrajectory(FullStateTrajectory const &full_trajectory)
     else return 0;
 }
 
-// set initial states to be used
+// Set initial states to be used
 void autoMR::initializeRobotStates(int id)
 {
     current_full_state.pose_and_id.id = id;
@@ -145,53 +154,71 @@ void autoMR::initializeRobotStates(int id)
     stop_state.pose_and_id.id = id;
 }
 
-// get the last recorded robot pose
+// Get the last recorded robot pose
 const ChassisFullState autoMR::getLastRobotPose()
 {
     return current_full_state.pose_and_id;
 }
 
-// get the last recorded LED state
+// Get the last recorded LED state
 const SignalLED autoMR::getLastLEDState()
 {
     return current_full_state.LED_state;
 }
 
-// get the last recorded bucket state
+// Get the last recorded bucket state
 const BucketState autoMR::getLastBucketState()
 {
     return current_full_state.bucket_state;
 }
 
-// get robot configuration
+// Get robot configuration
 RobotConfiguration autoMR::getRobotConfig()
 {
     return robot_data.robot_configuration;
 }
 
-// push the new full robot state state to queue that robot thread reads from
+// Push the new full robot state state to queue that robot thread reads from
 bool autoMR::pushNewRobotState(FullRobotState const  &new_full_robot_state)
 {
     return LatestRobotState->try_push(new_full_robot_state);
 }
 
-// stop all movement untill the stopRobot flag gets reset
-void autoMR::freezeRobot(std::shared_ptr<udp_client_server::udp_client> client_object)
+// stream motor commands to client object
+void autoMR::SendRobotCommands(uint8_t *msgRobot, uint16_t ms_delay)
+{
+    // PrintBuffer(msgRobot);
+    robot_client->send_bytes(msgRobot, sizeof(msgRobot) + 1);
+    msDelay(ms_delay);
+}
+
+// send set motor commands for [time_in_ms] milliseconds every [send_increment_ms] to client object
+void autoMR::SendRobotCommandsForMs(uint8_t *msgRobot, uint16_t time_in_ms, uint16_t send_increment_ms)
+{
+    uint16_t number_of_cycles = time_in_ms/send_increment_ms;
+
+    for(uint16_t i = 0; i < number_of_cycles; i++) {
+        SendRobotCommands(msgRobot, send_increment_ms);
+    }
+}
+
+// Stop all movement untill the stopRobot flag gets reset
+void autoMR::freezeRobot()
 {
     uint8_t shutdown[12] = {0};
     shutdown[0] = 1;
 
     stopRobot = true;
 
-    while(stopRobot)
+    for(int i = 0; i < 10; i++)
     {
-        msDelay(10);
-        SendRobotCommands(&shutdown[0], client_object, 1);
+        msDelay(5);
+        SendRobotCommands(&shutdown[0], 1);
     }
 }
 
 /* **
-* run in a preset direction, at set speed, for set duration
+* Run in a preset direction, at set speed, for set duration
 * 0 => Move Forward
 * 1 => Move Backward
 * 2 => Rotate Right
@@ -210,11 +237,11 @@ void autoMR::setCustomDirection(uint8_t direction, uint8_t speed, int duration)
         if(i % 2 == 0) tx_buffer[i+1] = speed;
     }
 
-    SendRobotCommandsForMs(&tx_buffer[0], duration, 2, robot_client);
+    SendRobotCommandsForMs(&tx_buffer[0], duration, 2);
 }
 
 /* **
-* set custom program, or a single LED
+* Set custom program, or a single LED
 * If mode == 0(SET_SINGLE_PIXEL) use index and colors(0-255)
 * If mode == (SET_SINGLE_PIXEL) use colors(0-255)
 * If mode == program that uses timing(Rainbow, Theatre) use ms_delay */
@@ -236,11 +263,11 @@ void autoMR::setCustomColor(uint8_t index, RGBColor my_color, uint8_t mode, uint
     // resend a few times
     for(int i = 0; i < 2; i ++)
     {
-        SendRobotCommands(&tx_buffer[0], robot_client, 1);
+        SendRobotCommands(&tx_buffer[0], 1);
     }
 }
 
-// set custom tilt and extension of bucket
+// Set custom tilt and extension of bucket
 void autoMR::setCustomBucket(uint8_t tilt, uint8_t extend)
 {
     uint8_t tx_buffer[3];
@@ -253,11 +280,11 @@ void autoMR::setCustomBucket(uint8_t tilt, uint8_t extend)
     // resend a few times
     for(int i = 0; i < 5; i ++)
     {
-        SendRobotCommands(&tx_buffer[0], robot_client, 1);
+        SendRobotCommands(&tx_buffer[0], 1);
     }
 }
 
-// light up the robot in its default color
+// Light up the robot in its default color
 void autoMR::selfIdentify()
 {
     this->setCustomColor(0, robot_data.default_color, BLINK_ONCE, 0);
@@ -290,7 +317,7 @@ bool autoMR::ReachedTarget()
     return 1;
 }
 
-// gets the next trajectory from queue and saves it to full_state_trajectory, non-blocking
+// Gets the next trajectory from queue and saves it to full_state_trajectory, non-blocking
 int autoMR::getNextTrajectory()
 {
     if( TrajectorySet->front() )
@@ -304,7 +331,7 @@ int autoMR::getNextTrajectory()
     }
 }
 
-// updates current_full_state based on the full_state_trajectory, returns false if full state trajectory is empty
+// Updates current_full_state based on the full_state_trajectory, returns false if full state trajectory is empty
 int autoMR::updateFullTrajectory()
 {
     if( !full_state_trajectory.empty() )
@@ -324,7 +351,7 @@ int autoMR::updateFullTrajectory()
     else return 0;
 }
 
-// set next point if available, try to load new trajectory if not, and then set the next point
+// Set next point if available, try to load new trajectory if not, and then set the next point
 int autoMR::setNextTrajectoryPoint()
 {
     if( updateFullTrajectory() )
@@ -346,17 +373,65 @@ int autoMR::setNextTrajectoryPoint()
     }
 }
 
+// Calculates pose error, clamps to 0 if lower than margin assigned in config to avoid instability, caps error to maximum assigned in config
 Vector3f autoMR::getPoseError()
 {
     Vector3f pose_error;
+    float solution_1;
+    float solution_2;
+
+    float current_yaw = current_full_state.pose_and_id.pose_state.q.yaw;
+    float target_yaw = target_full_state.pose_and_id.pose_state.q.yaw;
+    float max_error_yaw = robot_data.robot_constraints.Error_Limit_Max_Yaw;
+
+    int target_sign = getSign(target_yaw);
+    int current_sign = getSign(current_yaw);
+
+    if(target_sign == current_sign)
+    {
+        pose_error(0,0) = -target_yaw + current_yaw;
+        // std::cout << "The signs are equal and pose error is: " << pose_error(0,0) << std::endl;
+    }
+    else 
+    {
+        if(target_sign > current_sign)
+        {
+            solution_1 = (max_error_yaw + current_yaw) + (max_error_yaw - target_yaw);
+            solution_2 = abs(current_yaw) + target_yaw;
+            // std::cout << "The signs are different and target is pos and solutions are: " << std::endl;
+            // std::cout << "Solution 1: " << solution_1 << std::endl;
+            // std::cout << "Solution 2: " << solution_2 << std::endl;
+        }
+        else {
+            solution_1 = (max_error_yaw + target_yaw) + (max_error_yaw - current_yaw);
+            solution_2 = abs(target_yaw) + current_yaw;
+            // std::cout << "The signs are different target is neg and solutions are: " << std::endl;
+            // std::cout << "Solution 1: " << solution_1 << std::endl;
+            // std::cout << "Solution 2: " << solution_2 << std::endl;
+        }
+
+        if( solution_1 <= solution_2 )
+        {
+            pose_error(0,0) = solution_1;
+            // std::cout << "Solution 1 is better and its: " << pose_error(0,0) << std::endl;
+        }
+        else {
+            pose_error(0,0) = -solution_2;
+            // std::cout << "Solution 2 is better and its: " << pose_error(0,0) << std::endl;
+        }
+    }
+
 
     // calculate error between target and current
-    pose_error(0,0) = target_full_state.pose_and_id.pose_state.q.yaw - current_full_state.pose_and_id.pose_state.q.yaw; 
     pose_error(1,0) = target_full_state.pose_and_id.pose_state.q.x - current_full_state.pose_and_id.pose_state.q.x;
     pose_error(2,0) = target_full_state.pose_and_id.pose_state.q.y - current_full_state.pose_and_id.pose_state.q.y;
     // std::cout << "Pose error before 0: " << pose_error(0,0) << std::endl;
     // std::cout << "Pose error before 1: " << pose_error(1,0) << std::endl;
     // std::cout << "Pose error before 2: " << pose_error(2,0) << std::endl;
+
+    // Limit to max error set in config
+    if( abs(pose_error(1,0)) > robot_data.robot_constraints.Error_Limit_Max_X ) { pose_error(1,0) = robot_data.robot_constraints.Error_Limit_Max_X * getSign(pose_error(1,0)); }
+    if( abs(pose_error(2,0)) > robot_data.robot_constraints.Error_Limit_Max_Y ) { pose_error(2,0) = robot_data.robot_constraints.Error_Limit_Max_Y * getSign(pose_error(2,0)); }
 
     // clamp to 0 if within margins to avoid destabilizing
     if( abs( pose_error(0,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw ) { pose_error(0,0) = 0; }
@@ -371,47 +446,56 @@ Vector3f autoMR::getPoseError()
     return pose_error;
 }
 
-// function that the thread runs for robot control
+// Function that the thread runs for robot control
 void autoMR::robot_control()
 {    
     FullRobotState state_holder;
     Vector3f pose_error;
-    Vector3f q_dot;
     float currentPhi = 0;
     uint8_t robot_command_array[12] = {0};
 
-    // TESTING FEEDBACK
-    target_full_state.pose_and_id.pose_state.q.yaw = 0;
-    target_full_state.pose_and_id.pose_state.q.x = 90;
-    target_full_state.pose_and_id.pose_state.q.y = 65;
-    // target_full_state.bucket_state.tilt = 30;
-    // target_full_state.bucket_state.extension = 30;
-    // target_full_state.LED_state.program = SOLID_GREEN;
+    int interpolation_step = 0;
 
     while(1) {
 
         while( !stopRobot )
         {
-            // update to latest state if ready from aruco tracking
+            // update to latest state if ready from aruco tracking, interpolate if not
             if( updateCurrentFullRobotState() ) 
             {
-                std::cout << "Got data using aruco" << std::endl;
                 resetInterpolationTimer();
-                
+                interpolation_step = 0;
             }
             else if( interpolateDeadReckoningAndUpdate() ) 
             {
-                std::cout << "Got data using dead reckoning" << std::endl;
+                // if interpolation is not interrupted by real data inflow, stop the robot
+                if(interpolation_step > MAX_CONT_INTERPOLATION_STEPS) 
+                { 
+                    msDelay(3);
+                    break;    
+                }
+                interpolation_step++;
+                msDelay(1);
+                std::cout << "Just interpolated" << std::endl;
             }
             else break;
 
-            // calculate error from current position to target position, clamp to 0 if difference is lower than set margin
+            // TESTING FEEDBACK
+            target_full_state.pose_and_id.pose_state.q.yaw = 3.14;//current_full_state.pose_and_id.pose_state.q.yaw;//3.14;
+            target_full_state.pose_and_id.pose_state.q.x = 30;//current_full_state.pose_and_id.pose_state.q.x;//90;
+            target_full_state.pose_and_id.pose_state.q.y = 80;//current_full_state.pose_and_id.pose_state.q.y;//65;
+            target_full_state.bucket_state.tilt = 30;
+            target_full_state.bucket_state.extension = 30;
+            target_full_state.LED_state.program = NONE;
+
+            // calculate error
             pose_error = getPoseError();
 
             // check if the current setpoint is reached, if yes set a new one
             if( ReachedTarget() )
             {
                 std::cout << "Reached target!!" << std::endl;
+                freezeRobot();
                 if( setNextTrajectoryPoint() )
                 {
                     std::cout << "Got new trajectory" << std::endl;
@@ -419,9 +503,9 @@ void autoMR::robot_control()
                 }
                 else {
                     std::cout << "No more trajectory points set" << std::endl;
-                    break; // TODO1 check where this break lands you, probably wrong
+                    msDelay(3);
+                    break;
                 }
-                ///// if no more points to follow
             }
 
             std::cout << "Current YAW: " << current_full_state.pose_and_id.pose_state.q.yaw << std::endl;
@@ -430,42 +514,32 @@ void autoMR::robot_control()
 
             std::cout << "The pose_error vector: \n" << pose_error << std::endl;
 
-            q_dot = PD_Controller(pose_error);
-
-            // q_dot(0,0) = 0;
-
-            std::cout << "The q_dot vector: \n" << q_dot << std::endl;
+            float speed_coeff = P_Controller(pose_error);
 
             currentPhi = current_full_state.pose_and_id.pose_state.q.yaw;
 
             // std::cout << "The current passed phi: " << currentPhi << std::endl;
 
-            // add first parse bit, leave as 1 for now
             robot_command_array[0] = STANDARD_MODE;
 
             // TODO2 create a parsing model for engineering and getter functionality
-            VectorXi motor_commands = CalculateSpeedCommands(robot_data.kinematics_data.H0_R, robot_data.robot_configuration, q_dot, currentPhi);
+            VectorXi motor_commands = CalculateSpeedCommands(robot_data.kinematics_data.H0_R, robot_data.robot_configuration, pose_error, currentPhi, speed_coeff);
         
             for(int i = 0; i < 8; i++)
             {
                 robot_command_array[i + 1] = motor_commands(i);
             }
 
-            // robot_command_array[9] = target_full_state.bucket_state.extension;
-            // robot_command_array[10] = target_full_state.bucket_state.tilt;
-            // robot_command_array[11] = target_full_state.LED_state.program;
+            robot_command_array[9] = target_full_state.bucket_state.extension;
+            robot_command_array[10] = target_full_state.bucket_state.tilt;
+            robot_command_array[11] = target_full_state.LED_state.program;
+            PrintBuffer(&robot_command_array[0]);
 
-            robot_command_array[9] = current_full_state.bucket_state.extension;
-            robot_command_array[10] = current_full_state.bucket_state.tilt;
-            robot_command_array[11] = current_full_state.LED_state.program;
-
-            // PrintBuffer(&robot_command_array[0]);
-
-            SendRobotCommands(&robot_command_array[0], robot_client, 1); // TODO1 maybe remove 1ms delay
+            SendRobotCommands(&robot_command_array[0], 1); // TODO1 maybe remove 1ms delay
         }
-        
-        freezeRobot( robot_client );
+        msDelay(5); // give other threads some space
     }
+    freezeRobot();
 }
 
 void autoMR::resetInterpolationTimer()
@@ -483,10 +557,9 @@ void autoMR::direct_control(Vector3f q_dot)
     {
         currentPhi = current_full_state.pose_and_id.pose_state.q.yaw;
 
-        // add first parse bit, leave as 1 for now
         robot_command_array[0] = STANDARD_MODE;
 
-        VectorXi motor_commands = CalculateSpeedCommands(robot_data.kinematics_data.H0_R, robot_data.robot_configuration, q_dot, currentPhi);
+        VectorXi motor_commands = CalculateSpeedCommands(robot_data.kinematics_data.H0_R, robot_data.robot_configuration, q_dot, currentPhi, 1);
 
         for(int i = 0; i < 8; i++)
         {
@@ -497,30 +570,29 @@ void autoMR::direct_control(Vector3f q_dot)
         robot_command_array[10] = target_full_state.bucket_state.tilt;
         robot_command_array[11] = target_full_state.LED_state.program;
 
-        SendRobotCommands(&robot_command_array[0], robot_client, 1);
+        SendRobotCommands(&robot_command_array[0], 1);
     }
     else {
-        freezeRobot( robot_client );
+        freezeRobot();
     }
 }
 
-// set what it means for the robot to go into default state
+// Set what it means for the robot to go into default state
 void autoMR::setDefaultState(FullRobotState const &new_default_state)
 {
     default_state = new_default_state;
 }
 
-// get the field data loaded by aruco
+// Get the field data loaded by aruco
 void autoMR::setFieldData()
 {
-    try{
+    try {
         robot_data.robot_field_data = getFieldData();
     }
-    catch(int& err){
+    catch(int& err) {
         std::cerr << "Failed to get field data" << std::endl;
         throw err;
     }
-    
 }
 
 void autoMR::resumeOperation()
@@ -528,44 +600,32 @@ void autoMR::resumeOperation()
     stopRobot = false;
 }
 
-// force the robot into default state
+// Force the robot into default state
 void autoMR::resetRobot()
 {
     pushNewRobotState(default_state);
     stopRobot = false;
 }
 
-// immediatelly stop the robot from moving
+// Immediatelly stop the robot from moving
 void autoMR::PANIC_STOP()
 {
     stopRobot = true;
 }
 
-// map different possible ranges of each variable in the control vector to the same range
-Vector3f autoMR::ScaleToEqualRange(Vector3f control_input)
+// Proportional controller, returns a speed scalar[0-1] to be used
+float autoMR::P_Controller(Vector3f const &pose_error)
 {
-    control_input(0,0) = MapValueToRange( robot_data.robot_field_data.Min_Output_Value_P, MIN_NORM_SPEED, robot_data.robot_field_data.Max_Output_Value_P, MAX_NORM_SPEED, control_input(0,0) );
-    control_input(1,0) = MapValueToRange( -robot_data.robot_field_data.Max_Output_Value_X, MIN_NORM_SPEED, robot_data.robot_field_data.Max_Output_Value_X, MAX_NORM_SPEED, control_input(1,0) );
-    control_input(2,0) = MapValueToRange( -robot_data.robot_field_data.Max_Output_Value_Y, MIN_NORM_SPEED, robot_data.robot_field_data.Max_Output_Value_Y, MAX_NORM_SPEED, control_input(2,0) );
+    Vector3f relative_size_of_error;
 
-    return control_input;
+    relative_size_of_error(0,0) = abs( pose_error(0,0) ) / robot_data.robot_constraints.Error_Limit_Max_Yaw;
+    relative_size_of_error(1,0) = abs( pose_error(1,0) ) / robot_data.robot_constraints.Error_Limit_Max_X;
+    relative_size_of_error(2,0) = abs( pose_error(2,0) ) / robot_data.robot_constraints.Error_Limit_Max_Y;
+
+    return findMaxAbsValue(relative_size_of_error);
 }
 
-// for now implement only Proportional controller
-// TODO2 implement derivative control
-Vector3f autoMR::PD_Controller(Vector3f const &pose_error)
-{
-    Vector3f control_input = ScaleToEqualRange(pose_error);
-
-    // TODO2 introduce speed control as ---- control_input(n, 0) * speed_n ---- after data becomes available 
-    control_input(0,0) = robot_data.kinematics_data.pd_coefficients.Kp_yaw * control_input(0,0);
-    control_input(1,0) = robot_data.kinematics_data.pd_coefficients.Kp_x * control_input(1,0);
-    control_input(2,0) = robot_data.kinematics_data.pd_coefficients.Kp_y * control_input(2,0);
-
-    return control_input;
-}
-
-// retrives the newest full robot state if available and saves it in current_full_state, skips if unavailable
+// Retrives the newest full robot state if available and saves it in current_full_state, skips if unavailable
 int autoMR::updateCurrentFullRobotState()
 {
     if( LatestRobotState->front() )
@@ -580,7 +640,7 @@ int autoMR::updateCurrentFullRobotState()
 // Timesteps pose information using last known speed and acceleration data
 int autoMR::interpolateDeadReckoningAndUpdate()
 {
-    typedef std::chrono::microseconds mcs;
+    typedef std::chrono::milliseconds ms;
 
     // stop timer and calculate time passed
     auto timer_stop = std::chrono::system_clock::now();
@@ -588,9 +648,10 @@ int autoMR::interpolateDeadReckoningAndUpdate()
 
     resetInterpolationTimer();
 
-    // cast to microseconds
-    mcs micros = std::chrono::duration_cast<mcs>(elapsed);
-    double time_for_latest_pass = micros.count();
+    // cast to microseconds (TODO sync with time unit used in speed derivation)
+    ms millis = std::chrono::duration_cast<ms>(elapsed);
+    double time_for_latest_pass = millis.count();
+    std::cout << "The time used for interpolation: " << time_for_latest_pass << std::endl;
 
     if(time_for_latest_pass != 0)
     {
@@ -599,9 +660,9 @@ int autoMR::interpolateDeadReckoningAndUpdate()
         // current_full_state.pose_and_id.pose_state.q.y = current_full_state.pose_and_id.pose_state.q_dot.y + time_for_latest_pass*current_full_state.pose_and_id.pose_state.q_dot_dot.y;
         // current_full_state.pose_and_id.pose_state.q.yaw = current_full_state.pose_and_id.pose_state.q_dot.yaw + time_for_latest_pass*current_full_state.pose_and_id.pose_state.q_dot_dot.yaw;
 
-        current_full_state.pose_and_id.pose_state.q.x += time_for_latest_pass * current_full_state.pose_and_id.pose_state.q_dot.x; 
-        current_full_state.pose_and_id.pose_state.q.y += time_for_latest_pass * current_full_state.pose_and_id.pose_state.q_dot.y; 
-        current_full_state.pose_and_id.pose_state.q.yaw += time_for_latest_pass * current_full_state.pose_and_id.pose_state.q_dot.yaw;
+        current_full_state.pose_and_id.pose_state.q.x += (time_for_latest_pass * current_full_state.pose_and_id.pose_state.q_dot.x)/1000; 
+        current_full_state.pose_and_id.pose_state.q.y += (time_for_latest_pass * current_full_state.pose_and_id.pose_state.q_dot.y)/1000; 
+        current_full_state.pose_and_id.pose_state.q.yaw += (time_for_latest_pass * current_full_state.pose_and_id.pose_state.q_dot.yaw)/1000;
 
         return 1;
     }
@@ -612,4 +673,35 @@ void autoMR::getBatteryStatus()
 {
     float battery_status = 1;
     robot_data.battery_percentage = battery_status;
+}
+
+void autoMR::testSingleAMRHardware()
+{
+    for(int i = 0; i < 6; i++)
+    {
+        this->setCustomDirection(i, 220, 2000);
+    }
+
+    msDelay(1000);
+
+    RGBColor my_color;
+    my_color.r = 50;
+    my_color.g = 150;
+    my_color.b = 255;
+
+    
+    this->setCustomColor(15, my_color, BLINK_ONCE, 10);
+    msDelay(3000);
+
+    //msDelay(30000);
+
+    RobotConfiguration current_config = this->getRobotConfig();
+
+    for(int i = 0; i < 10; i++)
+    {
+        this->setCustomBucket(current_config.Min_Bucket_Tilt, current_config.Min_Bucket_Extend);
+        msDelay(1000);
+        this->setCustomBucket(current_config.Max_Bucket_Tilt, current_config.Max_Bucket_Extend);
+        msDelay(1000);
+    }
 }

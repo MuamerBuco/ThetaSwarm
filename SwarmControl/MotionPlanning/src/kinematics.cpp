@@ -34,20 +34,47 @@ MatrixXf initialize_H_0_R(RobotConfiguration const &configuration)
     return matrix_scalar * h_zero;
 }
 
-// modify speeds_and_dirrections with mapped radians per second to the appropriate driving PWM duty cycle and then check constraints, 
-// minimum responsive PWM is 160, max is 255
-// TODO rethink the -100 <-> 100 scaling to input into speed calculator, remapped here to pwm using MAX_ROT_SPEED_OUT derived empirically
- VectorXi MapRadiansToPWM(Vector4f const &speed_vector, RobotConfiguration const &robot_config)
- {
+// Calculates the rotation speed of wheels based on input control vector using kinematic model
+Vector4f CalculateSpeedVector(MatrixXf const &H0_R, Vector3f const &control_vector, float phiCurrent)
+{
+    Matrix3f rotation_matrix(3,3);
+
+    rotation_matrix(0,0) = 1.0;
+    rotation_matrix(0,1) = 0.0;
+    rotation_matrix(0,2) = 0.0;
+    rotation_matrix(1,0) = 0.0;
+    rotation_matrix(1,1) = cos(phiCurrent);
+    rotation_matrix(1,2) = sin(phiCurrent);
+    rotation_matrix(2,0) = 0.0;
+    rotation_matrix(2,1) = -sin(phiCurrent);
+    rotation_matrix(2,2) = cos(phiCurrent);
+    
+    // speeds in radians/s of each wheel
+    Vector4f speed_vector = H0_R * rotation_matrix * control_vector;
+
+    return speed_vector;
+}
+
+// Calculates necessary PWM/Direction signal from the wheel speeds vector
+VectorXi CalculateSpeedCommands(MatrixXf const &H0_R, RobotConfiguration const &robot_config, Vector3f const &control_vector, float phiCurrent, float speed_coeff)
+{
+    Vector4f speed_vector = CalculateSpeedVector(H0_R, control_vector, phiCurrent);
+
     VectorXi pwm_and_direction_vector(8,1); // preparing a buffer to send
 
-    float max_rot_speed = findMaxAbsValue(speed_vector);
-    
-    for(uint8_t i = 0; i < 4; i++) {
-        //printVector(&speed_vector, "speed_vector");
+    float max_rot_speed_this_pass = findMaxAbsValue(speed_vector);
+    float speed_to_pwm = robot_config.Min_Viable_PWM + (robot_config.Viable_PWM_Range * speed_coeff);
 
+    // std::clog << "The robot_config.Min_Viable_PWM is: " << robot_config.Min_Viable_PWM << std::endl;
+    // std::clog << "The robot_config.Viable_PWM_Range: " << robot_config.Viable_PWM_Range << std::endl;
+    // std::clog << "The speed coefficient is: " << speed_coeff << std::endl;
+    // std::clog << "The max pwm this run is: " << speed_to_pwm << std::endl;
+    // std::clog << "The speed_to_pwm this run is: " << speed_to_pwm << std::endl;
+
+    for(uint8_t i = 0; i < 4; i++) 
+    {
         if (abs(speed_vector(i,0)) > 0) {
-            uint8_t speed_in_pwm = MapValueToRange(0, robot_config.Min_Viable_PWM, max_rot_speed, robot_config.Max_Viable_PWM, abs(speed_vector(i,0)) );
+            uint8_t speed_in_pwm = MapValueToRange(0, robot_config.Min_Viable_PWM, max_rot_speed_this_pass, speed_to_pwm, abs(speed_vector(i,0)) );
             
             if(speed_vector(i,0) >= 0) {
                 pwm_and_direction_vector(i*2, 0) = speed_in_pwm;
@@ -66,28 +93,6 @@ MatrixXf initialize_H_0_R(RobotConfiguration const &configuration)
             std::cerr << "Assigned motor speeds are INVALID" << std::endl;
         }
     }
+
     return pwm_and_direction_vector;
-}
-
-// Calculates necessary PWM/Direction signal from the control vector, and modifies speeds_and_directions
-VectorXi CalculateSpeedCommands(MatrixXf const &H0_R, RobotConfiguration const &robot_config, Vector3f const &control_vector, float phiCurrent)
-{
-    Matrix3f rotation_matrix(3,3);
-
-    rotation_matrix(0,0) = 1.0;
-    rotation_matrix(0,1) = 0.0;
-    rotation_matrix(0,2) = 0.0;
-    rotation_matrix(1,0) = 0.0;
-    rotation_matrix(1,1) = cos(phiCurrent);
-    rotation_matrix(1,2) = sin(phiCurrent);
-    rotation_matrix(2,0) = 0.0;
-    rotation_matrix(2,1) = -sin(phiCurrent);
-    rotation_matrix(2,2) = cos(phiCurrent);
-    
-    // speeds in radians/s of each wheel
-    Vector4f speed_vector = H0_R * rotation_matrix * control_vector;
-
-    VectorXi speeds_and_directions_vector = MapRadiansToPWM(speed_vector, robot_config);
-
-    return speeds_and_directions_vector;
 }
