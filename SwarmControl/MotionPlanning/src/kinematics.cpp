@@ -65,12 +65,6 @@ VectorXi CalculateSpeedCommands(MatrixXf const &H0_R, RobotConfiguration const &
     float max_rot_speed_this_pass = findMaxAbsValue(speed_vector);
     float speed_to_pwm = robot_config.Min_Viable_PWM + (robot_config.Viable_PWM_Range * speed_coeff);
 
-    // std::clog << "The robot_config.Min_Viable_PWM is: " << robot_config.Min_Viable_PWM << std::endl;
-    // std::clog << "The robot_config.Viable_PWM_Range: " << robot_config.Viable_PWM_Range << std::endl;
-    // std::clog << "The speed coefficient is: " << speed_coeff << std::endl;
-    // std::clog << "The max pwm this run is: " << speed_to_pwm << std::endl;
-    // std::clog << "The speed_to_pwm this run is: " << speed_to_pwm << std::endl;
-
     for(uint8_t i = 0; i < 4; i++) 
     {
         if (abs(speed_vector(i,0)) > 0) {

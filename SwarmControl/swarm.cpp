@@ -178,11 +178,11 @@ SinglePose Swarm::getVelocity(int id, SinglePose new_q, double time_passed)
 
     new_q = new_q - state_holder.at(0).q;
 
-    std::cout << "The new q difference -x: " << new_q.x << std::endl;
-    std::cout << "The new q difference -y: " << new_q.y << std::endl;
-    std::cout << "The new q difference -yaw: " << new_q.yaw << std::endl;
+    // std::cout << "The new q difference -x: " << new_q.x << std::endl;
+    // std::cout << "The new q difference -y: " << new_q.y << std::endl;
+    // std::cout << "The new q difference -yaw: " << new_q.yaw << std::endl;
 
-    std::cout << "The new time passed in velocity: " << time_passed << std::endl;
+    // std::cout << "The new time passed in velocity: " << time_passed << std::endl;
 
     SinglePose cm_per_sec = (new_q / time_passed) * 1000;
 
@@ -199,11 +199,11 @@ SinglePose Swarm::getAcceleration(int id, SinglePose new_q_dot, double time_pass
 
     new_q_dot = new_q_dot - state_holder.at(0).q_dot;
 
-    std::cout << "The new q_dot difference -x: " << new_q_dot.x << std::endl;
-    std::cout << "The new q_dot difference -y: " << new_q_dot.y << std::endl;
-    std::cout << "The new q_dot difference -yaw: " << new_q_dot.yaw << std::endl;
+    // std::cout << "The new q_dot difference -x: " << new_q_dot.x << std::endl;
+    // std::cout << "The new q_dot difference -y: " << new_q_dot.y << std::endl;
+    // std::cout << "The new q_dot difference -yaw: " << new_q_dot.yaw << std::endl;
 
-    std::cout << "The new time passed in velocity: " << time_passed << std::endl;
+    // std::cout << "The new time passed in velocity: " << time_passed << std::endl;
 
     SinglePose cm_per_s_per_s = (new_q_dot / time_passed) * 1000;
 

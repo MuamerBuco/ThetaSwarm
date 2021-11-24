@@ -390,7 +390,6 @@ Vector3f autoMR::getPoseError()
     if(target_sign == current_sign)
     {
         pose_error(0,0) = -target_yaw + current_yaw;
-        // std::cout << "The signs are equal and pose error is: " << pose_error(0,0) << std::endl;
     }
     else 
     {
@@ -398,26 +397,18 @@ Vector3f autoMR::getPoseError()
         {
             solution_1 = (max_error_yaw + current_yaw) + (max_error_yaw - target_yaw);
             solution_2 = abs(current_yaw) + target_yaw;
-            // std::cout << "The signs are different and target is pos and solutions are: " << std::endl;
-            // std::cout << "Solution 1: " << solution_1 << std::endl;
-            // std::cout << "Solution 2: " << solution_2 << std::endl;
         }
         else {
             solution_1 = (max_error_yaw + target_yaw) + (max_error_yaw - current_yaw);
             solution_2 = abs(target_yaw) + current_yaw;
-            // std::cout << "The signs are different target is neg and solutions are: " << std::endl;
-            // std::cout << "Solution 1: " << solution_1 << std::endl;
-            // std::cout << "Solution 2: " << solution_2 << std::endl;
         }
 
         if( solution_1 <= solution_2 )
         {
             pose_error(0,0) = solution_1;
-            // std::cout << "Solution 1 is better and its: " << pose_error(0,0) << std::endl;
         }
         else {
             pose_error(0,0) = -solution_2;
-            // std::cout << "Solution 2 is better and its: " << pose_error(0,0) << std::endl;
         }
     }
 
@@ -425,9 +416,6 @@ Vector3f autoMR::getPoseError()
     // calculate error between target and current
     pose_error(1,0) = target_full_state.pose_and_id.pose_state.q.x - current_full_state.pose_and_id.pose_state.q.x;
     pose_error(2,0) = target_full_state.pose_and_id.pose_state.q.y - current_full_state.pose_and_id.pose_state.q.y;
-    // std::cout << "Pose error before 0: " << pose_error(0,0) << std::endl;
-    // std::cout << "Pose error before 1: " << pose_error(1,0) << std::endl;
-    // std::cout << "Pose error before 2: " << pose_error(2,0) << std::endl;
 
     // Limit to max error set in config
     if( abs(pose_error(1,0)) > robot_data.robot_constraints.Error_Limit_Max_X ) { pose_error(1,0) = robot_data.robot_constraints.Error_Limit_Max_X * getSign(pose_error(1,0)); }
@@ -435,13 +423,8 @@ Vector3f autoMR::getPoseError()
 
     // clamp to 0 if within margins to avoid destabilizing
     if( abs( pose_error(0,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_Yaw ) { pose_error(0,0) = 0; }
-    // std::cout << "Pose error 0: " << pose_error(0,0) << std::endl;
-    
     if( abs( pose_error(1,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_X ) { pose_error(1,0) = 0; }
-    // std::cout << "Pose error 1: " << pose_error(1,0) << std::endl;
-    
     if( abs( pose_error(2,0) ) <= robot_data.robot_constraints.Target_Precision_Margin_Y ) { pose_error(2,0) = 0; }
-    // std::cout << "Pose error 2: " << pose_error(2,0) << std::endl;
 
     return pose_error;
 }
@@ -481,12 +464,12 @@ void autoMR::robot_control()
             else break;
 
             // TESTING FEEDBACK
-            target_full_state.pose_and_id.pose_state.q.yaw = 3.14;//current_full_state.pose_and_id.pose_state.q.yaw;//3.14;
-            target_full_state.pose_and_id.pose_state.q.x = 30;//current_full_state.pose_and_id.pose_state.q.x;//90;
-            target_full_state.pose_and_id.pose_state.q.y = 80;//current_full_state.pose_and_id.pose_state.q.y;//65;
-            target_full_state.bucket_state.tilt = 30;
-            target_full_state.bucket_state.extension = 30;
-            target_full_state.LED_state.program = NONE;
+            // target_full_state.pose_and_id.pose_state.q.yaw = 3.14;//current_full_state.pose_and_id.pose_state.q.yaw;//3.14;
+            // target_full_state.pose_and_id.pose_state.q.x = 30;//current_full_state.pose_and_id.pose_state.q.x;//90;
+            // target_full_state.pose_and_id.pose_state.q.y = 80;//current_full_state.pose_and_id.pose_state.q.y;//65;
+            // target_full_state.bucket_state.tilt = 30;
+            // target_full_state.bucket_state.extension = 30;
+            // target_full_state.LED_state.program = NONE;
 
             // calculate error
             pose_error = getPoseError();
@@ -508,11 +491,11 @@ void autoMR::robot_control()
                 }
             }
 
-            std::cout << "Current YAW: " << current_full_state.pose_and_id.pose_state.q.yaw << std::endl;
-            std::cout << "Current X: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
-            std::cout << "Current Y: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
+            // std::cout << "Current YAW: " << current_full_state.pose_and_id.pose_state.q.yaw << std::endl;
+            // std::cout << "Current X: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
+            // std::cout << "Current Y: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
 
-            std::cout << "The pose_error vector: \n" << pose_error << std::endl;
+            // std::cout << "The pose_error vector: \n" << pose_error << std::endl;
 
             float speed_coeff = P_Controller(pose_error);
 
@@ -655,11 +638,7 @@ int autoMR::interpolateDeadReckoningAndUpdate()
 
     if(time_for_latest_pass != 0)
     {
-        // for now neglect change in speed
-        // current_full_state.pose_and_id.pose_state.q.x = current_full_state.pose_and_id.pose_state.q_dot.x + time_for_latest_pass*current_full_state.pose_and_id.pose_state.q_dot_dot.x; 
-        // current_full_state.pose_and_id.pose_state.q.y = current_full_state.pose_and_id.pose_state.q_dot.y + time_for_latest_pass*current_full_state.pose_and_id.pose_state.q_dot_dot.y;
-        // current_full_state.pose_and_id.pose_state.q.yaw = current_full_state.pose_and_id.pose_state.q_dot.yaw + time_for_latest_pass*current_full_state.pose_and_id.pose_state.q_dot_dot.yaw;
-
+        // for now neglect change in speed, /1000 because time is in ms and speed is in cm/s
         current_full_state.pose_and_id.pose_state.q.x += (time_for_latest_pass * current_full_state.pose_and_id.pose_state.q_dot.x)/1000; 
         current_full_state.pose_and_id.pose_state.q.y += (time_for_latest_pass * current_full_state.pose_and_id.pose_state.q_dot.y)/1000; 
         current_full_state.pose_and_id.pose_state.q.yaw += (time_for_latest_pass * current_full_state.pose_and_id.pose_state.q_dot.yaw)/1000;
