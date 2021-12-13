@@ -7,7 +7,7 @@ This system is meant to offer fully abstracted access to hardware, to be leverag
 
 # Still Under Development....
 
-![alt text](https://1drv.ms/u/s!Ake4VfEvlOEKshQUB_W8FVuWMtuE?e=20HBaq)
+![robotImage1](https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_6040_00.png?raw=true)
  
 ## Requirements
 
