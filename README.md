@@ -7,7 +7,7 @@ This system is meant to offer fully abstracted access to hardware, to be leverag
 
 # Still Under Development....
 
-<img src="https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_6094_00.png" alt="robotImage1" width="450" height="340" align="left">
+<img src="https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_60104_00.png" alt="robotImage1" width="450" height="340" align="left">
 <img src="https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_6112_00Cut.png" alt="robotImage2" width="300" height="340">
  
 ## Requirements
