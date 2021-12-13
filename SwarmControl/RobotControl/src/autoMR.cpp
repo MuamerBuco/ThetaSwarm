@@ -463,14 +463,6 @@ void autoMR::robot_control()
             }
             else break;
 
-            // TESTING FEEDBACK
-            // target_full_state.pose_and_id.pose_state.q.yaw = 3.14;//current_full_state.pose_and_id.pose_state.q.yaw;//3.14;
-            // target_full_state.pose_and_id.pose_state.q.x = 30;//current_full_state.pose_and_id.pose_state.q.x;//90;
-            // target_full_state.pose_and_id.pose_state.q.y = 80;//current_full_state.pose_and_id.pose_state.q.y;//65;
-            // target_full_state.bucket_state.tilt = 30;
-            // target_full_state.bucket_state.extension = 30;
-            // target_full_state.LED_state.program = NONE;
-
             // calculate error
             pose_error = getPoseError();
 
@@ -491,18 +483,9 @@ void autoMR::robot_control()
                 }
             }
 
-            // std::cout << "Current YAW: " << current_full_state.pose_and_id.pose_state.q.yaw << std::endl;
-            // std::cout << "Current X: " << current_full_state.pose_and_id.pose_state.q.x << std::endl;
-            // std::cout << "Current Y: " << current_full_state.pose_and_id.pose_state.q.y << std::endl;
-
-            // std::cout << "The pose_error vector: \n" << pose_error << std::endl;
-
             float speed_coeff = P_Controller(pose_error);
 
             currentPhi = current_full_state.pose_and_id.pose_state.q.yaw;
-
-            // std::cout << "The current passed phi: " << currentPhi << std::endl;
-
             robot_command_array[0] = STANDARD_MODE;
 
             // TODO2 create a parsing model for engineering and getter functionality
@@ -590,7 +573,6 @@ void autoMR::resetRobot()
     stopRobot = false;
 }
 
-// Immediatelly stop the robot from moving
 void autoMR::PANIC_STOP()
 {
     stopRobot = true;

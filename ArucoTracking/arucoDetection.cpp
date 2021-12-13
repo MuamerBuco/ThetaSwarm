@@ -309,6 +309,7 @@ void start_pose_estimation(const std::string calibrationPath)
                 // draw axis and corners for each marker
                 for(int i=0; i<ids.size(); i++) {
 
+                    // calculate yaw by using position of corners
                     top_left.x = corners.at(i).at(TOP_LEFT).x;
                     top_left.y = corners.at(i).at(TOP_LEFT).y;
 
@@ -328,11 +329,6 @@ void start_pose_estimation(const std::string calibrationPath)
                     int y_sign = getSign(difference.y);
 
                     new_yaw = (new_yaw * y_sign);
-
-                    // std::cout << std::endl << "The yaw: " << new_yaw << std::endl;
-
-                    // std::cout << "The X value in camera space: " << tvecs[i][0] << std::endl;
-                    // std::cout << "The Y value in camera space: " << tvecs[i][1] << std::endl;
 
                     cv::aruco::drawAxis(currentImage, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
 

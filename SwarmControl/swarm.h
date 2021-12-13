@@ -66,25 +66,6 @@ class Swarm {
         {
             // queue holding all of the robot desired states from the new pass
             all_setpoints = std::make_shared< rigtorp::SPSCQueue<AllFullStateTrajectories> >(2);
-
-            // #TESTING TRAJECTORY
-            // AllFullStateTrajectories test_traj;
-            // FullStateTrajectory test_fullstate;
-            // SingleStateTrajectory test_single_traj;
-            // test_single_traj.pose.x = 50;
-            // test_single_traj.pose.y = 50;
-            // test_single_traj.pose.yaw = 0;
-
-            // test_fullstate.push_back(test_single_traj);
-
-            // test_single_traj.pose.x = 100;
-            // test_single_traj.pose.y = 100;
-            // test_single_traj.pose.yaw = 0;
-
-            // test_fullstate.push_back(test_single_traj);
-
-            // test_traj.insert( std::make_pair(16, test_fullstate) );
-            // all_setpoints->push(test_traj);
             
             // initialize robots
             initializeSwarm(idsVector);

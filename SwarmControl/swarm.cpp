@@ -2,7 +2,6 @@
 
 #define ACCEL_MEMORY_SIZE 2
 
-// stops the entire swarm
 void Swarm::PANIC_STOP_SWARM()
 {
     for (auto const& x : swarm_box.ID_Unit_Map)
@@ -121,7 +120,6 @@ void Swarm::removeRobotFromSwarm(int id)
     swarm_data.number_of_robots -= 1;
 }
 
-// overload + operator for SinglePoseVector custom struct
 SinglePose operator+(SinglePose a, SinglePose b) 
 {
     SinglePose S;
@@ -133,7 +131,6 @@ SinglePose operator+(SinglePose a, SinglePose b)
     return S;
 }
 
-// overload - operator for SinglePose custom struct
 SinglePose operator-(SinglePose a, SinglePose b) 
 {
     SinglePose S;
@@ -145,11 +142,9 @@ SinglePose operator-(SinglePose a, SinglePose b)
     return S;
 }
 
-// overload / operator for SinglePose custom struct
 SinglePose operator/(SinglePose a, float b) 
 {
     SinglePose S;
-    // TODO1 after size of memory is established, byte shift this
     S.yaw = a.yaw / b;
     S.x = a.x / b;
     S.y = a.y / b;
@@ -157,11 +152,9 @@ SinglePose operator/(SinglePose a, float b)
     return S;
 }
 
-// overload / operator for SinglePose custom struct
 SinglePose operator*(SinglePose a, float b) 
 {
     SinglePose S;
-    // TODO1 after size of memory is established, byte shift this
     S.yaw = a.yaw * b;
     S.x = a.x * b;
     S.y = a.y * b;
@@ -175,19 +168,10 @@ SinglePose Swarm::getVelocity(int id, SinglePose new_q, double time_passed)
 {
     // get the current deque holding Q state memory of robot[ID] 
     std::deque<FullPoseState> state_holder = swarm_box.q_memory_map.find(id)->second;
-
     new_q = new_q - state_holder.at(0).q;
-
-    // std::cout << "The new q difference -x: " << new_q.x << std::endl;
-    // std::cout << "The new q difference -y: " << new_q.y << std::endl;
-    // std::cout << "The new q difference -yaw: " << new_q.yaw << std::endl;
-
-    // std::cout << "The new time passed in velocity: " << time_passed << std::endl;
 
     SinglePose cm_per_sec = (new_q / time_passed) * 1000;
 
-    // reduce by one, one datapoint of velocity is difference between 2 datapoints of position, 
-    // so total number of generated datapoints for averaging is 1 lower than memory size
     return cm_per_sec;
 }
 
@@ -196,23 +180,14 @@ SinglePose Swarm::getAcceleration(int id, SinglePose new_q_dot, double time_pass
 {
     // get the current deque holding Q state memory of robot[ID] 
     std::deque<FullPoseState> state_holder = swarm_box.q_memory_map.find(id)->second;
-
     new_q_dot = new_q_dot - state_holder.at(0).q_dot;
-
-    // std::cout << "The new q_dot difference -x: " << new_q_dot.x << std::endl;
-    // std::cout << "The new q_dot difference -y: " << new_q_dot.y << std::endl;
-    // std::cout << "The new q_dot difference -yaw: " << new_q_dot.yaw << std::endl;
-
-    // std::cout << "The new time passed in velocity: " << time_passed << std::endl;
 
     SinglePose cm_per_s_per_s = (new_q_dot / time_passed) * 1000;
 
-    // reduce by one, one datapoint of velocity is difference between 2 datapoints of position, 
-    // so total number of generated datapoints for averaging is 1 lower than memory size
     return cm_per_s_per_s;
 }
 
-// starts the timer
+// starts the velocity/accel timer
 void Swarm::startClock(int id)
 {
     swarm_box.q_timer_start_map.find(id)->second = std::chrono::system_clock::now();
@@ -334,19 +309,9 @@ bool Swarm::UpdateSwarm()
 
                 // get new q
                 temp_state = pose.pose_state;
-
-                // current_full_state.pose_and_id.pose_state.q_dot = (getVelocity(id, temp_state.q) / timekeeper) / 100;
-                // temp_state.q_dot = current_full_state.pose_and_id.pose_state.q_dot;
                 
                 // calculate new speed based on new position (cm/s)
                 temp_state.q_dot = getVelocity(id, temp_state.q, timekeeper);
-
-                // std::cout << "The timekeeper(in ms): " << timekeeper << std::endl;
-
-                // calculate new acceleration based on new speed (cm/s2)
-                // current_full_state.pose_and_id.pose_state.q_dot_dot = (getAcceleration(id, temp_state.q_dot) / timekeeper) / 100;
-                // temp_state.q_dot_dot = current_full_state.pose_and_id.pose_state.q_dot_dot;
-                // std::cout << "got the accel: " << current_full_state.pose_and_id.pose_state.q_dot_dot.x << std::endl;
 
                 temp_state.q_dot_dot = getAcceleration(id, temp_state.q_dot, timekeeper);
 

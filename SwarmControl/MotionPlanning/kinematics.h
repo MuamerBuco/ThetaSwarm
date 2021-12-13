@@ -5,7 +5,6 @@
 
 using namespace Eigen;
 
-// Struct holding robot configuration data
 struct RobotConfiguration {
 
     float Wheel_Diameter_mm = 0;
@@ -31,7 +30,6 @@ struct RobotConfiguration {
     }
 };
 
-// Struct holding the robot constraints and margins
 struct RobotConstraints {
 
     float Target_Precision_Margin_Yaw = 0;

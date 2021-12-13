@@ -5,13 +5,11 @@
 
 using namespace Eigen;
 
-// Delay N milliseconds
 void msDelay(uint16_t milliseconds)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
-// Print buffer
 void PrintBuffer(uint8_t *buffer)
 {
     std::cout << "Buffer contents: " << std::endl;
@@ -62,7 +60,6 @@ float findMaxAbsValue(Vector3f const &input_vector)
     return max_value;
 }
 
-// map value to range, crop if out of range
 float MapValueToRange(float in_min, float out_min, float in_max, float out_max, float input)
 {
     float slope = 1.0 * (out_max - out_min) / (in_max - in_min);

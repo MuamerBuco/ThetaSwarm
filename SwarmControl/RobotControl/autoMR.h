@@ -16,7 +16,6 @@ enum command_modes {
     CUSTOM_BUCKET
 };
 
-// struct holding PD controller coefficients
 struct PD_Controller_Coefficients {
 
     int Kp_yaw = 1;
@@ -24,7 +23,6 @@ struct PD_Controller_Coefficients {
     int Kp_y = 1;
 };
 
-// struct holding robot data required for kinematics calculations
 struct RobotKinematicsData {
 
     PD_Controller_Coefficients pd_coefficients;
