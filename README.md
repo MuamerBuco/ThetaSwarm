@@ -1,15 +1,15 @@
 # OpenSwarm Application Software v1.0
 
-OpenSwarm is an Open Source Robotic Hardware/Software research platform. This application, together with the OpenSwarm Firmware, make up the software part. The system requires a USB Camera that will observe the intended play-space, and forward the captured frames to the application. This is required because the system pose estimation feedback is based on the OpenCV Aruco algorithm and the corresponding markers attached to the robots. This application software is doing most of the heavy lifting, from marker detection and pose estimation to robot initialization, communication, kinematics, trajectory planning and interfacing. The hardware is an arbitrary number of very low-cost and easy-to-build autonomous mobile robots that are fully 3D printable. The Robot STLs and circuit layouts are available at: """".
+OpenSwarm is an Open Source Robotic Hardware/Software research platform. This application, together with the OpenSwarm Firmware, make up the software part. The system requires a USB Camera that will observe the intended play-space, and forward the captured frames to the application. This is required because the system pose estimation feedback is based on the OpenCV Aruco algorithm and the corresponding markers attached to the robots. This application software is doing most of the heavy lifting, from marker detection and pose estimation to robot initialization, communication, kinematics, trajectory planning and interfacing. The hardware is an arbitrary number of very low-cost and easy-to-build autonomous mobile robots that are fully 3D printable. The Robot STL/3MFs and circuit layouts are available at: https://1drv.ms/u/s!Ake4VfEvlOEKshU9qw6VmYhgfrLv?e=WLa5Gi.
 
 This system is meant to offer fully abstracted access to hardware, to be leveraged by custom control algorithms and learning systems.
 
 
 # Still Under Development....
 
-<img src="https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_6040_00.png?raw=true" alt="robotImage1" width="200" height="200" align="right">
-<img src="https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_6040_00.png?raw=true" alt="robotImage1" width="200" height="200">
-<img src="https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_6040_00.png?raw=true" alt="robotImage1" width="200" height="200">
+<img src="https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_6094_00.png" alt="robotImage1" width="200" height="200" align="left">
+<img src="https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_6112_00Cut.png" alt="robotImage2" width="200" height="200" align="center">
+<img src="https://github.com/MuamerBuco/ThetaSwarm/blob/master/images/IMG_6104_00.png" alt="robotImage3" width="200" height="200" align="right">
  
 ## Requirements
 
