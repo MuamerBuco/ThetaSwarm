@@ -672,8 +672,6 @@ void autoMR::testSingleAMRHardware()
     this->setCustomColor(15, my_color, BLINK_ONCE, 10);
     msDelay(3000);
 
-    //msDelay(30000);
-
     RobotConfiguration current_config = this->getRobotConfig();
 
     for(int i = 0; i < 10; i++)

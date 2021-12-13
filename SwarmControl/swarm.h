@@ -36,14 +36,14 @@ typedef std::unordered_map< int, FullStateTrajectory> AllFullStateTrajectories;
 
 struct SwarmBox {
 
-    // holding variables for velocity and acceleration averaging, memory size determined by ACCEL_MEMORY_SIZE
+    // holds variables for velocity and acceleration averaging, memory size determined by ACCEL_MEMORY_SIZE
     std::unordered_map<int, std::deque<FullPoseState> > q_memory_map;
     std::unordered_map<int, std::chrono::_V2::system_clock::time_point > q_timer_start_map;
 
     // holds all FullStates accessed by ID
     std::unordered_map<int, FullRobotState> ID_FullState_Map;
 
-    // holds all pointers to robot objects, accessed by ID 
+    // holds all refferences to robot objects, accessed by ID 
     std::unordered_map<int, std::shared_ptr<autoMR> > ID_Unit_Map;
     std::vector<int> ids;
 };
