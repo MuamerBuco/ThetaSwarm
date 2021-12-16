@@ -49,6 +49,7 @@ make -j 4 # replace "4" with the number of cores on your machine
 
 ## Coming Soon
 
+- Reinforcement Learning for motion control
 - Trajectory splining
 - Dynamic trajectory generation
 - Obstacle avoidance
