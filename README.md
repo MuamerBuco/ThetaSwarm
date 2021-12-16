@@ -43,6 +43,7 @@ make -j 4 # replace "4" with the number of cores on your machine
 - Swarm level control
 - Dead reckoning
 - Speed/Accel metrics
+- Cybernetic control
 - Custom camera settings
 - Direct 2DOF effector control
 - LED signaling and effects
