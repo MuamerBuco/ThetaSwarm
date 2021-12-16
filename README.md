@@ -1,6 +1,8 @@
-# OpenSwarm Application Software v1.0
+# ThetaSwarm Application Software v1.0
 
-OpenSwarm is an Open Source Robotic Hardware/Software research platform. This application, together with the OpenSwarm Firmware, make up the software part. The system requires a USB Camera that will observe the intended play-space, and forward the captured frames to the application. This is required because the system pose estimation feedback is based on the OpenCV Aruco algorithm and the corresponding markers attached to the robots. This application software is doing most of the heavy lifting, from marker detection and pose estimation to robot initialization, communication, kinematics, trajectory planning and interfacing. The hardware is an arbitrary number of very low-cost and easy-to-build autonomous mobile robots that are fully 3D printable. The Robot STL/3MFs and circuit layouts are available at: https://1drv.ms/u/s!Ake4VfEvlOEKshU9qw6VmYhgfrLv?e=WLa5Gi.
+ThetaSwarm is an Open Source Robotic Hardware/Software research platform. 
+This application, together with the ThetaSwarm Firmware, make up the software part. The system requires a USB Camera that will observe the intended workspace, and forward the captured frames to the application. This is required because the system pose estimation feedback is based on the OpenCV Aruco algorithm and requires the corresponding markers attached to the robots. This application software is doing most of the heavy lifting, from marker detection and pose estimation to robot initialization, communication, kinematics, autonomous navigation and interfacing. 
+The hardware is an arbitrary number of very low-cost and easy-to-build autonomous mobile robots that are fully 3D printable. The Robot STL/3MFs and circuit layouts are available at: https://1drv.ms/u/s!Ake4VfEvlOEKshU9qw6VmYhgfrLv?e=WLa5Gi.
 
 This system is meant to offer fully abstracted access to hardware, to be leveraged by custom control algorithms and learning systems.
 
@@ -32,12 +34,16 @@ make -j 4 # replace "4" with the number of cores on your machine
 
 ## Current Features
 
+- Autonomous navigation
+- Trajectory generation
+- Wide selection of path planning algorithms
 - Multi-robot support
 - Swarm level control
-- Low-Level command interface
+- Dead reckoning
+- Speed/Accel metrics
 - Custom camera settings
-- Point-to-Point control
-- Trajectory generation
+- Direct 2DOF effector control
+- LED signaling and effects
 
 ## Coming Soon
 
@@ -46,7 +52,7 @@ make -j 4 # replace "4" with the number of cores on your machine
 - Obstacle avoidance
 - Automated scene setup
 - Built-in camera calibration
-- Python <-> C++ piping
+- Piping
 - AutoTune PID
 - ...
 
