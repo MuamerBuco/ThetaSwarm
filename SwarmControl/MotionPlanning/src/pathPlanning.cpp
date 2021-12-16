@@ -18,7 +18,7 @@
 
 #include "../../../util/util.h"
 
-#include "../navigation.h"
+#include "../pathPlanning.h"
 
 #define RUN_TIME 1.0
 #define PLANNER_USED "BITstar"

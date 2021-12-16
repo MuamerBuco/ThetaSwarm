@@ -6,7 +6,7 @@
 #include <deque>
 
 #include "RobotControl/autoMR.h"
-#include "MotionPlanning/navigation.h"
+#include "MotionPlanning/pathPlanning.h"
 
 /* **
 * 0 = no metrics

@@ -1,6 +1,6 @@
 add_library( motionPlanning 
     src/kinematics.cpp 
-    src/navigation.cpp 
+    src/pathPlanning.cpp 
 )
 
 find_package(Boost REQUIRED COMPONENTS program_options thread) 
